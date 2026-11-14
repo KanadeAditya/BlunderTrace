@@ -31,6 +31,7 @@ def extract(path: str) -> list[dict]:
                 "study": game.headers.get("StudyName", "?"),
                 "chapter": chapter,
                 "url": game.headers.get("ChapterURL", ""),
+                "opening": game.headers.get("Opening", "?"),
             }
 
             intro = clean(game.comment)                         # chapter intro (before any move)

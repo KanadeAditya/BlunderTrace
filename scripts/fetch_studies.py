@@ -38,7 +38,11 @@ def main(ids: list[str]) -> None:
         for i, study_id in enumerate(ids):
             if i:
                 time.sleep(1)  # be polite between requests
-            path = fetch(client, study_id)
+            try:
+                path = fetch(client, study_id)
+            except httpx.HTTPStatusError as e:   # 403 = author disabled export / private study
+                print(f"{study_id}: SKIPPED (HTTP {e.response.status_code})")
+                continue
             text = path.read_text(encoding="utf-8")
             chapters = text.count("[Event ")
             print(f"{study_id}: {len(text):,} bytes, {chapters} chapters -> {path}")
