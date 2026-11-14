@@ -21,3 +21,7 @@ data/raw/
 
 # OS
 .DS_Store
+
+# Retrieval experiment outputs
+experiments/cache/
+experiments/results*.csv
