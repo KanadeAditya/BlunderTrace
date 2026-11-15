@@ -1,18 +1,18 @@
 """
 Collect the retrieval-test corpus from all sources into one row format. No AI involved.
 
-Sources (raw downloads cached in data/raw/<source>/, re-runs don't re-download):
+Sources (raw downloads cached in pre_build_research/raw/<source>/, re-runs don't re-download):
   lichess_study  - comments from Lichess studies (position + human explanation)
   wikipedia      - chess concept articles, split by section/paragraph
   wikibooks      - "Chess" Wikibook chapters, split by section/paragraph
   gutenberg      - public-domain books (Capablanca, Edward Lasker), prose paragraphs only
   lichess_themes - Lichess puzzle-theme glossary (one line per theme)
 
-Output: data/corpus/<source>.jsonl, one row per line:
+Output: pre_build_research/corpus/<source>.jsonl, one row per line:
   {id, source, title, section, url, text, fen (studies only, else null), meta}
 
 Usage:
-    uv run python experiments/build_corpus.py
+    uv run python pre_build_research/build_corpus.py
 """
 import json
 import re
@@ -23,12 +23,12 @@ from pathlib import Path
 
 import httpx
 
-ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT))
+HERE = Path(__file__).resolve().parent            # pre_build_research/
+sys.path.insert(0, str(HERE))
 from extract_study import extract
 
-RAW = ROOT / "data" / "raw"
-OUT = ROOT / "data" / "corpus"
+RAW = HERE / "raw"                                 # downloads, gitignored
+OUT = HERE / "corpus"
 HEADERS = {"User-Agent": "BlunderTrace corpus builder"}
 
 STUDY_IDS = ["8c8bmUfy", "txE6GcIe", "kKRTP1Ft", "xx2nOKJv", "s4DZZjXo", "gfZY383j"]

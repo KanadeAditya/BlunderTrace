@@ -10,8 +10,8 @@ Moves[1:] = the punishing solution, Themes = Lichess's labels for the tactic.
 Query = describe(position AFTER the blunder) + mistake phrase from the fixed table below.
 
 Usage:
-    uv run python experiments/sample_puzzles.py
-Outputs: experiments/queries.jsonl (machine) + experiments/queries.md (for reading).
+    uv run python pre_build_research/sample_puzzles.py
+Outputs: pre_build_research/queries.jsonl (machine) + queries.md (for reading).
 """
 import csv
 import io
@@ -23,13 +23,14 @@ import chess
 import httpx
 import zstandard
 
-from blundertrace.describe import describe
+# pre_build_research/describe.py (the script folder is on the import path)
+from describe import describe
 
 URL = "https://database.lichess.org/lichess_db_puzzle.csv.zst"
-ROOT = Path(__file__).resolve().parent.parent
-HEAD_CSV = ROOT / "data" / "raw" / "puzzles_head.csv"   # cached slice, gitignored
-OUT_JSONL = ROOT / "experiments" / "queries.jsonl"
-OUT_MD = ROOT / "experiments" / "queries.md"
+HERE = Path(__file__).resolve().parent            # pre_build_research/
+HEAD_CSV = HERE / "raw" / "puzzles_head.csv"       # cached slice, gitignored
+OUT_JSONL = HERE / "queries.jsonl"
+OUT_MD = HERE / "queries.md"
 
 N_ROWS = 200_000          # stream only the first rows of the 310 MB file
 SEED = 42

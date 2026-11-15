@@ -2,7 +2,7 @@
 Turn a Lichess study PGN export into (position, comment) rows.
 
 Usage:
-    uv run python extract_study.py data/raw/studies/<studyId>.pgn [n_samples]
+    uv run python pre_build_research/extract_study.py pre_build_research/raw/studies/<studyId>.pgn [n_samples]
 """
 import re
 import sys

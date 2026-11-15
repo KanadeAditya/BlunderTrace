@@ -2,10 +2,10 @@
 Retrieval experiment: do embedded corpus rows retrieve useful explanations for real blunders?
 
 Commands:
-    uv run python experiments/retrieval_test.py build            # dry run: shows what would be embedded + cost
-    uv run python experiments/retrieval_test.py build --yes      # embed (the ONLY step that calls the API)
-    uv run python experiments/retrieval_test.py query            # rank + auto score + blinded CSV (needs cache)
-    uv run python experiments/retrieval_test.py score            # after marking results.csv: blind human score
+    uv run python pre_build_research/retrieval_test.py build            # dry run: shows what would be embedded + cost
+    uv run python pre_build_research/retrieval_test.py build --yes      # embed (the ONLY step that calls the API)
+    uv run python pre_build_research/retrieval_test.py query            # rank + auto score + blinded CSV (needs cache)
+    uv run python pre_build_research/retrieval_test.py score            # after marking results.csv: blind human score
 
 API safety:
 - The only OpenAI call in this file is embeddings.create with the fixed model below (see embed()).
@@ -14,7 +14,7 @@ API safety:
 - Hard token budget: the run aborts before any request if the estimate exceeds MAX_TOKENS.
 - Every embedding is cached by text hash; `query` and `score` never call the API (query embeddings
   are produced by `build` too).
-- Every request's real token usage is appended to experiments/cache/usage.jsonl.
+- Every request's real token usage is appended to pre_build_research/cache/usage.jsonl.
 """
 import csv
 import hashlib
@@ -27,16 +27,17 @@ from pathlib import Path
 import chess
 import numpy as np
 
-ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "src"))
-from blundertrace.describe import describe, game_phase
+HERE = Path(__file__).resolve().parent            # pre_build_research/
+REPO = HERE.parent                                 # repo root (holds .env)
+sys.path.insert(0, str(HERE))
+from describe import describe, game_phase
 
-CORPUS = ROOT / "data" / "corpus"
-QUERIES = ROOT / "experiments" / "queries.jsonl"
-CACHE = ROOT / "experiments" / "cache"
-REPORTS = ROOT / "experiments" / "results"           # top5.md + summary.md (committed)
-RESULTS = ROOT / "experiments" / "results.csv"        # blind sheet you mark (not committed)
-RESULTS_KEY = ROOT / "experiments" / "results_key.csv"
+CORPUS = HERE / "corpus"
+QUERIES = HERE / "queries.jsonl"
+CACHE = HERE / "cache"                             # embeddings (paid for once), gitignored
+REPORTS = HERE / "results"                         # top5.md + summary.md (committed)
+RESULTS = HERE / "results.csv"                     # blind sheet you mark (not committed)
+RESULTS_KEY = HERE / "results_key.csv"
 
 EMBEDDING_MODEL = "text-embedding-3-small"     # the only model this script may call
 PRICE_PER_M_TOKENS = 0.02
@@ -145,7 +146,7 @@ def embed(texts: list[str]) -> list[list[float]]:
     """The single place that talks to OpenAI: embeddings only, fixed model."""
     from dotenv import load_dotenv
     from openai import OpenAI
-    load_dotenv(ROOT / ".env")
+    load_dotenv(REPO / ".env")
     client = OpenAI()                            # reads OPENAI_API_KEY from env; never printed
     out = []
     with (CACHE / "usage.jsonl").open("a", encoding="utf-8") as usage:
@@ -256,7 +257,7 @@ def cmd_query() -> None:
                 hits = top_k(mats[name], vec(q[qtype], cache))
                 results[(name, qtype, q["id"])] = [(score, rows[i]) for i, score in hits]
 
-    # summary tables: printed and saved to experiments/results/summary.md
+    # summary tables: printed and saved to pre_build_research/results/summary.md
     header = (f"# Retrieval test summary\n\nAUTOMATIC SCORE: hit@{TOP_K} = share of queries with "
               f">=1 top-{TOP_K} result mentioning the theme (keyword list in retrieval_test.py)\n")
     out = [header, "```",

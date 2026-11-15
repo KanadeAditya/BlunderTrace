@@ -1,8 +1,8 @@
 """
-Download Lichess studies as PGN (with comments) into data/raw/studies/.
+Download Lichess studies as PGN (with comments) into pre_build_research/raw/studies/.
 
 Usage:
-    uv run python scripts/fetch_studies.py <studyId> [<studyId> ...]
+    uv run python pre_build_research/fetch_studies.py <studyId> [<studyId> ...]
 
 Public endpoint, no auth. Lichess rate-limits: on HTTP 429 we wait 60 s and retry once.
 """
@@ -15,7 +15,7 @@ import httpx
 URL = "https://lichess.org/api/study/{id}.pgn"
 PARAMS = {"comments": "true", "variations": "false", "clocks": "false"}
 HEADERS = {"User-Agent": "BlunderTrace corpus builder"}
-OUT_DIR = Path(__file__).resolve().parent.parent / "data" / "raw" / "studies"
+OUT_DIR = Path(__file__).resolve().parent / "raw" / "studies"
 
 
 def fetch(client: httpx.Client, study_id: str) -> Path:

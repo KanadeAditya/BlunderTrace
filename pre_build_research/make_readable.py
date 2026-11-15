@@ -1,15 +1,15 @@
 """
 Write a human-readable Markdown copy of every corpus file (view only, data is unchanged).
 
-    data/corpus/<source>.jsonl  ->  data/corpus/readable/<source>.md
+    corpus/<source>.jsonl  ->  corpus/readable/<source>.md
 
 Usage:
-    uv run python experiments/make_readable.py
+    uv run python pre_build_research/make_readable.py
 """
 import json
 from pathlib import Path
 
-CORPUS = Path(__file__).resolve().parent.parent / "data" / "corpus"
+CORPUS = Path(__file__).resolve().parent / "corpus"
 OUT = CORPUS / "readable"
 
 

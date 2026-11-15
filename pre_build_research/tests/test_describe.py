@@ -1,6 +1,10 @@
+import sys
+from pathlib import Path
+
 import chess
 
-from blundertrace.describe import (
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))   # pre_build_research/
+from describe import (
     describe,
     game_phase,
     material_balance,

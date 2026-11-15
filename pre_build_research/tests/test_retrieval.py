@@ -4,7 +4,7 @@ from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "experiments"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))   # pre_build_research/
 from retrieval_test import EMBEDDING_MODEL, key, normalize_rows, theme_hit, top_k
 
 
