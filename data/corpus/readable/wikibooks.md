@@ -1,0 +1,701 @@
+# wikibooks (136 rows)
+
+## Chess/Tactics
+
+### Guarding
+`wikibooks:Chess/Tactics:0` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+When one of your pieces is placed so that it attacks a square occupied by another of your pieces, the former is said to be guarding the latter.
+
+### Guarding
+`wikibooks:Chess/Tactics:1` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+When your opponent captures the guarded piece, you can recapture with the guarding piece. Note that if a guarding piece is pinned to your king (see below for a description of pins), it can only guard other pieces against capturing by the enemy king, but not from other enemy pieces, since it is unable to move or capture.
+
+### Batteries
+`wikibooks:Chess/Tactics:2` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+Batteries are formed when two or more pieces work together. The most common kind of battery is the doubling of rooks on a file. Other batteries can be formed by rook-queen, bishop-queen, two knights or a bishop-pawn.
+
+### Batteries
+`wikibooks:Chess/Tactics:3` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+A triple battery can be constructed with the queen and both rooks. This is known as Alekhine's gun (diagram at right) and can be extremely dangerous. It is often advantageous to place the queen behind one or both rooks as it is a more valuable piece.
+
+### The Exchange
+`wikibooks:Chess/Tactics:4` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+In almost any game, a player will have the opportunity to capture one of his opponent's pieces in exchange for sacrificing or losing one of his own pieces. This should however NOT be done for its own sake! Initiate an exchange only when it benefits you, otherwise a loss of tempo. May occur. Benefits can include, but are not limited to:
+
+### The Exchange
+`wikibooks:Chess/Tactics:5` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+Material advantage - Exchanging one of your pieces for a more valuable opponent's piece (e.g. exchanging a bishop for your opponent's queen).
+
+### The Exchange
+`wikibooks:Chess/Tactics:6` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+Doubling pawns - Take when taking back means the doubling (or tripling) of your opponent's pawns on the same file.
+
+### The Exchange
+`wikibooks:Chess/Tactics:7` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+Removing a defender - Take when the piece being taken is providing an essential service for the opponent.
+
+### The Exchange
+`wikibooks:Chess/Tactics:8` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+Blunting an attack - When you are being attacked, often a well timed exchange will leave your opponent with too few pieces to keep up the attack.
+
+### The Exchange
+`wikibooks:Chess/Tactics:9` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+Gaining space - In a cramped position, having more pieces can actually be a disadvantage because the pieces get in the way of each other. If your opponent has a space advantage, exchanging pieces can lessen the advantage and make the resultant position less confining.
+
+### The Exchange
+`wikibooks:Chess/Tactics:10` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+Improving a material advantage - if you are ahead material, exchanging pieces will usually benefit you (note - pieces, NOT pawns). Similarly, if you have an extra pawn, trade pieces that may otherwise be used as a sacrifice to prevent pawn promotion.
+
+### The Exchange
+`wikibooks:Chess/Tactics:11` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+Forcing checkmate - If you are able to force a checkmate by exchanging pieces, you should always take the exchange, even if the exchanges seem poor (e.g. sacrificing a Queen for a bishop). Note that a forced checkmate is one where there is no way for your opponent to prevent the checkmate.
+
+### The Exchange
+`wikibooks:Chess/Tactics:12` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+Threatening checkmate - Sometimes, you can propose an exchange where you can force a checkmate if your opponent accepts the exchange. That is if your opponent captures your piece after you capture one of their pieces, you are then able to force a checkmate.
+
+### The Exchange
+`wikibooks:Chess/Tactics:13` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+Preventing checkmate - If you are in a situation where the only way out of a checkmate is to exchange pieces, you must make the exchange.
+
+### Forks and Double Attacks
+`wikibooks:Chess/Tactics:14` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+Sometimes a piece can be in position to attack two enemy pieces at once. This is called a fork or a double attack. All pieces can fork, even pawns, but knights have a reputation for making especially vicious forks because other pieces cannot block their way because the endangered pieces cannot defend by attacking it, unless they are another knight.
+
+### Forking with check
+`wikibooks:Chess/Tactics:15` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+A knight fork that attacks the king from an unguarded square is very powerful. The opponent must then move his king to safety and the other piece in the fork has no chance of escape.
+
+### The Royal Fork
+`wikibooks:Chess/Tactics:16` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+A royal fork is one involving both your opponent's king and queen. In the example shown here, white's knight on f7 has engaged black in a royal fork. Black will be down the exchange of a queen for a knight.
+
+### Pinned pieces
+`wikibooks:Chess/Tactics:17` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+A pinned piece is a piece that cannot move because it would expose an attack on an important piece by one of the opposing pieces, such that the capture of said piece would result in material gain by the opponent.
+
+### Absolute Pin
+`wikibooks:Chess/Tactics:18` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+An absolute pin is great tactic to pin the opponent's pieces to his king. For example, take a look at the board on the right. Black just moved his dark-squared bishop to b4. The white knight is now pinned and cannot move, because moving the knight would put himself in check. White's only way to stop the pin is to move his king. The pawn on e4 is no longer guarded by the knight, since the knight could not move to exchange.
+
+### Absolute Pin
+`wikibooks:Chess/Tactics:19` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+The position diagrammed to the right shows the theme of attacking the pinned piece. White can look at this position and immediately take the rook and win an exchange. However this wouldn't even be the best move. If white did this then the material would be dead even; however, white has more pawn islands and it would be a very close game. Instead, white can play Ng5! The rook cannot move, and black has no way of effectively defending the rook a second time, therefore Black will eventually lose a rook. So, if you have pinned a piece, try to see if you can attack the piece again, and if a piece of yours is pinned, try to see if your opponent can attack it again. The moral of the story: if you see a good move, stop and look around for a better one.
+
+### Relative pin
+`wikibooks:Chess/Tactics:20` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+In contrast to the absolute pin, a relative pin occurs when one player's piece is pinned to one of lesser value than the king, such as a queen or rook. If the benefit of moving the pinned piece outweighs the loss of material occasioned by the capture of the exposed piece (for example, if a forced mate may be achieved), then the pin can be disregarded and the pinned piece moved.
+
+### Skewers
+`wikibooks:Chess/Tactics:21` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+A skewer is similar to a pin, but it is in a sense more powerful. The difference between a pin and skewer is the location of the more important piece. In a pin the lesser piece blocks the attack on the more important one, in a skewer the more important piece is attacked first and when it moves it exposes the lesser piece behind it to be hit. Black has, in a blunderous moment, placed his king on d7 in front of his queen on d8. White may now triumphantly slide either rook to d1, skewering Black's king and queen. Since Black cannot block the check, the king has to move, exposing the black queen to the attack of the white rook.
+
+### Discoveries
+`wikibooks:Chess/Tactics:22` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+A discovery is an attack on an enemy piece which is unveiled by moving one of your pieces. The power of discoveries is that two targets can be attacked simultaneously. If combined with a check they can be lethal.
+
+### Double check
+`wikibooks:Chess/Tactics:23` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+If some of you have noticed, White's 1.Nd7+ (in the first example) was a double check, a type of discovered check where the piece moving also gives check. Such checks are very powerful, since the king is forced to move (both checks cannot be blocked at the same time, and both pieces cannot be captured at the same time.). They are also often lethal, as in the above game.
+
+### Removing the defender
+`wikibooks:Chess/Tactics:24` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+By first capturing, threatening, or pinning a piece that guards another, you should be able to capture the other piece for free. You can also remove the defender of a position. By using tactics you might be able to force a checkmate!
+
+### Zwischenzugs
+`wikibooks:Chess/Tactics:25` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+A Zwischenzug (pronounced "TSVISH-en-tsoog",) or "in-between move," is one that is made unexpectedly in the midst of a sequence of moves. But not just any series of moves, one in which the player falling for the Zwischenzug feels the sequence is forced, while his opponent demonstrates to him that it certainly isn't! Most commonly these fall in between trades where a recapture seems to be the only proper means of play.
+
+### Zwischenzugs
+`wikibooks:Chess/Tactics:26` · [source](https://en.wikibooks.org/wiki/Chess/Tactics)
+
+Such in-between moves often have a surprising and pleasing effect of increasing the potency of a combination beyond the opponent's expectations.
+
+## Chess/Strategy
+
+### Strategy Basics
+`wikibooks:Chess/Strategy:0` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+You may choose different strategies depending on what type of opponent you are playing, and what kind of player you are. Strategy starts with the opening, and continues through the middlegame, and on to the endgame.
+
+### Strategy Basics
+`wikibooks:Chess/Strategy:1` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Games are considered open if the exchange of pieces have opened up files or diagonals, and closed if they have not. These games are called open or closed because there is more mobility for one’s pieces in open games, and because this category usually determines the complexity of the game. Specifically, recognition of open versus closed games is important because closed games are more conducive to Knights, whereas open games see more involvement with longer range pieces such as Bishops, Queens, and Rooks.
+
+### Strategy Basics
+`wikibooks:Chess/Strategy:2` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+If you choose to play a long-range, theoretical sort of game, you may want to choose a complex opening such as the Queen’s Gambit, the Ruy Lopez, or the English. In these types of games, especially when you are playing the closed variations, you are likely to venture into close positions where positional maneuvering predominates over tactical shots. From there, you can focus on strategic elements like controlling files, pawn structure, and other long range development considerations.
+
+### Strategy Basics
+`wikibooks:Chess/Strategy:3` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+If you are more interested in sharpening your tactical play and focusing on combinations, you may choose a more tactical opening. Some of these openings include the Sicilian Defence (especially the Dragon and the old main line of the Najdorf), the Grünfeld Defence, and the older variations of the Two Knights' Defence.
+
+### Strategy Basics
+`wikibooks:Chess/Strategy:4` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+By initiating exchanges you can always simplify the game, and it will become more computational. If you don’t want that to happen, you have to be very guarded and conservative.
+
+### Strategy Basics
+`wikibooks:Chess/Strategy:5` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+You should always be thinking about how many squares a piece controls (i.e. can attack), and which squares are controlled. In the beginning you should aim to control the center of the board. As the game progresses you may want to attack one flank, especially if the King has castled onto that side.
+
+### Material advantage
+`wikibooks:Chess/Strategy:6` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Having more valuable pieces on the board than your opponent means you have a material advantage. If your position otherwise is equal, you will be more likely to win. Since not all pieces are equal, many people use the following point system to estimate which player has a greater material advantage:
+
+### Material advantage
+`wikibooks:Chess/Strategy:7` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+These values can only be used as guidelines for the relative value of the pieces; a piece's value in a particular chess position must be treated on a case-by-case basis.
+
+### Queenside vs Kingside
+`wikibooks:Chess/Strategy:8` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+When calculating the value of a position, dividing the board in Queenside and Kingside, it will be seen that it matters that the king is considered to be worth 3.5 points. The calculation of forces on either side will determine the stronger side. This side usually can become the attacking one, all other things considered.
+
+### The pieces' relative value changes over time
+`wikibooks:Chess/Strategy:9` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+The value of the pieces changes as the game progresses, because there is less material on the board to get in the way of some pieces. Rooks usually become more powerful because there are fewer pawns in the way, and a rook has the opportunity to control more squares. Bishops can travel great distances if unobstructed, while knights have a more local presence. So, knights shine when the board is cluttered in a closed game because they can "jump" over pieces whereas bishops are generally stronger in open games where they have the run of the board.
+
+### The value of the King
+`wikibooks:Chess/Strategy:10` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Assigning a point value to the King for the sake of deciding to trade the King for other pieces doesn’t make sense, since capturing the King is the object of the entire game! Therefore it is customary to either exclude the King from the point value scale, or assign it an infinite value. However, keep in mind that the King has an attacking and defense capability as any other piece.
+
+### The value of the King
+`wikibooks:Chess/Strategy:11` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+The King attack and defense value changes dramatically as the game progresses. During the opening and middle game the King is a piece that needs to be protected against checkmate at all cost. Its usefulness as an attacking or defending piece is thus limited. However its strength as an attacking piece becomes greater in the endgame. In this phase of the game it is generally reckoned to be stronger than a knight or bishop but weaker than a rook. Therefore giving the King an attack or defense point value of 3.5 during the endgame makes sense.
+
+### Knight vs Bishop
+`wikibooks:Chess/Strategy:12` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Based on the point value scale above the value of the knight and bishop appears to be the same. Alternative scales have tried to assign the knight and the bishop slightly different values, usually preferring the bishop over the knight. But since the relative value of the knight and bishop is strongly related to the position, such minor differentiation provide little overall guidance.
+
+### Knight vs Bishop
+`wikibooks:Chess/Strategy:13` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Knights are more powerful if they have a safe outpost in enemy territory - a knight on the 6th rank that cannot be attacked by opposing pawns can be as powerful as a rook in the right circumstances. This type of knight, if guarded by a pawn, is called “a home away from home”.
+
+### Knight vs Bishop
+`wikibooks:Chess/Strategy:14` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+A bishop never leaves its own color, so if one of the bishops is captured, half the board is now out of reach of a bishop. So trading one bishop for a knight tends to favor the person losing the knight, who is left with two bishops. However, trading the second bishop isn't quite so hurtful. So trading a bishop for a bishop where one side has only 1 bishop to begin with helps the side with fewer bishops.
+
+### Knight vs Bishop
+`wikibooks:Chess/Strategy:15` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Knights cannot cover both sides of the board at the same time, while a bishop can, so in an endgame where there are pawns on both sides of the board, the bishop is stronger.
+
+### Knight vs Bishop
+`wikibooks:Chess/Strategy:16` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Bishops cannot attack pawns that are on the opposite color, while a knight can. Furthermore, in a game where there is a short pawn chain, a knight can stand at the head of the chain and attack the pawn supporting it, so a knight is often more effective attacking pawns as long as they are limited to one side of the board.
+
+### Knight vs Bishop
+`wikibooks:Chess/Strategy:17` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Finally, it is possible to force checkmate with two bishops and king against a lone king, but not with two knights and king versus lone king.
+
+### Knight vs Bishop
+`wikibooks:Chess/Strategy:18` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+It is important to keep in mind what sorts of positions will benefit the pieces that you have. For example if you have 2 knights and no bishops and your opponent has 2 bishops and no knights then it would be good for you to keep the center cluttered with pawns by avoiding pawn exchanges. If you do this then your opponent's bishops will have hampered mobility whereas your knights can hop over the pawns. Also if you have the bishops and your opponent has knights then you should play to keep the center clear so your bishops can have more mobility. Also, this idea can help you decide on whether or not to trade a bishop for a knight or vice versa.
+
+### More pieces are usually better
+`wikibooks:Chess/Strategy:19` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Usually having more pieces is more valuable when the point value is roughly equal for both players—two bishops beat a rook, two rooks beat a queen—but this is conditioned on proper co-ordination between the pieces. It may be worthwhile to sacrifice two pieces for a rook if this results in long-term damage to the enemy's piece co-ordination. Usually this means tying down the extra pieces to the defense of weak pawns, so that they cannot cooperate in attacking friendly pawns.
+
+### Compensation
+`wikibooks:Chess/Strategy:20` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Material values only matter in the context of position. Compensation is a term used in chess to describe the trade off between material and positional advantage. A strong position can make up for a material deficiency. For example if your opponent has all their pawns on white squares, a black bishop is worth more than a white bishop.
+
+### Compensation
+`wikibooks:Chess/Strategy:21` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Typically having compensation for a piece means that an attack against the enemy's king or strong points cannot be repelled or may only be repelled by the enemy returning the material he is up. Often compensation can refer to having the initiative or in trapping the opponent's king in a vulnerable position. A pawn majority on one wing or a passed pawn can also sometimes be considered compensation for a minor piece. Generally the player who is down on material has to act quickly and avoid exchanging pieces to prevent the enemy from making his material advantage count.
+
+### Pawn Strategy and Pawn Chains
+`wikibooks:Chess/Strategy:22` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+In the end game, pawns gain strength as they advance because they pose the threat of promotion, so a pawn on the 6th or 7th rank is worth significantly more than a pawn on the second rank - often as much as a piece. However, in the opening and middlegame, an advanced pawn is less likely to promote and more likely to be in need of being defended. It is also unable to defend the center and often leaves "holes" in your territory that can serve as outposts for your opponent's pieces. An overadvanced pawn is then often a liability.
+
+### Pawn Strategy and Pawn Chains
+`wikibooks:Chess/Strategy:23` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+In the opening and middle game, pawns in the center of the board block paths and support outposts. So they tend to be more valuable than end pawns. However, in the end game, a wing pawn is usually the hardest to get to and block or capture and is therefore more likely to queen. So in the endgame, the edge pawns are often more valuable than the middle pawns (Note: this is not necessarily true in some basic pawn and king endings, where a pawn on the edge leads to only drawing options).
+
+### Pawn Strategy and Pawn Chains
+`wikibooks:Chess/Strategy:24` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+A passed pawn has only pieces stopping it from queening, so it is considered more valuable - especially if it is protected by another pawn.
+
+### Tempo
+`wikibooks:Chess/Strategy:25` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Tempo is the effective number of moves required to reach the position on the board. Moving a piece twice to reach a position it could have reached in one results in a net loss of one tempo - moving a piece back to its starting place usually results in a loss of all its tempo - unless other pieces moved that could not have moved otherwise. Also the capture of a piece means all of the tempo it gained is lost as well.
+
+### Tempo
+`wikibooks:Chess/Strategy:26` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Essentially, tempo is one way of showing how many effective moves you have made. So the gain of a tempo is basically like getting a move for free. Three tempi is usually considered equivalent to a pawn in terms of advantage.
+
+### Tempo
+`wikibooks:Chess/Strategy:27` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Now black still has only 1 tempo (e6) while white has 6 (2 queen moves, 3 pawn moves and a bishop move). This has let white develop 2 pieces, control the center and give black a cramped position. Also, while both sides can castle kingside in the same number of moves, White can connect his rooks (position them so there is nothing between them on the back rank) 2 moves sooner than black. Chances are, white will complete development and launch an attack before black is able to. This means white will have an advantage when the middlegame is reached.
+
+### Active and passive pieces
+`wikibooks:Chess/Strategy:28` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+An active piece is one that has the potential to make a threat. A passive one is usually relegated to defending a piece.
+
+### Active and passive pieces
+`wikibooks:Chess/Strategy:29` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Piece activity depends on whether it can move and attack. A piece can be rendered passive if it is stuck protecting another piece or if it is restricted from being able to get into play by its own pawns.
+
+### Good vs. Bad Bishops
+`wikibooks:Chess/Strategy:30` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+As noted above, a bishop can only travel on squares of one color. This leads to a situation wherein one bishop may be effectively blocked out of the game by the pawn structure. In general it is better to have your pawns on the opposite colored squares to your bishop.
+
+### Good vs. Bad Bishops
+`wikibooks:Chess/Strategy:31` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+When one has a bad bishop there are two methods to improve the game: exchanging the offender and freeing up the game.
+
+### Good vs. Bad Bishops
+`wikibooks:Chess/Strategy:32` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+In general it is profitable to try to exchange your bad bishop for an opponent's bishop or knight, as your bad bishop has little value. However, it is important to bear in mind that in the end game having two bishops is considerably stronger than have two knights or a bishop and a knight. Therefore you should always be wary of exchanging bishop for knight in situations where an endgame is likely.
+
+### Good vs. Bad Bishops
+`wikibooks:Chess/Strategy:33` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+The other method to rid yourself of this weakness is by freeing up the game through making pawn moves.
+
+### Overloaded pieces
+`wikibooks:Chess/Strategy:34` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Overloaded pieces are pieces which defend too many other pieces and therefore cannot be considered to defend all of them at once. For example, a rook can defend up to 4 pieces, but if one is taken, and the rook takes the offending piece, 2 of the other pieces are undefended.
+
+### Initiative
+`wikibooks:Chess/Strategy:35` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+The player with the initiative is the player who is making the threats to which the other person must respond. Having the initiative is advantageous because it forces your opponent to place his pieces in essentially defensive formations. A piece that is defending a square generally has less mobility (freedom of movement) than a piece attacking the same square.
+
+### Initiative
+`wikibooks:Chess/Strategy:36` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Having the first move, it is generally white who has the initiative in the early part of the game. Therefore trying to maintain the initiative would be prudent strategy.
+
+### Zugzwang
+`wikibooks:Chess/Strategy:37` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+A Zugzwang situation occurs when any move a player makes will weaken his/her position, but he/she is compelled to move in accordance with the rules. An example of zugzwang is as follows:
+
+### Zugzwang
+`wikibooks:Chess/Strategy:38` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+Exercise: From the same initial position but with black to move first, show that Black can force a draw by using zugzwang.
+
+### Combining attack with defense
+`wikibooks:Chess/Strategy:39` · [source](https://en.wikibooks.org/wiki/Chess/Strategy)
+
+A winning strategy in Chess often involves balancing several considerations against each other. Moves that maximize immediate material gain might expose a vulnerability or yield a difficult position as the game progresses. Similarly, material sacrifices for position may be disadvantageous if they cannot be parlayed into an effective attack. Thus, a key consideration should be balancing attack with defense. A profitable move would be one that both furthers your attack and solidifies your defense.
+
+## Chess/Checkmates
+
+### Introduction
+`wikibooks:Chess/Checkmates:0` · [source](https://en.wikibooks.org/wiki/Chess/Checkmates)
+
+Checkmates are an essential part of the game of Chess, being the objective of the game. Checkmate is when you are checking the opponent's king and there are no legal moves to get out of the check. Some mating patterns are named. There are 36 named mating patterns in Chess and a handful of well-known early opening checkmates.
+
+### Back rank mate
+`wikibooks:Chess/Checkmates:1` · [source](https://en.wikibooks.org/wiki/Chess/Checkmates)
+
+The back rank mate is when the opponent's king is on its home rank and is being checkmated on that home rank by an opponent's queen or rook, while its escape squares are blocked by pawns or other pieces.
+
+### Epaulette mate
+`wikibooks:Chess/Checkmates:2` · [source](https://en.wikibooks.org/wiki/Chess/Checkmates)
+
+The epaulette mate is when the opponent's king is on ranks 1 or 8 and is checkmated, its escape squares cut off by its own pieces, usually rooks. This checkmate is usually performed by the queen, checking the opponent's king orthogonally while cutting off diagonal escape squares.
+
+### Swallowtail mate
+`wikibooks:Chess/Checkmates:3` · [source](https://en.wikibooks.org/wiki/Chess/Checkmates)
+
+The swallowtail mate is when the opponent's king is not on the edge (a or h-files or ranks 1 and 8) and is checkmated, usually by a queen orthogonally adjacent to the king, its escape squares diagonally blocked by its own pieces.
+
+### Kill box mate
+`wikibooks:Chess/Checkmates:4` · [source](https://en.wikibooks.org/wiki/Chess/Checkmates)
+
+The kill box mate is when the opponent's king is on the edge checkmated by a rook and defended by a queen, forming a box around the king where the queen and rook control every escape square that the opponent's king could've moved to.
+
+### Cozio's mate
+`wikibooks:Chess/Checkmates:5` · [source](https://en.wikibooks.org/wiki/Chess/Checkmates)
+
+The Cozio's mate is when the opponent's king is checkmated, usually by a queen diagonally adjacent to it, its orthogonal escape squares blocked by its own pieces. This checkmate is named after Carlos Cozio and is also known as dovetail mate.
+
+### Triangle mate
+`wikibooks:Chess/Checkmates:6` · [source](https://en.wikibooks.org/wiki/Chess/Checkmates)
+
+The triangle mate is when the opponent's king is on the edge of the board and is checkmated by a queen, while a rook defends the queen and cuts off the remaining escape square. The checkmate looks like a triangle between the queen, rook and opponent's king, thus the name.
+
+### Max Lange mate
+`wikibooks:Chess/Checkmates:7` · [source](https://en.wikibooks.org/wiki/Chess/Checkmates)
+
+The Max Lange mate is when the opponent's king is checkmated by a queen, defended by a bishop which also controls an important potential flight square for the opponent's king. This checkmate is named after German chess player Max Lange.
+
+### Balestra mate
+`wikibooks:Chess/Checkmates:8` · [source](https://en.wikibooks.org/wiki/Chess/Checkmates)
+
+The Balestra mate is when the opponent's king is on one of the edge ranks (ranks 1 and 8) and is being checkmated by a bishop, while a queen controls most of the king's escape squares. The final position looks similar to a pair of scissors.
+
+### Bucking Bronco mate
+`wikibooks:Chess/Checkmates:9` · [source](https://en.wikibooks.org/wiki/Chess/Checkmates)
+
+The Bucking Bronco mate is when the opponent's king is in the corner of the board and checkmate is delivered by a knight while a queen covers the escape squares that the opponent's king could potentially move to.
+
+### Sneaky Stallion mate
+`wikibooks:Chess/Checkmates:10` · [source](https://en.wikibooks.org/wiki/Chess/Checkmates)
+
+The Sneaky Stallion mate is similar to the Bucking Bronco mate, but instead of the opponent's king being in the corner, it is on the edge of the board. The opponent's king is checkmated by a knight while the queen covers escape squares and the last escape square is blocked by its own piece.
+
+### Damiano's mate
+`wikibooks:Chess/Checkmates:11` · [source](https://en.wikibooks.org/wiki/Chess/Checkmates)
+
+The Damiano's mate is when the opponent's king is checkmated by a queen, defended by a friendly piece. The king's potential escape squares are either controlled or blocked. This checkmate is named after Portuguese chess player Pedro Damiano.
+
+### Lolli's mate
+`wikibooks:Chess/Checkmates:12` · [source](https://en.wikibooks.org/wiki/Chess/Checkmates)
+
+The Lolli's mate is when the opponent's king on the edge is checkmated by a queen orthogonally adjacent while being defended by a friendly pawn. This checkmate is named after Italian chess player Giambattista Lolli.
+
+### Blind swine mate
+`wikibooks:Chess/Checkmates:13` · [source](https://en.wikibooks.org/wiki/Chess/Checkmates)
+
+The blind swine mate is when the opponent's king is on their home rank and is checkmated by a rook on the 7th rank defended by another rook on the 7th rank which also controls a key flight square while the last square for the opponent's king is occupied by a piece.
+
+### Smothered mate
+`wikibooks:Chess/Checkmates:14` · [source](https://en.wikibooks.org/wiki/Chess/Checkmates)
+
+A smothered mate is when the opponent's king (that is, the one getting checkmated) is unable to move, because it is trapped by its own friendly pieces.
+
+## Chess/Development
+
+### Development
+`wikibooks:Chess/Development:0` · [source](https://en.wikibooks.org/wiki/Chess/Development)
+
+At the beginning of a chess game, both players compete in a process called development. The process of development comprises three equally important main tasks:
+
+### Development
+`wikibooks:Chess/Development:1` · [source](https://en.wikibooks.org/wiki/Chess/Development)
+
+Being ahead in development is the aim of the opening. An advanced player can easily convert a lead in development into a larger advantage by way of attack or combination. Hence, the process of development is about being efficient. For a campaign of development to be successful, it must adhere to several laws which can be discerned from the works of Wilhelm Steinitz, Siegbert Tarrasch, and Aron Nimzowitsch:
+
+### Development
+`wikibooks:Chess/Development:2` · [source](https://en.wikibooks.org/wiki/Chess/Development)
+
+Pawn moves are made only to control center squares, open lines for pieces, or attack more valuable enemy pieces.
+
+### What to do if your opponent has a lead in development
+`wikibooks:Chess/Development:3` · [source](https://en.wikibooks.org/wiki/Chess/Development)
+
+If your opponent has a lead in development, the most important thing to do is to get your king safely castled. Remember that if the opponent has a lead in development, they can open lines—right up to your king. That's not good, because open lines to your king mean that pieces can easily get to him, and easy access to the king means mate sooner or later. After the king is safely tucked away in a corner, your next objective is to get out the rest of your pieces. This will refute the pawn sacrifice. The final step is to keep your material advantage until the endgame, or use the extra material to attack the opponent's king.
+
+### What to do with a lead in development
+`wikibooks:Chess/Development:4` · [source](https://en.wikibooks.org/wiki/Chess/Development)
+
+Open lines to the enemy king. If you do this, the enemy king becomes a sitting duck in the center of the board.
+
+### What to do with a lead in development
+`wikibooks:Chess/Development:5` · [source](https://en.wikibooks.org/wiki/Chess/Development)
+
+Keep the opponent's king in the center. The center is normally where all the action takes place, and it is not particularly safe to keep the king where the action is. Also, a centralized king blocks communication from the pieces, which suffer from a lack of coordination.
+
+## Chess/Mobility
+
+### Mobility
+`wikibooks:Chess/Mobility:0` · [source](https://en.wikibooks.org/wiki/Chess/Mobility)
+
+Mobility and spatial advantages are key to a positional understanding of chess. A spatial advantage in a game will allow you to move your pieces from one edge of the board to the other faster than the opponent. In general, the side with a weak pawn or weak square to defend has a spatial disadvantage, as they may have to huddle their pieces together to defend that weak point. A spatial advantage allows you more territory to maneuver through. If your opponent has a spatial disadvantage, this is a long-term plus for you. The spatial advantage allows you to build up slowly, letting your opponent stew in his own juices for as long as you want him to. The advantage in space will not go away.
+
+### Playing with a spatial advantage
+`wikibooks:Chess/Mobility:1` · [source](https://en.wikibooks.org/wiki/Chess/Mobility)
+
+The principal idea of a spatial advantage is to not make too many exchanges. Think of a bottle of water. If you have a spatial disadvantage and your pieces are the water, the air is the remaining maneuvering space you have. But as the water is drunk (pieces get exchanged), there is more space for you, and material is still level!
+
+### The principle of two weaknesses
+`wikibooks:Chess/Mobility:2` · [source](https://en.wikibooks.org/wiki/Chess/Mobility)
+
+In that position Black's pawns were already sufficiently protected, so White created a third weakness in the position and concentrated all of his efforts on it. This is another thing a spatial advantage provides: the ability to switch your troops between weaknesses quickly and effectively. Black's forces were tied up defending his weak pawns, and subsequently could not deal with White's kingside assault. Note also that due to the weaknesses on a6 and c6, Black is cramped due to the fact that these pawns will have trouble advancing to gain space. Also, Black could not move for losing the pawn.
+
+### Overextension
+`wikibooks:Chess/Mobility:3` · [source](https://en.wikibooks.org/wiki/Chess/Mobility)
+
+To be overextended means that you have more space than you can control. This can result in one of three things for your opponent:
+
+### Overextension
+`wikibooks:Chess/Mobility:4` · [source](https://en.wikibooks.org/wiki/Chess/Mobility)
+
+Of course, none of these things are good. After exchanges, his pawns will be safe in his camp, while your pawns will be deep into his territory. This will allow him to easily line up pieces against them for target practice. Dr. Lasker said, "Distrust a pawn move; check carefully its balance sheet." What this means is that every pawn move weakens squares. So, after your pawns have advanced into enemy territory, many squares in your camp become weak. The opponent's rooks and queens can penetrate through open files into your position, and knights can take up "holes" that would be safely guarded by pawns, but are now weak because these guards have advanced.
+
+## Chess/Tempo
+
+### Tempo
+`wikibooks:Chess/Tempo:0` · [source](https://en.wikibooks.org/wiki/Chess/Tempo)
+
+Each turn is a precious commodity, which we call a tempo (Italian for 'time'). A tempo is an opportunity to move something.
+
+### Tempo
+`wikibooks:Chess/Tempo:1` · [source](https://en.wikibooks.org/wiki/Chess/Tempo)
+
+Chess is a turn-based game, so you might think that Black always gets one tempo for every tempo White gets.
+
+### Tempo
+`wikibooks:Chess/Tempo:2` · [source](https://en.wikibooks.org/wiki/Chess/Tempo)
+
+If you can make an improving move, like a developing move, in a way that makes your opponent react by doing something they'd rather not do, like move a piece twice in the opening, you have gained a tempo on them.
+
+### Gaining and losing of tempo
+`wikibooks:Chess/Tempo:3` · [source](https://en.wikibooks.org/wiki/Chess/Tempo)
+
+Chess is a turn-based game, and you can only move one piece each turn (except when castling). So, if your queen is doing something this turn, bad luck, the rest of your pieces have to stay put. In business-speak, there's an opportunity cost to moving the queen.
+
+### Gaining and losing of tempo
+`wikibooks:Chess/Tempo:4` · [source](https://en.wikibooks.org/wiki/Chess/Tempo)
+
+It's hard to overstate how powerful that is. This is how Larry Evans, a grandmaster and prolific chess author, described it:
+
+### Gain of tempi
+`wikibooks:Chess/Tempo:5` · [source](https://en.wikibooks.org/wiki/Chess/Tempo)
+
+You gain tempi when you attack a piece with a developing move and the opponent can not defend the piece with a developing move, so she or he loses tempi.
+
+### Loss of tempi
+`wikibooks:Chess/Tempo:6` · [source](https://en.wikibooks.org/wiki/Chess/Tempo)
+
+You lose tempi when your opponent attacks your piece with a developing movement and you cannot defend that piece with a developing movement, so you have to spend one tempo by retreating your piece or defending it (with a non developing move).
+
+### Loss of tempi
+`wikibooks:Chess/Tempo:7` · [source](https://en.wikibooks.org/wiki/Chess/Tempo)
+
+Generally, you want to gain tempo in the opening. Many beginners hear "knights first in the opening", which shouldn't always be true. Whenever you lose tempo, your opponent can start going on the offensive. So (generally) you want to keep tempo in the opening, maybe even in subtle ways (like the italian).
+
+## Chess/The Endgame
+
+### Introduction
+`wikibooks:Chess/The Endgame:0` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame)
+
+The Endgame is the final stage of a chess game, and arguably the most important. Even if you succeed in the opening and middle stages of the game, not knowing the skills to turn the resulting endgame into a checkmate can cost you many wins, turning many otherwise easily won positions into draws or even losses. For this reason, we recommend devoting a good portion of your study to endgames.
+
+### Introduction
+`wikibooks:Chess/The Endgame:1` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame)
+
+Then, it is best to move into studies of material relations that do not immediately include checkmate. These frequently include pawns, which complicate scenarios as they create possible winning chances for either side.
+
+### Introduction
+`wikibooks:Chess/The Endgame:2` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame)
+
+A Bishop or Knight and King vs. a King is always a draw, as a Bishop or Knight and a King is not enough to checkmate with accurate play. Any piece versus its own is a draw, unless pawns are present or one side blunders. For example, a Rook vs. a Rook is a draw.
+
+### Introduction
+`wikibooks:Chess/The Endgame:3` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame)
+
+However, a King and Pawn vs. King is either a draw or a win, depending on the circumstance. This is why it is highly recommended to study this ending and know the winning/drawing ideas by heart, as knowing them can save you in many circumstances.
+
+### Basic Checkmates
+`wikibooks:Chess/The Endgame:4` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame)
+
+These include positions that have no pawns. When one side is ahead in material and has pawns, the easiest winning plan is typically to queen one or more pawns and use them to checkmate.
+
+### Basic Checkmates
+`wikibooks:Chess/The Endgame:5` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame)
+
+The situations where one has a king and queen, king and two rooks, or king and rook versus a lone king occur very often and it is essential to know how checkmate is achieved in such cases. The other cases, with minor pieces (bishops and knights) are more rare and more difficult to perform, but nonetheless are covered here for completeness.
+
+### More Advanced Endgames
+`wikibooks:Chess/The Endgame:6` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame)
+
+These are situations that occur less commonly in games, but are still very important. Most intermediate to advanced players are expected to have at least a basic understanding of how these endings work. It is highly recommended to start studying these endgames starting with
+
+## Chess/The Endgame/Pawn Endings
+
+### Introduction
+`wikibooks:Chess/The Endgame/Pawn Endings:0` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Pawn_Endings)
+
+Two important concepts in endgames only involving the kings and pawns are the rule of the square and the opposition.
+
+### Introduction
+`wikibooks:Chess/The Endgame/Pawn Endings:1` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Pawn_Endings)
+
+A passed pawn is a pawn that cannot be stopped from queening by an opponent's pawn. If both sides have one or more passed pawns, then the player with a protected passed pawn (protected by another pawn) is likely to have an advantage. If neither side has a protected passed pawn, then the player with an outside passed pawn (farthest from the other pawns) will most likely win.
+
+### The Rule of the Square
+`wikibooks:Chess/The Endgame/Pawn Endings:2` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Pawn_Endings)
+
+The Rule of the Square is used to determine whether or not a passed pawn can queen when it is not supported by its own king and the enemy king is chasing it. The idea is shown by the diagram on the right:
+
+### The Rule of the Square
+`wikibooks:Chess/The Endgame/Pawn Endings:3` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Pawn_Endings)
+
+One side of the square is the line that extends from the pawn to the square on which it queens. The rule says: if the enemy king can reach the square of the pawn, then it can capture the pawn; if not, the pawn can queen without the aid of its own king. Remember that if the pawn is on its starting square, it can make a double step, so the square is the same as if the pawn has advanced one square. The rule is valid for all pawns, including rook's pawns.
+
+### The Rule of the Square
+`wikibooks:Chess/The Endgame/Pawn Endings:4` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Pawn_Endings)
+
+The rule assumes that there is nothing stopping the king from taking the shortest route to chase the pawn. If there are pawns that might get in the way of the king then the rule does not apply:
+
+### The Opposition
+`wikibooks:Chess/The Endgame/Pawn Endings:5` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Pawn_Endings)
+
+When the two Kings stand next to each other so that there is one square between them, they are said to oppose each other (or to be in opposition). Because the rules of chess say that the King can't step to a square next to the opposite King, there is an invisible wall between the Kings that makes it impossible for them to advance forwards.
+
+### The Opposition
+`wikibooks:Chess/The Endgame/Pawn Endings:6` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Pawn_Endings)
+
+The player who is not to move in such situation is said to have the opposition. Since his opponent can't move his King forwards, he has to move it sideways or backwards, and after that the other player gets to advance his King forward, which is usually advantageous for him.
+
+### The Opposition
+`wikibooks:Chess/The Endgame/Pawn Endings:7` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Pawn_Endings)
+
+Now you might wonder what is the advantage of having the opposition. Let's add a Pawn to the previous position, and we get an example of how to queen the Pawn with the aid of the opposition (see diagram on right):
+
+### The Opposition
+`wikibooks:Chess/The Endgame/Pawn Endings:8` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Pawn_Endings)
+
+Even if one side has a pawn advantage, his king is in front of the pawn, and he has the opposition, it may not be enough to win. A notable example is shown at right, namely the rook pawn. Unlike the previous case, there is nothing white can do to force black out of the corner - thus his pawn can never queen.
+
+### The Opposition
+`wikibooks:Chess/The Endgame/Pawn Endings:9` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Pawn_Endings)
+
+As a general rule, 2 out of the 3 following conditions must be satisfied for a king and pawn vs king endgame must be satisfied for the side with the extra pawn to win:
+
+### The Opposition
+`wikibooks:Chess/The Endgame/Pawn Endings:10` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Pawn_Endings)
+
+However, as explained above, an exception to the rule is when the stronger side has a rook pawn. Then, it's a draw if the weaker side can get their king in front of the pawn or the stronger side's king is trapped on the h-file by the weaker side's king.
+
+### Outside Passed Pawn
+`wikibooks:Chess/The Endgame/Pawn Endings:11` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Pawn_Endings)
+
+The position at right is a good example of an outside passed pawn. It is not that the pawn is at the edge of the board - it is the fact that this pawn is far away from the other pawns, and acts as a decoy. It is often the case that in positions with an equal number of pawns that an outside passed pawn is sufficient advantage to win.
+
+### Outside Passed Pawn
+`wikibooks:Chess/The Endgame/Pawn Endings:12` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Pawn_Endings)
+
+Take the position at right as an example. White advances his passed pawn, and when the black king is far away, he captures all the black pawns, and queens his remaining pawn.
+
+### Protected Passed Pawn
+`wikibooks:Chess/The Endgame/Pawn Endings:13` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Pawn_Endings)
+
+If the protected passed pawn is not so far advanced, it confers less of an advantage. The position at right, which has most of the pieces moved back two rows, actually provides Black with a slight advantage, but not enough to win against best defense. Black uses his outside passed pawn as a decoy, and then queens his b pawn, while white queens his c pawn.
+
+### Protected Passed Pawn
+`wikibooks:Chess/The Endgame/Pawn Endings:14` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Pawn_Endings)
+
+Black is a pawn up in an ending with queens on the board. Black has an opportunity to play for a win, but such endings are generally drawn.
+
+## Chess/The Endgame/Rook and Pawn Endings
+
+### Introduction
+`wikibooks:Chess/The Endgame/Rook and Pawn Endings:0` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Rook_and_Pawn_Endings)
+
+Endgames where one side has a rook and the other a rook and one or more pawns, with no other pieces except the kings, is one of the most common in chess. Knowing the concepts of how these endgames work is essential to the intermediate to advanced player, and can result in many wins from otherwise drawn situations (or draws from otherwise lost situations).
+
+### Introduction
+`wikibooks:Chess/The Endgame/Rook and Pawn Endings:1` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Rook_and_Pawn_Endings)
+
+Rook and pawn endings are very complex, and even professional players don't always execute them correctly. This module cannot provide a completely comprehensive guide of the subject, but aims to educate you to the most common, basic techniques.
+
+### Introduction
+`wikibooks:Chess/The Endgame/Rook and Pawn Endings:2` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Rook_and_Pawn_Endings)
+
+Following is a list of different rook vs. rook scenarios. They assume that there are no other pieces on the board not indicated (except for kings). The goal in each for the attacking side is to promote a pawn, in which case the attacking side can then exchange rooks and execute a king-and-queen-versus-king checkmate.
+
+### Three or More Pawns and Rook vs. Rook
+`wikibooks:Chess/The Endgame/Rook and Pawn Endings:3` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Rook_and_Pawn_Endings)
+
+This situation should always be a win for the side that has the pawns and is not terribly difficult to play (especially if at least two of the pawns are on adjacent files.). The defending player's rook cannot cover all pawns at once as they advance down the board.
+
+### Two Pawns and Rook vs. Rook
+`wikibooks:Chess/The Endgame/Rook and Pawn Endings:4` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Rook_and_Pawn_Endings)
+
+This scenario usually results in a win for the player that's ahead, but in practice can be more challenging to execute. If the two pawns are connected, or on adjacent files, then the win is comparatively easy because one pawn can support another as they march down the board and the defending side cannot block one pawn with his king without getting checked.
+
+### Two Pawns and Rook vs. Rook
+`wikibooks:Chess/The Endgame/Rook and Pawn Endings:5` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Rook_and_Pawn_Endings)
+
+When the pawns are separated, then things are less clear. If there is a large distance between pawns (two or more files), the attacking side may have trouble defending both at once and may opt to give up one pawn to transition into a more favourable (but harder) single pawn endgame.
+
+### Two Pawns and Rook vs. Rook
+`wikibooks:Chess/The Endgame/Rook and Pawn Endings:6` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Rook_and_Pawn_Endings)
+
+It is also important to take into consideration how advanced the pawns are. If they are on the second-third rank, then queening will be inherently harder because of the distance they need to travel to reach (which results in more time for the defending player to blockade).
+
+### One Pawn and Rook vs. Rook
+`wikibooks:Chess/The Endgame/Rook and Pawn Endings:7` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Rook_and_Pawn_Endings)
+
+Situations where one side has only a single pawn are the most complex of all rook and pawn endgames. Unlike the two above scenarios, they are not cut-and-dried, and there are more factors involved, such as the positions of both kings and rooks and the file the pawn is on.
+
+## Chess/The Endgame/Minor Piece endings
+
+### Introduction
+`wikibooks:Chess/The Endgame/Minor Piece endings:0` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Minor_Piece_endings)
+
+If White has only one minor piece against a lone king, it is not possible to arrange the pieces so that the black king is checkmated. If White has a king and minor piece and so does Black, checkmate can occasionally occur (see the two positions below), although it cannot be forced. If White has three pieces, the mate is easy. As we shall see, with two bishops White's job is relatively easy, with a bishop and knight it is somewhat harder, and with two knights it is typically impossible (although it can happen against a very bad opponent).
+
+### King and Bishop and Knight vs. King
+`wikibooks:Chess/The Endgame/Minor Piece endings:1` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Minor_Piece_endings)
+
+In order to mate with a bishop and knight, White must force Black's king to the corner that is the same color as his bishop - in this case the a8 square. This is not so easy to do, because the bishop and knight do not coordinate well in cutting off the opponent's king. Mate can always be forced unless Black can win a white piece, but, even with best play, the mate may take over 30 moves.
+
+### King and Bishop and Knight vs. King
+`wikibooks:Chess/The Endgame/Minor Piece endings:2` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Minor_Piece_endings)
+
+In the position at right, much of the hard work has already been done. Black is being pressed in the direction of the a8 corner. Nevertheless, nine more moves are required to mate.
+
+### King and Two Knights vs. King
+`wikibooks:Chess/The Endgame/Minor Piece endings:3` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Minor_Piece_endings)
+
+However, checkmate can happen with king and two knights against king if the opponent makes enough foolish moves, ending with a checkmate position like those to the left. It is easier if the losing side's king is hemmed in by his own pieces, like that to the near left.
+
+### King and Two Knights vs. King
+`wikibooks:Chess/The Endgame/Minor Piece endings:4` · [source](https://en.wikibooks.org/wiki/Chess/The_Endgame/Minor_Piece_endings)
+
+If Black has one pawn, White may be able to win by cornering the black king with a king and one knight, and avoiding stalemate by letting Black to advance his pawn, while the other knight administers mate. This is more likely to succeed if the black pawn is not far advanced, and needs at least three moves to become a queen. Alexey Troitsky, the famous endgame study composer, produced an extensive analysis of this endgame and composed several endgame studies with two knights against one pawn. Some positions require as many 70 moves without a pawn move or capture. This endgame has some historic interest - it was included in the amendment of the "50 move draw rule" to exclude those positions in which it could be demonstrated that more moves were required. (The exception to this rule has since been rescinded; the rule now dictates that either player may claim a draw after 50 moves without a capture or pawn move, regardless of the position on the chessboard. This means that the definition of the fifty-move rule now specifically excludes king-and-two-knights-versus-king-and-pawn positions.) The ending of two knights versus one pawn has occasionally occurred in practical tournament play.
