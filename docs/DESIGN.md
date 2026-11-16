@@ -204,6 +204,7 @@ tokens above.
 | **Side panel** | 1px `rule` top border, padding-top 22px, min-height 180px, `aria-live="polite"`. States: **error** (label "Your move" / "Your opponent's move", grade name Fraunces 30px in grade colour + move in mono 20px, "This lost N points of winning chance." 15px muted, buttons **Show better move** (primary) and **Show why it's bad** (secondary)); **line** (label "Better move" in accent or "Why it's bad" in blunder, the line in mono 17px, note in Fraunces italic 17px, button "↩ Back to game"); **great move** (accent); **hint** ("Step to a marked move — ?? ? ?! — to see what went wrong." Fraunces italic 17px muted) |
 | **Progress rule** (Analysing) | 2px track `rule`, fill `bone`, width transition 0.3s; count "12 / 20" Geist Mono 14px |
 | **Contents row** (Analysing) | min-height 46px, bottom border `rule-faint`; number mono 13px `faint` (34px column); "vs opponent" 15px + result in Fraunces italic (won `bone`, lost `blunder`, draw `muted`); dotted leader `leader`; 120 × 24 trace; right column 104px: "reading…" (muted) or error counts in grade colours or "clean"; queued rows at opacity 0.4 |
+| **Error message** (Home) | Geist 15px, `blunder`, 14px below the form, `role="alert"`; on every failed submit it **shakes** side to side (360ms: −6, +6, −4, +4px); no shake with reduced motion |
 | **Focus ring** | 2px solid `accent`, offset 3px (2px in the game view) |
 
 ---

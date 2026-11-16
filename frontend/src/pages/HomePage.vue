@@ -2,7 +2,7 @@
 // Home (DESIGN.md §9.1) — matches docs/design/reference/home.dc.html.
 import { watchDebounced } from '@vueuse/core'
 import { ToggleGroupItem, ToggleGroupRoot } from 'reka-ui'
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { api, ApiRequestError } from '@/api/client'
@@ -56,22 +56,37 @@ const trace = computed(() => {
 // ---------------------------------------------------------------- username + player preview
 const username = ref('')
 const player = ref<Player | null>(null)
-const message = ref('')
+// Two separate messages so they can't overwrite each other: one from pressing Analyse
+// (shakes), one from the background player lookup (quiet). The submit message wins.
+const submitMessage = ref('')
+const lookupMessage = ref('')
+const message = computed(() => submitMessage.value || lookupMessage.value)
+const shakes = ref(0) // bumped on every failed submit, so the message shakes again each time
 const input = ref<HTMLInputElement>()
 
-// Look the player up 400 ms after the user stops typing.
+// Typing hides the old preview and the old submit error straight away…
+watch(username, () => {
+  player.value = null
+  submitMessage.value = ''
+})
+
+// …and 400 ms after the user stops typing, we look the player up.
 watchDebounced(
   username,
   async (value) => {
     const name = value.trim()
-    player.value = null
-    message.value = ''
-    if (name.length < 3) return
+    if (name.length < 3) {
+      lookupMessage.value = ''
+      return
+    }
     try {
       const found = await api.getPlayer(name)
-      if (username.value.trim() === name) player.value = found
+      if (username.value.trim() !== name) return // the user kept typing; ignore the old answer
+      player.value = found
+      lookupMessage.value = ''
     } catch (e) {
-      if (username.value.trim() === name && e instanceof ApiRequestError) message.value = e.message
+      if (username.value.trim() !== name) return
+      lookupMessage.value = e instanceof ApiRequestError ? e.message : ''
     }
   },
   { debounce: 400 },
@@ -100,17 +115,19 @@ const submitting = ref(false)
 async function analyse() {
   const name = username.value.trim()
   if (name.length < 3) {
-    message.value = 'Enter your chess.com username.'
+    submitMessage.value = 'Enter your chess.com username.'
+    shakes.value++
     input.value?.focus()
     return
   }
   submitting.value = true
-  message.value = ''
+  submitMessage.value = ''
   try {
     const report = await api.startReport({ username: name, time_control: timeControl.value, games: 20 })
     await router.push({ name: 'report', params: { id: report.id } })
   } catch (e) {
-    message.value = e instanceof ApiRequestError ? e.message : 'Something went wrong. Please try again.'
+    submitMessage.value = e instanceof ApiRequestError ? e.message : 'Something went wrong. Please try again.'
+    shakes.value++
   } finally {
     submitting.value = false
   }
@@ -186,7 +203,10 @@ async function analyse() {
             <BtButton type="submit" :disabled="submitting">Analyse my games</BtButton>
             <span class="font-mono text-[12px] text-muted">Last 20 games · about 3 min · no sign-up</span>
           </div>
-          <p v-if="message" role="alert" class="mt-[14px] mb-0 text-[14px] text-blunder">{{ message }}</p>
+          <!-- :key changes on every failed submit, so Vue re-creates the element and the shake replays. -->
+          <p v-if="message" :key="shakes" role="alert" class="bt-shake mt-[14px] mb-0 text-[15px] text-blunder">
+            {{ message }}
+          </p>
         </form>
       </section>
 
@@ -249,3 +269,33 @@ async function analyse() {
     </main>
   </div>
 </template>
+
+<style scoped>
+/* Error message shake (DESIGN.md §10): a short side-to-side "no", skipped for reduced motion. */
+.bt-shake {
+  animation: bt-shake 360ms ease;
+}
+@keyframes bt-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(6px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bt-shake {
+    animation: none;
+  }
+}
+</style>
