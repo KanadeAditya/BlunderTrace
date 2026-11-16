@@ -40,15 +40,15 @@ const LINES: Record<number, Pick<Move, 'better_line' | 'refutation_line' | 'bett
   7: {
     better_line: ['Nxd4', 'exd4', 'c3', 'dxc3', 'Nxc3'],
     refutation_line: ['Qg5'],
-    better_note: 'Trade the knights first. White keeps a healthy, equal game.',
-    refutation_note: 'After 4… Qg5 the knight on e5 and the pawn on g2 are both attacked. You can only save one.',
+    better_note: '4. Nxd4 keeps the position level (+0.2).',
+    refutation_note: 'After 4… Qg5, your knight on e5 and your pawn on g2 are both attacked.',
     refutation_arrows: [['g5', 'e5'], ['g5', 'g2']],
   },
   9: {
     better_line: ['Ng4', 'd5'],
     refutation_line: ['Qxg2', 'Rf1', 'Qxe4+', 'Be2', 'Nf3#'],
-    better_note: 'Retreat the knight so it guards the kingside. The attack on g2 is parried.',
-    refutation_note: 'Black ignores the rook: Qxg2, Qxe4+ and Nf3# is mate.',
+    better_note: '5. Ng4 limits the damage (−1.2).',
+    refutation_note: 'This line ends in checkmate.',
     refutation_arrows: null,
   },
 }
@@ -124,8 +124,9 @@ function sampleTrace(k: number, blunders: number, result: GameResult): number[] 
   return out.map((v) => Math.round(v))
 }
 
-function reportGame(k: number, state: 'done' | 'running' | 'queued'): ReportGame {
-  const base: ReportGame = { id: `g_${k + 1}`, status: state === 'done' ? 'done' : state, opponent: OPPONENTS[k] }
+function reportGame(index: number, state: 'done' | 'running' | 'queued'): ReportGame {
+  const k = index % OPPONENTS.length // more than 20 games: the sample data repeats
+  const base: ReportGame = { id: `g_${index + 1}`, status: state === 'done' ? 'done' : state, opponent: OPPONENTS[k] }
   if (state !== 'done') return base
   return {
     ...base,
@@ -133,7 +134,7 @@ function reportGame(k: number, state: 'done' | 'running' | 'queued'): ReportGame
     date: `2026-11-${String(14 - Math.floor(k / 3)).padStart(2, '0')}`,
     color: COLORS[k % 5],
     opening: OPENINGS[k % 5],
-    url: `https://www.chess.com/game/live/${123456789 + k}`,
+    url: `https://www.chess.com/game/live/${123456789 + index}`,
     errors: { blunder: BLUNDERS[k], mistake: MISTAKES[k], inaccuracy: INACCURACIES[k], miss: 0 },
     trace: sampleTrace(k, BLUNDERS[k], RESULTS[k]),
   }
@@ -154,7 +155,7 @@ function weaknesses(): Weakness[] {
         {
           game_id: 'g_1', ply: 7, move_number: 4, color: 'white', opponent: 'player123',
           fen_before: before[before.length - 1].fen, played: 'Nxe5', better: 'Nxd4', punishing_line: ['Qg5'],
-          note: '4… Qg5! attacks the knight and g2 at once.', arrows: [['g5', 'e5'], ['g5', 'g2']],
+          note: '4… Qg5! attacks your knight on e5 and your pawn on g2.', arrows: [['g5', 'e5'], ['g5', 'g2']],
         },
       ],
       sources: [
@@ -187,6 +188,7 @@ function weaknesses(): Weakness[] {
 
 // ---------------------------------------------------------------- in-memory state
 const reportsStartedAt = new Map<string, number>()
+const reportsGameCount = new Map<string, number>()
 const gamesOpenedAt = new Map<string, number>()
 reportsStartedAt.set('r_sample', 0) // a finished sample report is always available at /report/r_sample
 
@@ -196,7 +198,7 @@ export const mockApi = {
   async getPlayer(username: string): Promise<Player> {
     await delay(250)
     if (username.toLowerCase() === 'notfound') throw new MockError(404, 'username_not_found', `No chess.com player called '${username}'.`)
-    return { username, avatar_url: null, ratings: { rapid: 1184, blitz: 1052 }, games: { rapid: 142, blitz: 380 } }
+    return { username, ratings: { rapid: 1184, blitz: 1052 }, games: { rapid: 142, blitz: 380 } }
   },
 
   async startReport(req: StartReportRequest): Promise<StartReportResponse> {
@@ -204,6 +206,7 @@ export const mockApi = {
     if (req.username.toLowerCase() === 'notfound') throw new MockError(404, 'username_not_found', `No chess.com player called '${req.username}'.`)
     const id = `r_${Math.random().toString(36).slice(2, 7)}`
     reportsStartedAt.set(id, Date.now())
+    reportsGameCount.set(id, req.games)
     return { id, status: 'queued' }
   },
 
@@ -211,10 +214,10 @@ export const mockApi = {
     await delay(120)
     const started = reportsStartedAt.get(id)
     if (started === undefined) throw new MockError(404, 'report_not_found', 'This report does not exist.')
-    const total = 20
+    const total = reportsGameCount.get(id) ?? 20
     const done = started === 0 ? total : Math.min(total, Math.floor((Date.now() - started) / MS_PER_GAME))
     const finished = done >= total
-    const games = OPPONENTS.map((_, k) => reportGame(k, k < done ? 'done' : k === done ? 'running' : 'queued'))
+    const games = Array.from({ length: total }, (_, k) => reportGame(k, k < done ? 'done' : k === done ? 'running' : 'queued'))
     const report: Report = {
       id, status: finished ? 'done' : 'running', username: 'knightowl_42', time_control: 'rapid',
       progress: { done, total }, games,
@@ -241,8 +244,10 @@ export const mockApi = {
   async getGame(reportId: string, gameId: string): Promise<Game> {
     await delay(150)
     if (!reportsStartedAt.has(reportId)) throw new MockError(404, 'report_not_found', 'This report does not exist.')
-    const k = Number(gameId.replace('g_', '')) - 1
-    if (!(k >= 0 && k < OPPONENTS.length)) throw new MockError(404, 'game_not_found', 'This game is not in the report.')
+    const index = Number(gameId.replace('g_', '')) - 1
+    const total = reportsGameCount.get(reportId) ?? 20
+    if (!(index >= 0 && index < total)) throw new MockError(404, 'game_not_found', 'This game is not in the report.')
+    const k = index % OPPONENTS.length
     const key = `${reportId}/${gameId}`
     if (!gamesOpenedAt.has(key)) gamesOpenedAt.set(key, Date.now())
     const complete = Date.now() - gamesOpenedAt.get(key)! >= GRADING_DELAY_MS

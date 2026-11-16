@@ -29,7 +29,6 @@ export interface ApiError {
 // ---- GET /api/players/{username} ----
 export interface Player {
   username: string
-  avatar_url: string | null
   ratings: Partial<Record<'rapid' | 'blitz', number>>
   games: Record<'rapid' | 'blitz', number>
 }
@@ -84,7 +83,7 @@ export interface Example {
   played: string
   better: string
   punishing_line: string[]
-  /** One sentence about the opponent's reply, e.g. "4… Qg5! attacks the knight and g2 at once." */
+  /** Deterministic sentence about the reply, e.g. "4… Qg5! attacks your knight on e5 and your pawn on g2." */
   note: string
   /** Threats to draw on the example diagram (position after the reply), as [from, to] squares. */
   arrows: [string, string][]
@@ -155,7 +154,7 @@ export interface Move {
   themes: string[]
   better_line: string[] | null
   refutation_line: string[] | null
-  /** Short explanations of the two lines (null when not available). */
+  /** Deterministic one-line summaries of the two lines (templates, no AI; null when not available). */
   better_note: string | null
   refutation_note: string | null
   /** Threats to draw at the end of the refutation, as [from, to] squares (e.g. a fork's two targets). */

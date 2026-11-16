@@ -26,12 +26,13 @@ the time-control buttons. Cached briefly on the server.
 ```json
 {
   "username": "knightowl_42",
-  "avatar_url": "https://images.chesscomfiles.com/…/avatar.png",
   "ratings": { "rapid": 1184, "blitz": 1052 },
   "games": { "rapid": 142, "blitz": 380 }
 }
 ```
-- `avatar_url` may be `null`; `ratings` omits time controls never played.
+- Source: chess.com `GET /pub/player/{username}/stats` — `ratings` from `chess_rapid/chess_blitz.last.rating`
+  (omitted if never played); `games` = `record.win + record.loss + record.draw` (the player's
+  **all-time** games in that time control, not just recent ones).
 - `404 username_not_found` when chess.com has no such player.
 
 ---
@@ -46,7 +47,7 @@ Request:
 |---|---|
 | `username` | chess.com username format (letters, digits, `_`, `-`), 3–25 chars |
 | `time_control` | `rapid` \| `blitz` \| `both` |
-| `games` | integer 10–50, default 20 |
+| `games` | one of 10, 20, 30, 50 (default 20) — chosen with the inline selector on Home |
 
 Responses:
 - `202` `{ "id": "r_8f3k2", "status": "queued" }` — analysis started.
@@ -101,7 +102,7 @@ Polled every ~2 s while `status` is `queued` or `running`; the same response is 
           "fen_before": "r1bq1rk1/pp2bppp/2n1pn2/3p4/3P4/2NB1N2/PP3PPP/R1BQ1RK1 w - - 0 18",
           "played": "Bc4", "better": "Be2",
           "punishing_line": ["Nxc4", "dxc4", "Qd4"],
-          "note": "4… Qg5! attacks the knight and g2 at once.",
+          "note": "4… Qg5! attacks your knight on e5 and your pawn on g2.",
           "arrows": [["g5", "e5"], ["g5", "g2"]]
         }
       ],
@@ -135,7 +136,8 @@ Polled every ~2 s while `status` is `queued` or `running`; the same response is 
   Fraunces italic) and `[n]` = citation of `sources[n-1]` (rendered as a footnote marker whose
   preview shows that source's `passage`).
 - `sources[].passage` is the retrieved text the explanation was grounded on.
-- `examples[].note` is one sentence about the opponent's reply (shown under the example);
+- `examples[].note` is one **deterministic** sentence about the opponent's reply, built with
+  python-chess from the user's pieces the reply attacks (template, no AI) — see "Line notes" below;
   `examples[].arrows` are the threats to draw on the example diagram (the position after the reply).
 - `games[].trace` (finished games only): White's evaluation in centipawns after each half-move,
   start included, mate capped at ±1000 — draws the small trace on the Analysing screen.
@@ -176,8 +178,8 @@ are already filled in; positive grades and lines arrive later — the frontend r
       "themes": ["hangingPiece"],
       "better_line": ["Be2", "Nf6", "O-O", "Bd6", "Re1"],
       "refutation_line": ["Nxc4", "dxc4", "Qd4"],
-      "better_note": "Keep the bishop defended; the position stays balanced.",
-      "refutation_note": "After 18… Nxc4 the bishop is simply lost.",
+      "better_note": "18. Be2 keeps the position level (+0.2).",
+      "refutation_note": "This line wins your bishop.",
       "refutation_arrows": [["c4", "e3"]]
     }
   ]
@@ -188,10 +190,36 @@ are already filled in; positive grades and lines arrive later — the frontend r
 - `better_line` / `refutation_line` are filled for error moves; `refutation_line` starts with the
   opponent's reply to `san`. Lines are 3–5 moves.
 - `eval` is the evaluation after the move (drives the eval bar).
-- `better_note` / `refutation_note`: one short sentence explaining each line (may be `null`).
+- `better_note` / `refutation_note`: one short **deterministic** sentence per line (templates
+  below, no AI; may be `null`).
 - `refutation_arrows`: threats to draw once the refutation has played out, as `[from, to]` square
   pairs (e.g. the two targets of a fork); may be `null`.
 - "Show why it's bad" plays `san` followed by `refutation_line`, from the position before the move.
+
+---
+
+## Line notes — deterministic templates (no AI)
+Built by the backend with python-chess and the engine's evaluations; the wording is fixed so it can
+never invent moves or ideas. First matching rule wins.
+
+**`refutation_note`** (for the line "played move → refutation"):
+| Rule | Sentence |
+|---|---|
+| The line ends in checkmate | "This line ends in checkmate." |
+| The line wins material from the user (net loss ≥ 2 pawns) | "This line wins your {most valuable piece lost}." |
+| The reply attacks two or more of the user's pieces | "After {reply}, your {piece} on {sq} and your {piece} on {sq} are both attacked." |
+| Otherwise | "This line costs you {N} points of winning chance." |
+
+**`better_note`** (for the better line), from the mover's win % after the better move:
+| Win % | Sentence |
+|---|---|
+| ≥ 60 | "{move} keeps your advantage ({eval})." |
+| 40–60 | "{move} keeps the position level ({eval})." |
+| < 40 | "{move} limits the damage ({eval})." |
+
+**`examples[].note`** (report examples): "{reply} attacks your {piece} on {sq} and your {piece} on
+{sq}." (one or two pieces, most valuable first); with a single target: "{reply} wins your {piece}."
+The reply carries its grade glyph (e.g. `Qg5!`).
 
 ---
 

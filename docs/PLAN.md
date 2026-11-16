@@ -322,7 +322,8 @@ BlunderTrace/
 9. Vendored tagger + adapter, with the 2,000-puzzle check as a test.
 10. Jobs table + worker: bulk analysis (stage A) → errors, themes, counts, openings, missed tactics;
     `POST`/`GET /api/reports` return real data (card text still empty).
-11. Game deep pass (stage B) + game endpoint.
+11. Game deep pass (stage B) + game endpoint, including the deterministic line notes and threat
+    arrows (docs/API.md "Line notes"); player lookup endpoint (chess.com stats).
 
 **Phase 3 — RAG**
 12. Corpus ingestion into pgvector (fix the *Fork* row; chunking; tags; embeddings; HNSW; FTS).
@@ -385,4 +386,9 @@ order and sizing of each screen on a phone (e.g. board vs form first on Home).
 | Board: **chessground** (Lichess's board, GPL-3.0, compatible with AGPL-3.0), themed to A | Proven animation (captures, castling, promotion), arrows, highlights, resizing; restyled with CSS so it matches A |
 | Components: Reka UI (Radix for Vue) primitives + our own styled kit on Tailwind v4 tokens | User likes Radix; unified custom design language, no imposed look |
 | Design improvements included in the first cut: sliding moves, footnote previews of retrieved passages, A-style Analysing screen, keyboard arrows in game view | User: no shortcuts on design. Phone layout review moved to post-launch |
+| Number of games: inline selector on "Last **20** games" (10 / 20 / 30 / 50), no dialog | Bloat-free: nothing extra on screen unless clicked; default stays 20 |
+| Line notes (`better_note`, `refutation_note`, example notes): **deterministic templates** (python-chess + engine evals), no AI — option A | Always correct, free, can't hallucinate; like chess.com's heuristics. Can switch to LLM-written notes later if disliked |
+| Player lookup has no avatar | The design shows the player's initial |
+| Report chapters II–III: text + "Show example" button revealing one example like chapter I | Detail on request; keeps the report calm |
+| Error messages on Home: 15px, `blunder`, shake on failed submit | User's choice; no separate error design needed |
 | Pieces: **exactly the canvas set** — Noto Sans Symbols 2 chess glyphs (SIL OFL 1.1), solid shapes with A's fill/outline colours; font self-hosted (or glyphs exported to SVG) so they render identically everywhere | User's choice; license compatible with AGPL-3.0 |

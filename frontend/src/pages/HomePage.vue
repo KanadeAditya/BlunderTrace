@@ -1,7 +1,18 @@
 <script setup lang="ts">
 // Home (DESIGN.md §9.1) — matches docs/design/reference/home.dc.html.
 import { watchDebounced } from '@vueuse/core'
-import { ToggleGroupItem, ToggleGroupRoot } from 'reka-ui'
+import {
+  SelectContent,
+  SelectItem,
+  SelectItemText,
+  SelectPortal,
+  SelectRoot,
+  SelectTrigger,
+  SelectValue,
+  SelectViewport,
+  ToggleGroupItem,
+  ToggleGroupRoot,
+} from 'reka-ui'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -92,6 +103,11 @@ watchDebounced(
   { debounce: 400 },
 )
 
+// Number of games (DESIGN.md §8 "Game-count selector"): ~9 s of analysis per game.
+const GAME_COUNTS = [10, 20, 30, 50]
+const gameCount = ref(20)
+const minutes = computed(() => Math.ceil((gameCount.value * 9) / 60))
+
 const timeControl = ref<TimeControl>('rapid')
 const timeControls = computed(() => {
   const g = player.value?.games
@@ -123,7 +139,7 @@ async function analyse() {
   submitting.value = true
   submitMessage.value = ''
   try {
-    const report = await api.startReport({ username: name, time_control: timeControl.value, games: 20 })
+    const report = await api.startReport({ username: name, time_control: timeControl.value, games: gameCount.value })
     await router.push({ name: 'report', params: { id: report.id } })
   } catch (e) {
     submitMessage.value = e instanceof ApiRequestError ? e.message : 'Something went wrong. Please try again.'
@@ -201,7 +217,39 @@ async function analyse() {
 
           <div class="flex items-center gap-[20px] mt-[28px] flex-wrap">
             <BtButton type="submit" :disabled="submitting">Analyse my games</BtButton>
-            <span class="font-mono text-[12px] text-muted">Last 20 games · about 3 min · no sign-up</span>
+            <span class="font-mono text-[12px] text-muted">
+              Last
+              <SelectRoot v-model="gameCount">
+                <SelectTrigger
+                  aria-label="Number of games to analyse"
+                  class="bg-transparent border-0 border-b border-dotted border-muted p-0 font-mono text-[12px] leading-[normal] text-bone cursor-pointer focus-ring"
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <!-- A "portal" renders the menu at the end of <body> so nothing can clip it (like React's createPortal). -->
+                <SelectPortal>
+                  <SelectContent
+                    position="popper"
+                    side="bottom"
+                    align="start"
+                    :side-offset="8"
+                    class="z-50 min-w-[88px] p-[6px] box-border bg-surface border border-solid border-rule-strong shadow-[0_12px_32px_rgba(0,0,0,0.45)]"
+                  >
+                    <SelectViewport>
+                      <SelectItem
+                        v-for="n in GAME_COUNTS"
+                        :key="n"
+                        :value="n"
+                        class="flex items-center min-h-[36px] px-[12px] font-mono text-[13px] text-muted cursor-pointer outline-none data-[highlighted]:bg-surface-hover data-[highlighted]:text-bone data-[state=checked]:text-accent"
+                      >
+                        <SelectItemText>{{ n }}</SelectItemText>
+                      </SelectItem>
+                    </SelectViewport>
+                  </SelectContent>
+                </SelectPortal>
+              </SelectRoot>
+              games · about {{ minutes }} min · no sign-up
+            </span>
           </div>
           <!-- :key changes on every failed submit, so Vue re-creates the element and the shake replays. -->
           <p v-if="message" :key="shakes" role="alert" class="bt-shake mt-[14px] mb-0 text-[15px] text-blunder">
