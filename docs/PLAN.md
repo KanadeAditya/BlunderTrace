@@ -260,6 +260,81 @@ Only the **3 weakness cards' text** ("why it happens", "how to avoid it", source
 hybrid search + RRF) → grade / rewrite → generate from engine facts + passages → validate moves →
 cache. Everything else (engine, grading, tagging, counting) is deterministic.
 
+### 4.5 Database schema — **current (may change while building)**
+PostgreSQL + pgvector; SQLAlchemy 2.0 models, Alembic migrations. Games are stored once and shared
+between reports, so re-analysing a user reuses already-analysed games.
+
+| Table | One row is… | Key columns |
+|---|---|---|
+| `reports` | One analysis request | id, username, time_control, games_requested, status, error, progress, summary (JSON), created_at |
+| `games` | One chess.com game | id, chesscom_id (unique), pgn, white, black, result, date, opening, time_class, bulk_status, grading |
+| `report_games` | Game ↔ report link | report_id, game_id, user_color |
+| `moves` | One half-move | (game_id, ply) PK, san, fen_after, eval_cp / eval_mate, win_loss, grade, themes[], better_line[], refutation_line[] |
+| `report_cards` | One weakness card | report_id, rank, theme, count, why, how_to_avoid, sources (JSON), examples (JSON) |
+| `jobs` | One background task | id, kind, ref_id, status, attempts, locked_at, error — claimed with `FOR UPDATE SKIP LOCKED` |
+| `corpus_chunks` | One piece of teaching text | id, source, title, section, url, content, tags[], embedding vector(1536) (HNSW), tsv (GIN) |
+| `llm_calls` | One LLM / embedding call | purpose, model, tokens in/out, cost_usd, latency_ms, cached, error — source of `/metrics` |
+
+### 4.6 Folder structure — **current (may change while building)**
+```
+BlunderTrace/
+├── docker-compose.yml        db (pgvector) · api · worker · frontend
+├── backend/
+│   ├── pyproject.toml · Dockerfile · alembic/
+│   ├── app/
+│   │   ├── main.py · config.py · schemas.py (= docs/API.md)
+│   │   ├── db/ · chesscom/
+│   │   ├── analysis/         engine.py · grading.py · tagging.py · aggregate.py
+│   │   ├── vendor/lichess_puzzler/   (+ its LICENSE)
+│   │   ├── rag/              ingest.py · retrieval.py · explain_graph.py · prompts.py · validator.py
+│   │   ├── llm/ · observability/ · worker.py
+│   ├── scripts/ingest_corpus.py
+│   └── tests/                unit/ · integration/ · eval/
+├── frontend/
+│   └── src/                  api/ · mocks/ · pages/ · components/
+├── pre_build_research/
+└── docs/                     PLAN.md · API.md
+```
+
+### 4.7 Build order — **draft**
+**Phase 0 — Setup**
+1. Restructure the repo into `backend/` + `frontend/`; scaffold Vue 3 + Vite + TypeScript;
+   docker-compose with Postgres + pgvector; add the AGPL-3.0 `LICENSE`.
+
+**Phase 1 — Frontend on sample data** (also the visual review of stage 2)
+2. Typed API client + sample JSON for every state in `docs/API.md` (running, done, failed;
+   game pending / complete).
+3. Home page.
+4. Report page: analysing state (simulated polling), report (summary, cards, missed tactics,
+   openings, games table), failed state.
+5. Game page: board, move list with grades, eval bar, side panel, line playback + Back.
+   → **Stage 2 sign-off** on the real screens.
+
+**Phase 2 — Backend core (no LLM)**
+6. FastAPI skeleton, config, schemas, DB models + migrations, `/health`.
+7. chess.com client (archives, time-control filter, last N games).
+8. Stockfish wrapper + win% grading, with unit tests on known positions.
+9. Vendored tagger + adapter, with the 2,000-puzzle check as a test.
+10. Jobs table + worker: bulk analysis (stage A) → errors, themes, counts, openings, missed tactics;
+    `POST`/`GET /api/reports` return real data (card text still empty).
+11. Game deep pass (stage B) + game endpoint.
+
+**Phase 3 — RAG**
+12. Corpus ingestion into pgvector (fix the *Fork* row; chunking; tags; embeddings; HNSW; FTS).
+13. Retrieval (tag filter + hybrid + RRF) with tests; retrieval eval on a fresh puzzle set.
+14. LLM client: token budget, retries, circuit breaker, fallback; every call logged to `llm_calls`.
+15. Card-explanation graph (LangGraph) + move validator + cache.
+
+**Phase 4 — Production hardening**
+16. JSON logs, `/metrics` (cost per report, RAG vs long-context), `/cache/stats`, LangSmith.
+17. Rate limiting, input validation, error states end to end.
+18. Production Dockerfiles (non-root, layer caching, HEALTHCHECK); full compose stack.
+19. Connect the frontend to the real API; end-to-end run with a real username.
+
+**Phase 5 — Publish**
+20. README (setup, architecture, research, decisions, results), screenshots.
+21. Hosting decision + deploy; file the post-launch GitHub issues.
+
 ---
 
 ## Post-launch (each becomes a GitHub issue after the first cut is published)
