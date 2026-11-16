@@ -356,6 +356,9 @@ input limits [Ch 20] → prompt-injection sanitizer [Ch 21] → scope guard (onl
 - Recursive vs semantic chunking benchmark [Ch 14]
 - Contextual compression [Ch 15]
 
+**3. Phone layout review** — the first cut is desktop-first and only stacks on phones; review the
+order and sizing of each screen on a phone (e.g. board vs form first on Home).
+
 ---
 
 ## Decisions log
@@ -374,3 +377,7 @@ input limits [Ch 20] → prompt-injection sanitizer [Ch 21] → scope guard (onl
 | First cut = features 1–12; coach chat is the first post-launch item | Publish sooner; chat brings the free-text RAG concepts (sanitizer, scope guard, conversational RAG, multi-query) afterwards |
 | No contextual retrieval | User decision; keeps ingestion deterministic and free |
 | Retrieval extras moved to a post-launch roadmap | Keep the MVP lean; ship first |
+| Design direction **A — The Annotated Book** (canvas: claude.ai artifact "BlunderTrace Design Directions") | User's choice: clean, bloat-free, calm game view, room to grow |
+| Board: **chessground** (Lichess's board, GPL-3.0, compatible with AGPL-3.0), themed to A | Proven animation (captures, castling, promotion), arrows, highlights, resizing; restyled with CSS so it matches A |
+| Components: Reka UI (Radix for Vue) primitives + our own styled kit on Tailwind v4 tokens | User likes Radix; unified custom design language, no imposed look |
+| Design improvements included in the first cut: real piece set, sliding moves, footnote previews of retrieved passages, A-style Analysing screen, keyboard arrows in game view | User: no shortcuts on design. Phone layout review moved to post-launch |
