@@ -6,8 +6,8 @@ Planning happens in stages; nothing is coded until all stages are agreed.
 |---|---|---|
 | 1 | MVP features | **Signed off** |
 | 2 | UI/UX flow | **Draft — open.** Only these are user-approved: side panel, eval bar, desktop-first, one dark theme. Rest is Claude's proposal; revisit (possibly with visual mockups). |
-| 3 | Tech stack, architecture & RAG pipeline | **Draft — awaiting sign-off** |
-| 4 | Code specifics (folder structure, API contract, database schema, build order) | Not started |
+| 3 | Tech stack, architecture & RAG pipeline | **Signed off** (small items deferred to stage 4) |
+| 4 | Code specifics (folder structure, API contract, database schema, build order) | In progress |
 
 Guiding principle: **bloat-free.** Every feature must earn its place; no toggles or options that
 don't clearly help the user.
