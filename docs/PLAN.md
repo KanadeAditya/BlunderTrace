@@ -212,6 +212,56 @@ retrieve → grade relevance → (irrelevant? rewrite query, retry ≤ 2 → els
 
 ---
 
+## Stage 4 — Code specifics
+
+### 4.1 API contract — **agreed**
+See [`docs/API.md`](API.md): 3 product endpoints (start analysis, get report, get game) plus
+`/health`, `/metrics`, `/cache/stats`. Both players' moves are graded in the game view; weakness
+cards count only the user's moves.
+
+### 4.2 Move grading — **agreed**
+Based on **winning chances**, as Lichess does (formula from `lichess-org/scalachess` `eval.scala`,
+MIT; thresholds from `lichess-org/lila` `Advice.scala`):
+
+```
+win% = 50 + 50 × (2 / (1 + e^(−0.00368208 × cp)) − 1)      cp capped at ±1000; mate counts as the cap
+loss = win% before the move − win% after it, from the mover's point of view
+```
+
+| Grade | Rule | Origin |
+|---|---|---|
+| Blunder | loss ≥ 15 points | Lichess |
+| Mistake | loss ≥ 10 points | Lichess |
+| Inaccuracy | loss ≥ 5 points | Lichess |
+| (mate) | Allowing a forced mate = blunder (mistake/inaccuracy only if already losing by > 7 / > 10 pawns); losing a forced mate = blunder (unless still > 7 / > 10 pawns up) | Lichess mate rules |
+| Miss | An error **and** the tagger finds a winning tactic (≥ 2 pawns or mate) in the better line that wasn't played | Ours |
+| Best | Played the engine's top move | Ours |
+| Excellent | loss < 2 points | Ours |
+| Good | loss 2–5 points | Ours |
+| Great | Best move **and** the second-best move is ≥ 10 points worse ("only move"; needs MultiPV 2 in the game pass) | Ours |
+| Brilliant | Great or best **and** tagger flags `sacrifice` **and** mover was below 90% before the move | Ours |
+
+Our own thresholds (miss, excellent, good, great, brilliant) are constants in one module and get
+tuned on real games.
+
+### 4.3 Theme tagging — **agreed, verified**
+- lichess-puzzler's `tagger/cook.py` (AGPL-3.0) is vendored into the backend with its license.
+- Input: position before the error → the error → the punishing line (from Stockfish); the "solver"
+  is the opponent. For **missed** tactics: the position before the error → the better line.
+- A theme is only counted when the line **wins ≥ 2 pawns or mates** (same bar as Lichess puzzles).
+- Verified on 2,000 Lichess puzzles: 0 errors; precision 96–100% and recall 92–100% against
+  Lichess's labels on all 11 themes we use (fork, pin, skewer, discovered attack, hanging piece,
+  back-rank mate, trapped piece, exposed king, advanced pawn, quiet move, defensive move). Lichess
+  labels come from the same code, so this verifies our wiring rather than the labels themselves.
+
+### 4.4 RAG's role in the first cut
+Only the **3 weakness cards' text** ("why it happens", "how to avoid it", sources) comes from RAG
+(stage 3 pipeline): count themes → retrieve passages for "how to avoid <theme>" (tag filter +
+hybrid search + RRF) → grade / rewrite → generate from engine facts + passages → validate moves →
+cache. Everything else (engine, grading, tagging, counting) is deterministic.
+
+---
+
 ## Post-launch (each becomes a GitHub issue after the first cut is published)
 
 **1. Coach chat** — ask questions only about your own report (themes, examples, specific errors);
