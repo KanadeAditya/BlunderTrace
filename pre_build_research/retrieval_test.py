@@ -2,10 +2,10 @@
 Retrieval experiment: do embedded corpus rows retrieve useful explanations for real blunders?
 
 Commands:
-    uv run python pre_build_research/retrieval_test.py build            # dry run: shows what would be embedded + cost
-    uv run python pre_build_research/retrieval_test.py build --yes      # embed (the ONLY step that calls the API)
-    uv run python pre_build_research/retrieval_test.py query            # rank + auto score + blinded CSV (needs cache)
-    uv run python pre_build_research/retrieval_test.py score            # after marking results.csv: blind human score
+    uv run python retrieval_test.py build            # dry run: shows what would be embedded + cost
+    uv run python retrieval_test.py build --yes      # embed (the ONLY step that calls the API)
+    uv run python retrieval_test.py query            # rank + auto score + blinded CSV (needs cache)
+    uv run python retrieval_test.py score            # after marking results.csv: blind human score
 
 API safety:
 - The only OpenAI call in this file is embeddings.create with the fixed model below (see embed()).

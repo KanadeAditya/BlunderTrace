@@ -1,7 +1,7 @@
 [project]
-name = "blundertrace"
-version = "0.1.0"
-description = "AI chess coach: finds recurring mistakes across games and explains them with cited theory"
+name = "blundertrace-research"
+version = "1.0.0"
+description = "Pre-build retrieval feasibility research for BlunderTrace"
 authors = [
     { name = "Aditya Kanade", email = "110182805+KanadeAditya@users.noreply.github.com" }
 ]

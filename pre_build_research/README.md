@@ -202,18 +202,18 @@ frozen first), with concept-style queries and the blind human check as the main 
 
 ## 8. Reproducing
 
-All commands run from the repository root. Embeddings are cached in `cache/` (gitignored), so
+All commands run from inside `pre_build_research/` (it is its own uv project). Embeddings are cached in `cache/` (gitignored), so
 re-runs cost nothing; on a fresh clone, `build --yes` re-embeds for about $0.005.
 
 ```bash
-uv run python pre_build_research/sample_puzzles.py           # regenerate the 45 queries (same seed)
-uv run python pre_build_research/fetch_studies.py <studyId>  # download a Lichess study
-uv run python pre_build_research/build_corpus.py             # build corpus/*.jsonl from all sources
-uv run python pre_build_research/make_readable.py            # readable copies in corpus/readable/
-uv run python pre_build_research/retrieval_test.py build     # dry run: shows tokens and cost, no API call
-uv run python pre_build_research/retrieval_test.py build --yes  # embed (embeddings model only)
-uv run python pre_build_research/retrieval_test.py query     # self-check, scores, results/top5.md
-uv run pytest pre_build_research                             # 20 tests, no API calls
+uv run python sample_puzzles.py           # regenerate the 45 queries (same seed)
+uv run python fetch_studies.py <studyId>  # download a Lichess study
+uv run python build_corpus.py             # build corpus/*.jsonl from all sources
+uv run python make_readable.py            # readable copies in corpus/readable/
+uv run python retrieval_test.py build     # dry run: shows tokens and cost, no API call
+uv run python retrieval_test.py build --yes  # embed (embeddings model only)
+uv run python retrieval_test.py query     # self-check, scores, results/top5.md
+uv run pytest                             # 20 tests, no API calls
 ```
 
 ## 9. What's in this folder

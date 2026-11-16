@@ -4,7 +4,7 @@ Write a human-readable Markdown copy of every corpus file (view only, data is un
     corpus/<source>.jsonl  ->  corpus/readable/<source>.md
 
 Usage:
-    uv run python pre_build_research/make_readable.py
+    uv run python make_readable.py
 """
 import json
 from pathlib import Path

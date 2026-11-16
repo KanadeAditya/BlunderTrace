@@ -12,7 +12,7 @@ Output: pre_build_research/corpus/<source>.jsonl, one row per line:
   {id, source, title, section, url, text, fen (studies only, else null), meta}
 
 Usage:
-    uv run python pre_build_research/build_corpus.py
+    uv run python build_corpus.py
 """
 import json
 import re

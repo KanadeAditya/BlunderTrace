@@ -2,7 +2,7 @@
 Download Lichess studies as PGN (with comments) into pre_build_research/raw/studies/.
 
 Usage:
-    uv run python pre_build_research/fetch_studies.py <studyId> [<studyId> ...]
+    uv run python fetch_studies.py <studyId> [<studyId> ...]
 
 Public endpoint, no auth. Lichess rate-limits: on HTTP 429 we wait 60 s and retry once.
 """

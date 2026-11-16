@@ -16,11 +16,16 @@ mistakes), plus **retrieved, cited theory** on how to fix each top issue, plus a
 
 ## Repo layout (current)
 ```
-main.py               product entry point (placeholder; product build starts here)
-pre_build_research/   research done before the build: report, corpus, tools, tests (see below)
-pyproject.toml        uv project, plain app (tool.uv package = false), Python 3.12
-.env / .env.example   OPENAI_API_KEY, ANTHROPIC_API_KEY, DATABASE_URL, LANGSMITH_API_KEY (.env is gitignored)
+frontend/             Vue 3 + Vite + TypeScript (scaffold only; design decided before phase 1)
+backend/              FastAPI app (uv project; `app/`, `tests/`); run `uv run pytest` / `uv run uvicorn app.main:app`
+docker-compose.yml    Postgres + pgvector (`docker compose up -d db`); api/worker/frontend services added later
+docs/                 PLAN.md (stages, decisions, build order) · API.md (API contract)
+pre_build_research/   research: report, corpus, tools, tests — its own uv project (run commands inside it)
+LICENSE               AGPL-3.0 (required by the vendored lichess-puzzler tagger)
+.env / .env.example   API keys, POSTGRES_*, DATABASE_URL (.env is gitignored; never read or print it)
 ```
+**The plan of record is `docs/PLAN.md`** (features, UX, stack, RAG pipeline, grading rules, schema,
+build order). Follow it; propose changes rather than drifting.
 Branches: `main` (all work merged); `experiment/retrieval-test` kept as a record of the research.
 
 ## Key research finding (read `pre_build_research/README.md` for the full report)

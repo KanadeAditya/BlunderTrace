@@ -1,0 +1,25 @@
+# BlunderTrace local stack.
+# Phase 0: only the database. The api, worker and frontend services are added as they are built.
+#   docker compose up -d db      start Postgres + pgvector
+#   docker compose down          stop (data is kept in the db_data volume)
+
+services:
+  db:
+    image: pgvector/pgvector:0.8.7-pg17
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-blundertrace}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-blundertrace}
+      POSTGRES_DB: ${POSTGRES_DB:-blundertrace}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  db_data:

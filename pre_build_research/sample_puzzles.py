@@ -10,7 +10,7 @@ Moves[1:] = the punishing solution, Themes = Lichess's labels for the tactic.
 Query = describe(position AFTER the blunder) + mistake phrase from the fixed table below.
 
 Usage:
-    uv run python pre_build_research/sample_puzzles.py
+    uv run python sample_puzzles.py
 Outputs: pre_build_research/queries.jsonl (machine) + queries.md (for reading).
 """
 import csv

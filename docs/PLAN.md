@@ -297,11 +297,12 @@ BlunderTrace/
 ```
 
 ### 4.7 Build order — **draft**
-**Phase 0 — Setup**
+**Phase 0 — Setup** ✅ done
 1. Restructure the repo into `backend/` + `frontend/`; scaffold Vue 3 + Vite + TypeScript;
    docker-compose with Postgres + pgvector; add the AGPL-3.0 `LICENSE`.
 
 **Phase 1 — Frontend on sample data** (also the visual review of stage 2)
+- **First: design session** — theme, colours, typography and every UX detail are decided before any screen is built.
 2. Typed API client + sample JSON for every state in `docs/API.md` (running, done, failed;
    game pending / complete).
 3. Home page.
