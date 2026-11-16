@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BlunderTrace — Game view (A, Annotated Book)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Noto+Sans+Symbols+2&amp;display=swap">
+<style>
+body{margin:0;background:#12110F}
+a{color:#6FC2AE}a:hover{color:#9AD9CA}
+.bt-f:focus-visible{outline:2px solid #6FC2AE;outline-offset:2px}
+.bt-mv:hover{background:#23211D}
+.bt-ctl:hover:not(:disabled){background:#23211D}
+.bt-ctl:disabled{opacity:.35;cursor:default}
+</style>
+</helmet>
+<div style="min-height: 1000px; box-sizing: border-box; background: #12110F; color: #ECE7DD; font-family: Geist, 'IBM Plex Sans', system-ui, sans-serif; padding: 28px 24px 72px;">
+  <header style="max-width: 1160px; margin: 0 auto; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px;">
+    <a href="AReport.dc.html" class="bt-f" style="font-size: 14px;">← Back to report</a>
+    <span style="font-family: Fraunces, Georgia, serif; font-size: 20px;">Blunder<em style="font-style: italic; color: {{accent}};">Trace</em></span>
+  </header>
+
+  <div style="max-width: 1160px; margin: 36px auto 0;">
+    <h1 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: 38px; letter-spacing: -0.01em;">vs player123</h1>
+    <p style="margin: 8px 0 0; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 13px; color: #A39D91;">Italian Game · Blackburne Shilling trap · you played White · lost 0–1 · sample game</p>
+  </div>
+
+  <main style="max-width: 1160px; margin: 32px auto 0; display: flex; flex-wrap: wrap; gap: 40px 56px; align-items: flex-start;">
+    <section tabIndex="0" class="bt-f" aria-label="Board. Use the left and right arrow keys to step through the moves." onKeyDown="{{onKey}}" style="flex: 0 1 620px; min-width: 0; width: 100%;">
+      <div style="display: flex; gap: 10px; align-items: stretch;">
+        <div role="img" aria-label="Evaluation {{evalText}}" style="position: relative; flex: 0 0 14px; background: #2A2823; border: 1px solid #34312B; overflow: hidden;">
+          <div style="position: absolute; left: 0; right: 0; bottom: 0; height: {{evalW}}%; background: #ECE7DD; transition: height .4s ease;"></div>
+        </div>
+        <div style="flex: 1 1 auto; min-width: 0;">
+          <div style="box-sizing: border-box; padding: 8px; background: #1B1A17; border: 1px solid #34312B;">
+            <div role="img" aria-label="Chess board" style="position: relative; width: 100%; aspect-ratio: 1 / 1; container-type: inline-size; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr));">
+              <sc-for list="{{board.squares}}" as="s" hint-placeholder-count="64">
+                <div style="position: relative; aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; background: {{s.bg}};">
+                  <span style="font-family: 'Noto Sans Symbols 2', 'Segoe UI Symbol', serif; font-size: 10.4cqw; line-height: 1; color: {{s.pc}}; -webkit-text-stroke: {{s.st}};">{{s.g}}</span>
+                  <span aria-hidden="true" style="position: absolute; left: 0.5cqw; top: 0.3cqw; font-family: 'Geist Mono', monospace; font-size: 1.9cqw; color: {{s.lc}};">{{s.rk}}</span>
+                  <span aria-hidden="true" style="position: absolute; right: 0.6cqw; bottom: 0.2cqw; font-family: 'Geist Mono', monospace; font-size: 1.9cqw; color: {{s.lc}};">{{s.fl}}</span>
+                </div>
+              </sc-for>
+              <sc-for list="{{board.arrows}}" as="r" hint-placeholder-count="0">
+                <div aria-hidden="true" style="position: absolute; left: {{r.x}}%; top: {{r.y}}%; width: {{r.len}}%; height: 0; transform: rotate({{r.deg}}deg); transform-origin: 0 50%; pointer-events: none;">
+                  <div style="position: absolute; left: 0; right: 3cqw; top: -0.75cqw; height: 1.5cqw; border-radius: 1cqw; background: {{r.c}}; opacity: 0.85;"></div>
+                  <div style="position: absolute; right: 0; top: -2.3cqw; width: 0; height: 0; border-left: 3.4cqw solid {{r.c}}; border-top: 2.3cqw solid transparent; border-bottom: 2.3cqw solid transparent; opacity: 0.85;"></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 14px; flex-wrap: wrap;">
+        <span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 14px; min-width: 56px;">{{evalText}}</span>
+        <div style="display: flex; gap: 4px;">
+          <button type="button" class="bt-ctl bt-f" aria-label="First move" disabled="{{atStart}}" onClick="{{first}}" style="width: 48px; height: 44px; display: inline-flex; align-items: center; justify-content: center; background: none; border: 1px solid #34312B; color: #ECE7DD; cursor: pointer;"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5v14"></path><path d="M18 6l-7 6 7 6"></path></svg></button>
+          <button type="button" class="bt-ctl bt-f" aria-label="Previous move" disabled="{{atStart}}" onClick="{{prev}}" style="width: 48px; height: 44px; display: inline-flex; align-items: center; justify-content: center; background: none; border: 1px solid #34312B; color: #ECE7DD; cursor: pointer;"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-7 6 7 6"></path></svg></button>
+          <button type="button" class="bt-ctl bt-f" aria-label="Next move" disabled="{{atEnd}}" onClick="{{next}}" style="width: 48px; height: 44px; display: inline-flex; align-items: center; justify-content: center; background: none; border: 1px solid #34312B; color: #ECE7DD; cursor: pointer;"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l7 6-7 6"></path></svg></button>
+          <button type="button" class="bt-ctl bt-f" aria-label="Last move" disabled="{{atEnd}}" onClick="{{lastMove}}" style="width: 48px; height: 44px; display: inline-flex; align-items: center; justify-content: center; background: none; border: 1px solid #34312B; color: #ECE7DD; cursor: pointer;"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l7 6-7 6"></path><path d="M18 5v14"></path></svg></button>
+        </div>
+        <span style="min-width: 56px; text-align: right; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; color: #8A8478;">← → keys</span>
+      </div>
+
+      <div aria-hidden="true" style="position: relative; width: 100%; aspect-ratio: 640 / 90; margin-top: 22px;">
+        <svg viewBox="0 0 640 90" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible;">
+          <line x1="0" y1="45" x2="640" y2="45" stroke="#2E2B25" stroke-width="1" stroke-dasharray="3 5" vector-effect="non-scaling-stroke"></line>
+          <path d="{{trace.path}}" fill="none" stroke="#A39D91" stroke-width="1.6" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+        </svg>
+        <sc-for list="{{trace.dots}}" as="d" hint-placeholder-count="3">
+          <span style="position: absolute; left: {{d.x}}%; top: {{d.y}}%; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: {{d.c}};"></span>
+        </sc-for>
+        <span style="position: absolute; left: {{trace.cx}}%; top: {{trace.cy}}%; width: 14px; height: 14px; margin: -8px 0 0 -8px; border-radius: 50%; border: 2px solid {{accent}}; transition: left .3s, top .3s;"></span>
+      </div>
+    </section>
+
+    <aside style="flex: 1 1 320px; min-width: 0;">
+      <div style="background: #1B1A17; border: 1px solid #34312B; padding: 10px 8px;">
+        <p style="margin: 4px 8px 10px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #A39D91;">Moves</p>
+        <ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 15px;">
+          <sc-for list="{{rows}}" as="row" hint-placeholder-count="7">
+            <li style="display: grid; grid-template-columns: 40px minmax(0, 1fr) minmax(0, 1fr); align-items: center;">
+              <span style="color: #8A8478; font-size: 13px; padding-left: 8px;">{{row.num}}</span>
+              <button type="button" class="bt-mv bt-f" aria-label="{{row.w.aria}}" onClick="{{row.w.pick}}" style="text-align: left; min-height: 36px; padding: 0 10px; background: {{row.w.bg}}; border: 0; color: #ECE7DD; font: inherit; font-weight: {{row.w.fw}}; cursor: pointer;">{{row.w.san}}<span style="color: {{row.w.gc}};">{{row.w.g}}</span></button>
+              <button type="button" class="bt-mv bt-f" aria-label="{{row.b.aria}}" onClick="{{row.b.pick}}" style="text-align: left; min-height: 36px; padding: 0 10px; background: {{row.b.bg}}; border: 0; color: #ECE7DD; font: inherit; font-weight: {{row.b.fw}}; cursor: pointer;">{{row.b.san}}<span style="color: {{row.b.gc}};">{{row.b.g}}</span></button>
+            </li>
+          </sc-for>
+        </ol>
+      </div>
+
+      <div aria-live="polite" style="margin-top: 20px; border-top: 1px solid #34312B; padding-top: 22px; min-height: 180px;">
+        <sc-if value="{{showErr}}" hint-placeholder-val="{{ true }}">
+          <div>
+            <p style="margin: 0; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #A39D91;">{{pWho}}</p>
+            <p style="margin: 8px 0 0; font-family: Fraunces, Georgia, serif; font-size: 30px;"><span style="color: {{pGc}};">{{pName}}</span> <span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 20px;">{{pMove}}</span></p>
+            <p style="margin: 8px 0 0; font-size: 15px; color: #A39D91;">{{pText}}</p>
+            <sc-if value="{{hasLines}}" hint-placeholder-val="{{ true }}">
+              <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px;">
+                <button type="button" class="bt-f" onClick="{{showBetter}}" style="min-height: 44px; padding: 0 18px; background: #ECE7DD; color: #12110F; border: 0; border-radius: 2px; font: 600 14px Geist, system-ui, sans-serif; cursor: pointer;">Show better move</button>
+                <button type="button" class="bt-f" onClick="{{showBad}}" style="min-height: 44px; padding: 0 18px; background: none; color: #ECE7DD; border: 1px solid #4A463E; border-radius: 2px; font: 500 14px Geist, system-ui, sans-serif; cursor: pointer;">Show why it's bad</button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+        <sc-if value="{{showLine}}" hint-placeholder-val="{{ false }}">
+          <div>
+            <p style="margin: 0; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: {{lineColor}};">{{lineTitle}}</p>
+            <p style="margin: 10px 0 0; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 17px; line-height: 1.6;">{{lineText}}</p>
+            <p style="margin: 10px 0 0; font-family: Fraunces, Georgia, serif; font-style: italic; font-size: 17px; line-height: 1.5; color: #A39D91;">{{lineNote}}</p>
+            <button type="button" class="bt-f" onClick="{{back}}" style="margin-top: 16px; min-height: 44px; padding: 0 18px; background: none; color: #ECE7DD; border: 1px solid #4A463E; border-radius: 2px; font: 500 14px Geist, system-ui, sans-serif; cursor: pointer;">↩ Back to game</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{showGreat}}" hint-placeholder-val="{{ false }}">
+          <div>
+            <p style="margin: 0; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #A39D91;">{{pWho}}</p>
+            <p style="margin: 8px 0 0; font-family: Fraunces, Georgia, serif; font-size: 30px;"><span style="color: {{accent}};">Great move</span> <span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 20px;">{{pMove}}</span></p>
+            <p style="margin: 8px 0 0; font-size: 15px; color: #A39D91;">The only move that keeps Black's advantage — it hits e5 and g2 at once.</p>
+          </div>
+        </sc-if>
+        <sc-if value="{{showHint}}" hint-placeholder-val="{{ false }}">
+          <p style="margin: 0; font-family: Fraunces, Georgia, serif; font-style: italic; font-size: 17px; color: #A39D91;">Step to a marked move — ?? ? ?! — to see what went wrong.</p>
+        </sc-if>
+      </div>
+    </aside>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#6FC2AE","options":["#6FC2AE","#8FB4E8","#D8B46A"]},"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { ply: 7, mode: null, step: 0 };
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+
+  sq(s) { return (8 - Number(s[1])) * 8 + (s.charCodeAt(0) - 97); }
+  start() {
+    var a = [];
+    'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'.split('/').forEach(function (r) {
+      for (var i = 0; i < r.length; i++) {
+        var c = r[i];
+        if (c >= '1' && c <= '8') { for (var k = 0; k < Number(c); k++) a.push(''); } else a.push(c);
+      }
+    });
+    return a;
+  }
+  mv(a, m) { var b = a.slice(); b[this.sq(m[1])] = b[this.sq(m[0])]; b[this.sq(m[0])] = ''; return b; }
+  game() {
+    return [
+      ['e2', 'e4', 'e4', 30, ''], ['e7', 'e5', 'e5', 30, ''],
+      ['g1', 'f3', 'Nf3', 35, ''], ['b8', 'c6', 'Nc6', 30, ''],
+      ['f1', 'c4', 'Bc4', 35, ''], ['c6', 'd4', 'Nd4', 110, '?!'],
+      ['f3', 'e5', 'Nxe5', -150, '??'], ['d8', 'g5', 'Qg5', -150, '!'],
+      ['e5', 'f7', 'Nxf7', -1000, '??'], ['g5', 'g2', 'Qxg2', -1000, ''],
+      ['h1', 'f1', 'Rf1', -1000, ''], ['g2', 'e4', 'Qxe4+', -1000, ''],
+      ['c4', 'e2', 'Be2', -1000, ''], ['d4', 'f3', 'Nf3#', -1000, '']
+    ];
+  }
+  lines() {
+    return {
+      7: {
+        better: [['f3', 'd4', 'Nxd4'], ['e5', 'd4', 'exd4'], ['c2', 'c3', 'c3'], ['d4', 'c3', 'dxc3'], ['b1', 'c3', 'Nxc3']],
+        bad: [['f3', 'e5', 'Nxe5'], ['d8', 'g5', 'Qg5']],
+        badEnd: [['g5', 'e5'], ['g5', 'g2']],
+        betterNote: 'Trade the knights first. White keeps a healthy, equal game.',
+        badNote: 'After 4… Qg5 the knight on e5 and the pawn on g2 are both attacked. You can only save one.'
+      },
+      9: {
+        better: [['e5', 'g4', 'Ng4'], ['d7', 'd5', 'd5']],
+        bad: [['e5', 'f7', 'Nxf7'], ['g5', 'g2', 'Qxg2'], ['h1', 'f1', 'Rf1'], ['g2', 'e4', 'Qxe4+'], ['c4', 'e2', 'Be2'], ['d4', 'f3', 'Nf3#']],
+        badEnd: [],
+        betterNote: 'Retreat the knight so it guards the kingside. The attack on g2 is parried.',
+        badNote: 'Black ignores the rook: Qxg2, Qxe4+ and Nf3# is mate.'
+      }
+    };
+  }
+  win(cp) { cp = Math.max(-1000, Math.min(1000, cp)); return 50 + 50 * (2 / (1 + Math.exp(-0.00368208 * cp)) - 1); }
+  board(arr, o) {
+    var self = this, G = { K: '♚', Q: '♛', R: '♜', B: '♝', N: '♞', P: '♟' }, hl = {};
+    if (o.last) { hl[this.sq(o.last[0])] = 1; hl[this.sq(o.last[1])] = 1; }
+    var squares = arr.map(function (p, i) {
+      var r = Math.floor(i / 8), f = i % 8, light = (r + f) % 2 === 0, isW = p && p === p.toUpperCase();
+      return {
+        bg: hl[i] ? (light ? o.hlL : o.hlD) : (light ? o.light : o.dark),
+        g: p ? G[p.toUpperCase()] + '︎' : '',
+        pc: isW ? o.wp : o.bp, st: isW ? o.ws : o.bs,
+        rk: f === 0 ? String(8 - r) : '', fl: r === 7 ? 'abcdefgh'[f] : '',
+        lc: light ? o.cL : o.cD
+      };
+    });
+    var arrows = (o.arrows || []).map(function (a) {
+      var A = self.sq(a[0]), B = self.sq(a[1]);
+      var x1 = A % 8 + 0.5, y1 = Math.floor(A / 8) + 0.5, x2 = B % 8 + 0.5, y2 = Math.floor(B / 8) + 0.5;
+      var dx = x2 - x1, dy = y2 - y1, len = Math.sqrt(dx * dx + dy * dy);
+      return { x: (x1 + dx / len * 0.28) / 8 * 100, y: (y1 + dy / len * 0.28) / 8 * 100, len: (len - 0.5) / 8 * 100, deg: Math.atan2(dy, dx) * 180 / Math.PI, c: a[2] };
+    });
+    return { squares: squares, arrows: arrows };
+  }
+  label(ply, san, g) { var n = Math.ceil(ply / 2); return (ply % 2 ? n + '. ' : n + '… ') + san + (g || ''); }
+  lineText(ply, L) {
+    var out = [];
+    for (var k = 0; k < L.length; k++) {
+      var pl = ply + k, n = Math.ceil(pl / 2);
+      out.push(pl % 2 ? n + '. ' + L[k][2] : (k === 0 ? n + '… ' + L[k][2] : L[k][2]));
+    }
+    return out.join(' ');
+  }
+  go(n) { clearInterval(this.timer); this.setState({ ply: Math.max(0, Math.min(14, n)), mode: null, step: 0 }); }
+  play(mode) {
+    clearInterval(this.timer);
+    var L = this.lines()[this.state.ply][mode];
+    this.setState({ mode: mode, step: 0 });
+    this.timer = setInterval(() => {
+      this.setState((s) => {
+        if (s.step >= L.length) { clearInterval(this.timer); return null; }
+        return { step: s.step + 1 };
+      });
+    }, 950);
+  }
+  back() { clearInterval(this.timer); this.setState({ mode: null, step: 0 }); }
+  cell(M, i, ply, GC) {
+    var m = M[i], here = ply === i + 1;
+    return {
+      san: m[2], g: m[4], gc: GC[m[4]] || 'transparent',
+      bg: here ? '#2E2B25' : 'transparent', fw: here ? '600' : '400',
+      aria: 'Go to ' + this.label(i + 1, m[2], m[4]), pick: () => this.go(i + 1)
+    };
+  }
+
+  renderVals() {
+    var accent = this.props.accent ?? '#6FC2AE', RED = '#EF6B5E', ORANGE = '#E8954A', AMBER = '#D9BE5C';
+    var GC = { '??': RED, '?': ORANGE, '?!': AMBER, '!': accent, '!!': accent };
+    var GN = { '??': 'Blunder', '?': 'Mistake', '?!': 'Inaccuracy' };
+    var M = this.game(), ply = this.state.ply, mode = this.state.mode, step = this.state.step;
+    var LN = this.lines()[ply] || null, i;
+    var base = mode ? ply - 1 : ply, a = this.start();
+    for (i = 0; i < base; i++) a = this.mv(a, M[i]);
+    var last = base > 0 ? M[base - 1] : null, arrows = [];
+    if (mode && LN) {
+      var L = LN[mode];
+      for (i = 0; i < step; i++) a = this.mv(a, L[i]);
+      if (step > 0) last = L[step - 1];
+      if (step === 0) arrows = [[L[0][0], L[0][1], mode === 'better' ? accent : RED]];
+      else if (mode === 'bad' && step >= L.length) arrows = LN.badEnd.map(function (x) { return [x[0], x[1], RED]; });
+    }
+    var board = this.board(a, {
+      light: '#D9CEB6', dark: '#7D8B95', hlL: '#CFD9B9', hlD: '#7FA39A',
+      wp: '#F7F2E8', ws: '0.34cqw #22201C', bp: '#1D1C19', bs: '0px transparent',
+      cL: '#5E6B74', cD: '#E4DBC6', last: last, arrows: arrows
+    });
+
+    var evs = [20].concat(M.map(function (m) { return m[3]; }));
+    var cp = evs[base];
+    var evalText = cp <= -1000 ? '−M' : cp >= 1000 ? '+M' : (cp > 0 ? '+' : cp < 0 ? '−' : '') + Math.abs(cp / 100).toFixed(1);
+    var W = 640, H = 90, n = evs.length - 1, self = this;
+    var pts = evs.map(function (c, k) { return [k / n * W, 6 + (100 - self.win(c)) / 100 * (H - 12)]; });
+    var dots = [];
+    M.forEach(function (m, k) { if (GN[m[4]]) dots.push({ x: pts[k + 1][0] / W * 100, y: pts[k + 1][1] / H * 100, c: GC[m[4]] }); });
+
+    var rows = [];
+    for (i = 0; i < M.length; i += 2) rows.push({ num: (i / 2 + 1) + '.', w: this.cell(M, i, ply, GC), b: this.cell(M, i + 1, ply, GC) });
+
+    var cm = ply > 0 ? M[ply - 1] : null, g = cm ? cm[4] : '';
+    var showErr = !mode && !!GN[g], showGreat = !mode && g === '!', showLine = !!mode && !!LN;
+    var before = ply > 0 ? this.win(evs[ply - 1]) : 50, after = this.win(evs[ply]);
+    var loss = Math.round(ply % 2 === 1 ? before - after : after - before);
+
+    return {
+      accent: accent, board: board, rows: rows,
+      evalText: evalText, evalW: this.win(cp).toFixed(1),
+      trace: {
+        path: 'M' + pts.map(function (q) { return q[0].toFixed(1) + ' ' + q[1].toFixed(1); }).join(' L'),
+        dots: dots, cx: pts[base][0] / W * 100, cy: pts[base][1] / H * 100
+      },
+      atStart: ply === 0 && !mode, atEnd: ply === 14 && !mode,
+      onKey: (e) => {
+        var k = e.key;
+        if (k === 'ArrowLeft') { e.preventDefault(); this.go(mode ? ply : ply - 1); }
+        else if (k === 'ArrowRight') { e.preventDefault(); this.go(mode ? ply : ply + 1); }
+        else if (k === 'Home') { e.preventDefault(); this.go(0); }
+        else if (k === 'End') { e.preventDefault(); this.go(14); }
+        else if (k === 'Escape' && mode) { this.back(); }
+      },
+      first: () => this.go(0), prev: () => this.go(mode ? ply : ply - 1),
+      next: () => this.go(mode ? ply : ply + 1), lastMove: () => this.go(14),
+      showErr: showErr, showGreat: showGreat, showLine: showLine,
+      showHint: !showErr && !showGreat && !showLine,
+      pWho: ply % 2 === 1 ? 'Your move' : 'Your opponent’s move',
+      pName: GN[g] || '', pGc: GC[g] || accent, pMove: cm ? this.label(ply, cm[2], cm[4]) : '',
+      pText: 'This lost ' + loss + ' points of winning chance.',
+      hasLines: showErr && !!LN,
+      showBetter: () => this.play('better'), showBad: () => this.play('bad'), back: () => this.back(),
+      lineTitle: mode === 'better' ? 'Better move' : 'Why it’s bad',
+      lineColor: mode === 'better' ? accent : RED,
+      lineText: showLine ? this.lineText(ply, LN[mode]) : '',
+      lineNote: showLine ? (mode === 'better' ? LN.betterNote : LN.badNote) : ''
+    };
+  }
+}
+</script>
+</body>
+</html>

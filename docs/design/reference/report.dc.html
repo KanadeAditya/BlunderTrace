@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BlunderTrace — Report (A, Annotated Book)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Noto+Sans+Symbols+2&amp;display=swap">
+<style>
+body{margin:0;background:#12110F}
+a{color:#6FC2AE}a:hover{color:#9AD9CA}
+.bt-f:focus-visible{outline:2px solid #6FC2AE;outline-offset:3px}
+.bt-row:hover{background:#1B1A17}
+</style>
+</helmet>
+<div style="min-height: 2240px; box-sizing: border-box; background: #12110F; color: #ECE7DD; font-family: Geist, 'IBM Plex Sans', system-ui, sans-serif; padding: 28px 24px 96px;">
+  <header style="max-width: 1080px; margin: 0 auto; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px;">
+    <a href="Main.dc.html" class="bt-f" style="font-family: Fraunces, Georgia, serif; font-size: 22px; letter-spacing: -0.01em; color: #ECE7DD; text-decoration: none;">Blunder<em style="font-style: italic; color: {{accent}};">Trace</em></a>
+    <a href="Main.dc.html" class="bt-f" style="font-size: 14px;">New analysis</a>
+  </header>
+
+  <main style="max-width: 1080px; margin: 64px auto 0;">
+    <p style="margin: 0; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #A39D91;">Report · sample data</p>
+    <h1 style="margin: 10px 0 0; font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: clamp(40px, 5vw, 60px); line-height: 1.05; letter-spacing: -0.02em;">knightowl_42</h1>
+    <p style="margin: 14px 0 0; font-size: 17px; color: #A39D91;">20 rapid games · 11 wins, 2 draws, 7 losses · 2.4 blunders a game</p>
+
+    <h2 style="margin: 72px 0 0; font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: 34px; letter-spacing: -0.01em;">Three habits that cost you games</h2>
+
+    <article style="margin-top: 28px; border-top: 1px solid #34312B; padding-top: 32px;">
+      <div style="display: flex; align-items: baseline; gap: 20px; flex-wrap: wrap;">
+        <span style="font-family: Fraunces, Georgia, serif; font-size: 28px; color: #8A8478;">I.</span>
+        <h3 style="margin: 0; flex: 1 1 320px; font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: 36px; line-height: 1.15;">You leave pieces undefended</h3>
+        <span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 15px; color: #A39D91;"><span style="font-size: 30px; color: #ECE7DD;">9</span> of 20 games</span>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 40px 64px; margin-top: 28px;">
+        <div style="flex: 1 1 380px; min-width: 0;">
+          <p style="margin: 0; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #A39D91;">Why it happens</p>
+          <p style="margin: 10px 0 0; font-size: 17px; line-height: 1.7;">You move a piece to a square where nothing defends it, and your opponent takes it for free. In your games it usually happens right after a capture: the piece that just captured is left standing alone.</p>
+          <p style="margin: 28px 0 0; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #A39D91;">How to avoid it</p>
+          <p style="margin: 10px 0 0; font-size: 17px; line-height: 1.7;">Before every move, ask one question: <em style="font-family: Fraunces, Georgia, serif; font-size: 19px;">after this, what can my opponent capture — and is it defended?</em><span style="position: relative; display: inline-block;"><button type="button" class="bt-f" aria-expanded="{{fn1.expanded}}" aria-label="Footnote 1: show the source passage" onMouseEnter="{{fn1.show}}" onMouseLeave="{{fn1.hide}}" onFocus="{{fn1.show}}" onBlur="{{fn1.hide}}" onClick="{{fn1.show}}" style="background: none; border: 0; padding: 0 3px; font-family: Geist, system-ui, sans-serif; font-size: 12px; line-height: 1; vertical-align: super; color: {{accent}}; cursor: pointer;">1</button><sc-if value="{{fn1.open}}" hint-placeholder-val="{{ false }}"><span role="note" style="position: absolute; left: -16px; top: calc(100% + 10px); z-index: 10; display: block; width: 340px; box-sizing: border-box; padding: 16px 18px; background: #1B1A17; border: 1px solid #4A463E; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45); text-align: left; line-height: 1.5;"><span style="display: block; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #A39D91;">Retrieved passage · used for this advice</span><span style="display: block; margin-top: 10px; font-family: Fraunces, Georgia, serif; font-style: italic; font-size: 16px; color: #ECE7DD;">“hanging: Unprotected and exposed to capture. A hanging piece may also be said to be en prise.”</span><span style="display: block; margin-top: 10px; font-size: 13px; color: #A39D91;">Glossary of chess — Wikipedia</span></span></sc-if></span> If the answer is “something, and no”, choose a different move. Pieces that protect each other are hard to win.<span style="position: relative; display: inline-block;"><button type="button" class="bt-f" aria-expanded="{{fn2.expanded}}" aria-label="Footnote 2: show the source passage" onMouseEnter="{{fn2.show}}" onMouseLeave="{{fn2.hide}}" onFocus="{{fn2.show}}" onBlur="{{fn2.hide}}" onClick="{{fn2.show}}" style="background: none; border: 0; padding: 0 3px; font-family: Geist, system-ui, sans-serif; font-size: 12px; line-height: 1; vertical-align: super; color: {{accent}}; cursor: pointer;">2</button><sc-if value="{{fn2.open}}" hint-placeholder-val="{{ false }}"><span role="note" style="position: absolute; right: -16px; top: calc(100% + 10px); z-index: 10; display: block; width: 340px; box-sizing: border-box; padding: 16px 18px; background: #1B1A17; border: 1px solid #4A463E; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45); text-align: left; line-height: 1.5;"><span style="display: block; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #A39D91;">Retrieved passage · used for this advice</span><span style="display: block; margin-top: 10px; font-family: Fraunces, Georgia, serif; font-style: italic; font-size: 16px; color: #ECE7DD;">“When one of your pieces is placed so that it attacks a square occupied by another of your pieces, the former is said to be guarding the latter. When your opponent captures the guarded piece, you can recapture with the guarding piece.”</span><span style="display: block; margin-top: 10px; font-size: 13px; color: #A39D91;">Chess/Tactics, “Guarding” — Wikibooks</span></span></sc-if></span></p>
+          <div style="margin-top: 40px; padding-top: 14px; border-top: 1px solid #2A2823; font-size: 13px; line-height: 1.8; color: #A39D91;">
+            <div><sup style="color: {{accent}};">1</sup> <a href="https://en.wikipedia.org/wiki/Glossary_of_chess">“Hanging”, Glossary of chess</a> — Wikipedia</div>
+            <div><sup style="color: {{accent}};">2</sup> <a href="https://en.wikibooks.org/wiki/Chess/Tactics">Tactics: Guarding</a> — Chess, Wikibooks</div>
+          </div>
+        </div>
+
+        <figure style="flex: 0 1 320px; min-width: 0; margin: 0;">
+          <div style="width: 100%; max-width: 320px; box-sizing: border-box; padding: 8px; background: #1B1A17; border: 1px solid #34312B;">
+            <div role="img" aria-label="Position after 4… Qg5: the queen attacks the knight on e5 and the pawn on g2" style="position: relative; width: 100%; aspect-ratio: 1 / 1; container-type: inline-size; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr));">
+              <sc-for list="{{ex.squares}}" as="s" hint-placeholder-count="64">
+                <div style="aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; background: {{s.bg}};"><span style="font-family: 'Noto Sans Symbols 2', 'Segoe UI Symbol', serif; font-size: 10.4cqw; line-height: 1; color: {{s.pc}}; -webkit-text-stroke: {{s.st}};">{{s.g}}</span></div>
+              </sc-for>
+              <sc-for list="{{ex.arrows}}" as="r" hint-placeholder-count="0">
+                <div aria-hidden="true" style="position: absolute; left: {{r.x}}%; top: {{r.y}}%; width: {{r.len}}%; height: 0; transform: rotate({{r.deg}}deg); transform-origin: 0 50%; pointer-events: none;">
+                  <div style="position: absolute; left: 0; right: 3cqw; top: -0.75cqw; height: 1.5cqw; border-radius: 1cqw; background: {{r.c}}; opacity: 0.85;"></div>
+                  <div style="position: absolute; right: 0; top: -2.3cqw; width: 0; height: 0; border-left: 3.4cqw solid {{r.c}}; border-top: 2.3cqw solid transparent; border-bottom: 2.3cqw solid transparent; opacity: 0.85;"></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <figcaption style="margin-top: 14px; font-size: 15px; line-height: 1.6;">
+            <div style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; color: #A39D91;">vs player123 · move 4 · you lost</div>
+            <div style="margin-top: 6px; font-family: 'Geist Mono', ui-monospace, monospace;">You played 4. Nxe5<span style="color: #EF6B5E;">??</span> · better 4. Nxd4</div>
+            <div style="margin-top: 6px; font-family: Fraunces, Georgia, serif; font-style: italic; color: #A39D91;">4… Qg5! attacks the knight and g2 at once.</div>
+            <div style="margin-top: 12px; display: flex; gap: 20px; flex-wrap: wrap;">
+              <a href="AGame.dc.html" class="bt-f" style="font-size: 14px;">Open in game view →</a>
+              <span style="font-size: 14px; color: #A39D91;">2 more examples</span>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <sc-for list="{{cards}}" as="c" hint-placeholder-count="2">
+      <article style="margin-top: 28px; border-top: 1px solid #34312B;">
+        <button type="button" class="bt-f" aria-expanded="{{c.expanded}}" onClick="{{c.toggle}}" style="width: 100%; display: flex; align-items: baseline; gap: 20px; flex-wrap: wrap; padding: 28px 0 8px; background: none; border: 0; color: #ECE7DD; text-align: left; cursor: pointer;">
+          <span style="font-family: Fraunces, Georgia, serif; font-size: 28px; color: #8A8478;">{{c.num}}</span>
+          <span style="flex: 1 1 320px; font-family: Fraunces, Georgia, serif; font-size: 30px; line-height: 1.15;">{{c.title}}</span>
+          <span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 15px; color: #A39D91;"><span style="font-size: 24px; color: #ECE7DD;">{{c.count}}</span> of 20 games</span>
+          <span aria-hidden="true" style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 15px; color: #A39D91;">{{c.chev}}</span>
+        </button>
+        <sc-if value="{{c.open}}" hint-placeholder-val="{{ false }}">
+          <div style="max-width: 640px; padding: 8px 0 12px 56px;">
+            <p style="margin: 0; font-size: 17px; line-height: 1.7;">{{c.why}}</p>
+            <p style="margin: 14px 0 0; font-size: 17px; line-height: 1.7; color: #A39D91;">{{c.how}}</p>
+          </div>
+        </sc-if>
+      </article>
+    </sc-for>
+
+    <section style="margin-top: 80px; display: flex; flex-wrap: wrap; gap: 48px 64px;">
+      <div style="flex: 1 1 300px; min-width: 0;">
+        <h2 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: 26px;">Tactics you missed</h2>
+        <p style="margin: 8px 0 0; font-size: 14px; color: #A39D91;">Winning chances you had and didn't take.</p>
+        <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 16px;">
+          <sc-for list="{{missed}}" as="m" hint-placeholder-count="3">
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px dotted #34312B; padding-bottom: 8px;"><span>{{m.name}}</span><span style="font-family: 'Geist Mono', ui-monospace, monospace;">{{m.count}}</span></div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="flex: 1.4 1 380px; min-width: 0;">
+        <h2 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: 26px;">Openings</h2>
+        <p style="margin: 8px 0 0; font-size: 14px; color: #A39D91;">Your score in each opening you played at least 4 times.</p>
+        <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 14px;">
+          <sc-for list="{{openings}}" as="o" hint-placeholder-count="3">
+            <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+              <span style="flex: 1 1 200px; font-size: 16px;">{{o.name}} <span style="color: #A39D91; font-size: 14px;">· {{o.side}} · {{o.games}} games</span></span>
+              <span aria-hidden="true" style="flex: 0 0 120px; height: 4px; background: #2A2823; position: relative;"><span style="position: absolute; left: 0; top: 0; bottom: 0; width: {{o.w}}%; background: {{o.c}};"></span></span>
+              <span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 15px; width: 44px; text-align: right;">{{o.score}}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top: 80px;">
+      <h2 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: 26px;">Your games</h2>
+      <div style="margin-top: 20px; overflow-x: auto;">
+        <table style="width: 100%; min-width: 640px; border-collapse: collapse; font-size: 15px;">
+          <thead>
+            <tr style="text-align: left; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: #A39D91;">
+              <th style="padding: 10px 12px 10px 0; font-weight: 400;">Date</th>
+              <th style="padding: 10px 12px; font-weight: 400;">Opponent</th>
+              <th style="padding: 10px 12px; font-weight: 400;">Result</th>
+              <th style="padding: 10px 12px; font-weight: 400;">Opening</th>
+              <th style="padding: 10px 0 10px 12px; font-weight: 400; text-align: right;">Errors</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{games}}" as="g" hint-placeholder-count="5">
+              <tr class="bt-row" style="border-top: 1px solid #2A2823;">
+                <td style="padding: 14px 12px 14px 0; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 13px; color: #A39D91; white-space: nowrap;">{{g.date}}</td>
+                <td style="padding: 14px 12px;"><a href="AGame.dc.html" class="bt-f" style="color: #ECE7DD;">{{g.opp}}</a> <span style="color: #A39D91; font-size: 13px;">as {{g.side}}</span></td>
+                <td style="padding: 14px 12px;">{{g.result}}</td>
+                <td style="padding: 14px 12px; color: #A39D91;">{{g.opening}}</td>
+                <td style="padding: 14px 0 14px 12px; text-align: right; font-family: 'Geist Mono', ui-monospace, monospace; white-space: nowrap;">
+                  <sc-for list="{{g.errs}}" as="e" hint-placeholder-count="2"><span style="margin-left: 12px; color: {{e.c}};">{{e.t}}</span></sc-for>
+                </td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#6FC2AE","options":["#6FC2AE","#8FB4E8","#D8B46A"]},"$preview":{"width":1440,"height":2240}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { open: {}, fn: null };
+  }
+  sq(s) { return (8 - Number(s[1])) * 8 + (s.charCodeAt(0) - 97); }
+  start() {
+    var a = [];
+    'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'.split('/').forEach(function (r) {
+      for (var i = 0; i < r.length; i++) {
+        var c = r[i];
+        if (c >= '1' && c <= '8') { for (var k = 0; k < Number(c); k++) a.push(''); } else a.push(c);
+      }
+    });
+    return a;
+  }
+  mv(a, m) { var b = a.slice(); b[this.sq(m[1])] = b[this.sq(m[0])]; b[this.sq(m[0])] = ''; return b; }
+  game() {
+    return [
+      ['e2', 'e4'], ['e7', 'e5'], ['g1', 'f3'], ['b8', 'c6'], ['f1', 'c4'], ['c6', 'd4'],
+      ['f3', 'e5'], ['d8', 'g5']
+    ];
+  }
+  board(arr, o) {
+    var self = this, G = { K: '♚', Q: '♛', R: '♜', B: '♝', N: '♞', P: '♟' }, hl = {};
+    if (o.last) { hl[this.sq(o.last[0])] = 1; hl[this.sq(o.last[1])] = 1; }
+    var squares = arr.map(function (p, i) {
+      var r = Math.floor(i / 8), f = i % 8, light = (r + f) % 2 === 0, isW = p && p === p.toUpperCase();
+      return {
+        bg: hl[i] ? (light ? o.hlL : o.hlD) : (light ? o.light : o.dark),
+        g: p ? G[p.toUpperCase()] + '︎' : '',
+        pc: isW ? o.wp : o.bp, st: isW ? o.ws : o.bs
+      };
+    });
+    var arrows = (o.arrows || []).map(function (a) {
+      var A = self.sq(a[0]), B = self.sq(a[1]);
+      var x1 = A % 8 + 0.5, y1 = Math.floor(A / 8) + 0.5, x2 = B % 8 + 0.5, y2 = Math.floor(B / 8) + 0.5;
+      var dx = x2 - x1, dy = y2 - y1, len = Math.sqrt(dx * dx + dy * dy);
+      return { x: (x1 + dx / len * 0.28) / 8 * 100, y: (y1 + dy / len * 0.28) / 8 * 100, len: (len - 0.5) / 8 * 100, deg: Math.atan2(dy, dx) * 180 / Math.PI, c: a[2] };
+    });
+    return { squares: squares, arrows: arrows };
+  }
+  renderVals() {
+    var accent = this.props.accent ?? '#6FC2AE', RED = '#EF6B5E', ORANGE = '#E8954A', AMBER = '#D9BE5C';
+    var M = this.game(), a = this.start();
+    M.forEach((m) => { a = this.mv(a, m); });
+    var ex = this.board(a, {
+      light: '#D9CEB6', dark: '#7D8B95', hlL: '#CFD9B9', hlD: '#7FA39A',
+      wp: '#F7F2E8', ws: '0.34cqw #22201C', bp: '#1D1C19', bs: '0px transparent',
+      last: M[7], arrows: [['g5', 'e5', RED], ['g5', 'g2', RED]]
+    });
+    var defs = [
+      { id: 'fork', num: 'II.', title: 'You walk into forks', count: '6',
+        why: 'A knight or queen attacked two of your pieces at once, and you could only save one. Five of the six were knight forks on your king and queen.',
+        how: 'Keep your king and queen off squares one knight jump apart, and look at every square an enemy knight can reach next move before you commit.' },
+      { id: 'back', num: 'III.', title: 'Your back rank is weak', count: '4',
+        why: 'Your king stayed on its home row behind its own pawns, and a rook or queen gave mate along it.',
+        how: 'Once the middlegame starts, give your king an escape square (“luft”) by moving one pawn in front of it, usually h3 or h6.' }
+    ];
+    var cards = defs.map((d) => {
+      var open = !!this.state.open[d.id];
+      return Object.assign({}, d, {
+        open: open, expanded: open ? 'true' : 'false', chev: open ? '−' : '+',
+        toggle: () => this.setState((s) => { var o = Object.assign({}, s.open); o[d.id] = !o[d.id]; return { open: o }; })
+      });
+    });
+    var fn = (n) => ({
+      open: this.state.fn === n, expanded: this.state.fn === n ? 'true' : 'false',
+      show: () => this.setState({ fn: n }), hide: () => this.setState({ fn: null })
+    });
+    return {
+      accent: accent, ex: ex, cards: cards, fn1: fn(1), fn2: fn(2),
+      missed: [{ name: 'Fork', count: '5' }, { name: 'Hanging piece', count: '4' }, { name: 'Pin', count: '2' }],
+      openings: [
+        { name: 'Italian Game', side: 'White', games: 7, score: '71%', w: 71, c: '#ECE7DD' },
+        { name: 'Caro-Kann Defence', side: 'Black', games: 4, score: '50%', w: 50, c: '#ECE7DD' },
+        { name: 'Sicilian Defence', side: 'White', games: 6, score: '33%', w: 33, c: RED }
+      ],
+      games: [
+        { date: 'Nov 14', opp: 'player123', side: 'White', result: 'Lost', opening: 'Italian Game', errs: [{ t: '?? 2', c: RED }, { t: '?! 1', c: AMBER }] },
+        { date: 'Nov 13', opp: 'rook_n_roll', side: 'Black', result: 'Won', opening: 'Caro-Kann Defence', errs: [{ t: '? 1', c: ORANGE }] },
+        { date: 'Nov 13', opp: 'e4_enjoyer', side: 'White', result: 'Lost', opening: 'Sicilian Defence', errs: [{ t: '?? 3', c: RED }, { t: '? 1', c: ORANGE }] },
+        { date: 'Nov 12', opp: 'pawnstorm', side: 'Black', result: 'Draw', opening: 'Caro-Kann Defence', errs: [{ t: '?! 2', c: AMBER }] },
+        { date: 'Nov 11', opp: 'd4_dave', side: 'White', result: 'Won', opening: 'Italian Game', errs: [{ t: '?? 1', c: RED }] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

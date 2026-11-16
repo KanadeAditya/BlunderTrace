@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BlunderTrace — Analysing (A, Annotated Book)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0;background:#12110F}
+a{color:#6FC2AE}a:hover{color:#9AD9CA}
+.bt-f:focus-visible{outline:2px solid #6FC2AE;outline-offset:3px}
+</style>
+</helmet>
+<div style="min-height: 1480px; box-sizing: border-box; background: #12110F; color: #ECE7DD; font-family: Geist, 'IBM Plex Sans', system-ui, sans-serif; padding: 28px 24px 88px;">
+  <header style="max-width: 1160px; margin: 0 auto; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px;">
+    <a href="Main.dc.html" class="bt-f" style="font-family: Fraunces, Georgia, serif; font-size: 22px; letter-spacing: -0.01em; color: #ECE7DD; text-decoration: none;">Blunder<em style="font-style: italic; color: {{accent}};">Trace</em></a>
+    <span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; color: #A39D91;">Report r_8f3k2</span>
+  </header>
+
+  <main style="max-width: 760px; margin: 64px auto 0;">
+    <p style="margin: 0; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #A39D91;">{{eyebrow}}</p>
+    <h1 style="margin: 10px 0 0; font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: clamp(40px, 5vw, 58px); line-height: 1.05; letter-spacing: -0.02em;">{{title}}</h1>
+    <p style="margin: 16px 0 0; max-width: 36em; font-size: 17px; line-height: 1.6; color: #A39D91;">knightowl_42 · 20 rapid games. You can close this tab — this page's link keeps working, and the report will be waiting.</p>
+
+    <div style="margin-top: 36px; display: flex; align-items: center; gap: 18px;">
+      <div role="progressbar" aria-label="Games analysed" aria-valuemin="0" aria-valuemax="20" aria-valuenow="{{done}}" style="flex: 1 1 auto; height: 2px; background: #34312B; position: relative;">
+        <div style="position: absolute; left: 0; top: 0; bottom: 0; width: {{pct}}%; background: #ECE7DD; transition: width .3s ease;"></div>
+      </div>
+      <span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 14px; min-width: 64px; text-align: right;">{{done}} / 20</span>
+    </div>
+
+    <sc-if value="{{finished}}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top: 28px;">
+        <a href="AReport.dc.html" class="bt-f" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; background: #ECE7DD; color: #12110F; font-weight: 600; font-size: 15px; text-decoration: none; border-radius: 2px;">Open your report →</a>
+      </div>
+    </sc-if>
+
+    <h2 style="margin: 56px 0 0; font-family: Fraunces, Georgia, serif; font-weight: 400; font-style: italic; font-size: 24px;">Contents</h2>
+    <ol style="list-style: none; margin: 16px 0 0; padding: 0; border-top: 1px solid #34312B;">
+      <sc-for list="{{rows}}" as="g" hint-placeholder-count="20">
+        <li style="display: flex; align-items: center; gap: 14px; min-height: 46px; border-bottom: 1px solid #1F1E1A; opacity: {{g.op}}; transition: opacity .3s;">
+          <span style="flex: 0 0 34px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 13px; color: #8A8478;">{{g.num}}</span>
+          <span style="flex: 0 1 auto; min-width: 0; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">vs {{g.opp}} <span style="font-family: Fraunces, Georgia, serif; font-style: italic; color: {{g.rc}};">{{g.res}}</span></span>
+          <span aria-hidden="true" style="flex: 1 1 24px; border-bottom: 1px dotted #3A372F; transform: translateY(-4px);"></span>
+          <svg viewBox="0 0 120 24" width="120" height="24" aria-hidden="true" style="flex: none; overflow: visible;">
+            <line x1="0" y1="12" x2="120" y2="12" stroke="#2A2823" stroke-width="1"></line>
+            <path d="{{g.path}}" fill="none" stroke="{{g.stroke}}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"></path>
+          </svg>
+          <span style="flex: 0 0 104px; text-align: right; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 13px; white-space: nowrap;">
+            <span style="color: #A39D91;">{{g.status}}</span>
+            <sc-for list="{{g.errs}}" as="e" hint-placeholder-count="2"><span style="margin-left: 10px; color: {{e.c}};">{{e.t}}</span></sc-for>
+          </span>
+        </li>
+      </sc-for>
+    </ol>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#6FC2AE","options":["#6FC2AE","#8FB4E8","#D8B46A"]},"$preview":{"width":1440,"height":1480}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { done: 6, sub: 0 };
+  }
+  componentDidMount() {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { this.setState({ done: 20, sub: 0 }); return; }
+    this.timer = setInterval(() => {
+      this.setState((s) => {
+        if (s.done >= 20) { clearInterval(this.timer); return null; }
+        return s.sub >= 22 ? { done: s.done + 1, sub: 0 } : { sub: s.sub + 1 };
+      });
+    }, 70);
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+
+  games() {
+    var opp = ['player123', 'rook_n_roll', 'e4_enjoyer', 'pawnstorm', 'd4_dave', 'knightmare7', 'castle_queen', 'zugzwanged', 'fianchetto_fan', 'gambit_gary',
+      'b4_or_not', 'tempo_tom', 'endgame_ella', 'sac_attack', 'opposite_bishops', 'pin_master', 'h_file_hero', 'luft_life', 'queenside_q', 'draw_offer_dan'];
+    var res = ['Lost', 'Won', 'Lost', 'Draw', 'Won', 'Won', 'Lost', 'Won', 'Won', 'Lost', 'Won', 'Won', 'Draw', 'Lost', 'Won', 'Won', 'Lost', 'Won', 'Lost', 'Won'];
+    var b = [2, 0, 3, 0, 1, 4, 2, 3, 1, 5, 2, 3, 2, 4, 1, 3, 2, 4, 3, 3];
+    var m = [0, 1, 1, 0, 0, 1, 2, 0, 1, 1, 0, 2, 1, 0, 0, 1, 2, 1, 0, 1];
+    var i = [1, 0, 0, 2, 0, 1, 0, 2, 1, 0, 1, 0, 2, 1, 1, 0, 1, 0, 2, 1];
+    return opp.map(function (o, k) { return { opp: o, res: res[k], b: b[k], m: m[k], i: i[k] }; });
+  }
+  win(cp) { cp = Math.max(-1000, Math.min(1000, cp)); return 50 + 50 * (2 / (1 + Math.exp(-0.00368208 * cp)) - 1); }
+  trace(k, blunders, result) {
+    var s = (k + 1) * 7919, rnd = function () { s = (s * 16807) % 2147483647; return s / 2147483647; };
+    var n = 22, cp = 20, out = [cp], drops = {}, j;
+    for (j = 0; j < blunders; j++) drops[3 + Math.floor((j + 1) * (n - 8) / (blunders + 1))] = true;
+    for (j = 1; j <= n; j++) {
+      cp += (rnd() - 0.5) * 120;
+      if (drops[j]) cp -= 220 + rnd() * 200;
+      out.push(cp);
+    }
+    var target = result === 'Won' ? 900 : result === 'Lost' ? -900 : 0;
+    for (j = n - 5; j <= n; j++) { var t = (j - (n - 6)) / 6; out[j] = out[j] * (1 - t) + target * t; }
+    return out;
+  }
+  path(evs, upto) {
+    var self = this, n = evs.length - 1;
+    var pts = evs.slice(0, upto + 1).map(function (cp, i) { return (i / n * 120).toFixed(1) + ' ' + (2 + (100 - self.win(cp)) / 100 * 20).toFixed(1); });
+    return pts.length > 1 ? 'M' + pts.join(' L') : '';
+  }
+
+  renderVals() {
+    var accent = this.props.accent ?? '#6FC2AE', RED = '#EF6B5E', ORANGE = '#E8954A', AMBER = '#D9BE5C';
+    var done = this.state.done, sub = this.state.sub, finished = done >= 20;
+    var rows = this.games().map((g, k) => {
+      var state = k < done ? 'done' : k === done ? 'current' : 'queued';
+      var evs = this.trace(k, g.b, g.res);
+      var errs = [];
+      if (state === 'done') {
+        if (g.b) errs.push({ t: '??' + g.b, c: RED });
+        if (g.m) errs.push({ t: '?' + g.m, c: ORANGE });
+        if (g.i && errs.length < 2) errs.push({ t: '?!' + g.i, c: AMBER });
+        if (!errs.length) errs.push({ t: 'clean', c: '#A39D91' });
+      }
+      return {
+        num: (k + 1) + '.', opp: g.opp,
+        res: state === 'done' ? g.res.toLowerCase() : '',
+        rc: g.res === 'Won' ? '#ECE7DD' : g.res === 'Lost' ? RED : '#A39D91',
+        path: state === 'done' ? this.path(evs, 22) : state === 'current' ? this.path(evs, sub) : '',
+        stroke: state === 'current' ? accent : '#A39D91',
+        status: state === 'current' ? 'reading…' : '',
+        errs: errs, op: state === 'queued' ? 0.4 : 1
+      };
+    });
+    return {
+      accent: accent, rows: rows, done: done, pct: done / 20 * 100, finished: finished,
+      eyebrow: finished ? 'Analysis complete · sample data' : 'Analysing · sample data',
+      title: finished ? 'Your report is ready.' : 'Reading your games…'
+    };
+  }
+}
+</script>
+</body>
+</html>

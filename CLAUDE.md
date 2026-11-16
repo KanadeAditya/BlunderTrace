@@ -24,6 +24,8 @@ pre_build_research/   research: report, corpus, tools, tests — its own uv proj
 LICENSE               AGPL-3.0 (required by the vendored lichess-puzzler tagger)
 .env / .env.example   API keys, POSTGRES_*, DATABASE_URL (.env is gitignored; never read or print it)
 ```
+**Design of record is `docs/DESIGN.md`** (direction A, *The Annotated Book*): the frontend must match it
+and the reference files in `docs/design/reference/` **pixel-perfect** — use its tokens, never invent values.
 **The plan of record is `docs/PLAN.md`** (features, UX, stack, RAG pipeline, grading rules, schema,
 build order). Follow it; propose changes rather than drifting.
 Branches: `main` (all work merged); `experiment/retrieval-test` kept as a record of the research.

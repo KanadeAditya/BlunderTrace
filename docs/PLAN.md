@@ -5,7 +5,7 @@ Planning happens in stages; nothing is coded until all stages are agreed.
 | Stage | Topic | Status |
 |---|---|---|
 | 1 | MVP features | **Signed off** |
-| 2 | UI/UX flow | **Draft — open.** Only these are user-approved: side panel, eval bar, desktop-first, one dark theme. Rest is Claude's proposal; revisit (possibly with visual mockups). |
+| 2 | UI/UX flow & design | **Signed off** — direction A, *The Annotated Book*; full spec in [`docs/DESIGN.md`](DESIGN.md) |
 | 3 | Tech stack, architecture & RAG pipeline | **Signed off** (small items deferred to stage 4) |
 | 4 | Code specifics (folder structure, API contract, database schema, build order) | In progress |
 
@@ -78,6 +78,10 @@ document), each tracked as a GitHub issue.
 ---
 
 ## Stage 2 — UI/UX flow
+
+> **Superseded in detail by [`docs/DESIGN.md`](DESIGN.md)** (approved design, pixel-perfect spec,
+> reference files in `docs/design/reference/`). Final screens: Home → Analysing (“Contents”) →
+> Report → Game view. The notes below are the original flow proposal, kept for history.
 
 Four screens, no menus, no settings, no sign-in. One dark theme (no theme switching).
 Desktop-first; layouts stack on phones (board above move list), no phone-specific features.

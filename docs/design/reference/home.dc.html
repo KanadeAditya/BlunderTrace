@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BlunderTrace — Home (A, Annotated Book)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Noto+Sans+Symbols+2&amp;display=swap">
+<style>
+body{margin:0;background:#12110F}
+a{color:#6FC2AE}a:hover{color:#9AD9CA}
+.bt-input::placeholder{color:#8A8478}
+.bt-input:focus{outline:none;border-bottom-color:#6FC2AE}
+.bt-f:focus-visible{outline:2px solid #6FC2AE;outline-offset:3px}
+</style>
+</helmet>
+<div style="min-height: 960px; box-sizing: border-box; background: #12110F; color: #ECE7DD; font-family: Geist, 'IBM Plex Sans', system-ui, sans-serif; padding: 28px 24px 80px;">
+  <header style="max-width: 1160px; margin: 0 auto; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px;">
+    <span style="font-family: Fraunces, Georgia, serif; font-size: 22px; letter-spacing: -0.01em;">Blunder<em style="font-style: italic; color: {{accent}};">Trace</em></span>
+    <span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; color: #A39D91;">Your games, annotated.</span>
+  </header>
+
+  <main style="max-width: 1160px; margin: 72px auto 0; display: flex; flex-wrap: wrap; gap: 64px 88px; align-items: center;">
+    <section style="flex: 1 1 440px; min-width: 0;">
+      <h1 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: clamp(44px, 6.4vw, 76px); line-height: 1.02; letter-spacing: -0.025em;">Every lost game has one moment. <em style="display: block; font-style: italic; color: {{accent}};">Find yours.</em></h1>
+      <p style="margin: 28px 0 0; max-width: 34em; font-size: 18px; line-height: 1.6; color: #A39D91;">BlunderTrace reads your recent chess.com games and finds the three mistakes you keep making — shown in your own positions, explained in plain English, with sources.</p>
+
+      <div style="margin-top: 44px; max-width: 460px;">
+        <label for="bt-user-a" style="display: block; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #A39D91;">chess.com username</label>
+        <input id="bt-user-a" class="bt-input" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. knightowl_42" value="{{name}}" onChange="{{onName}}" style="display: block; width: 100%; box-sizing: border-box; margin-top: 8px; padding: 10px 0; background: transparent; border: 0; border-bottom: 1px solid #4A463E; color: #ECE7DD; font-family: Fraunces, Georgia, serif; font-size: 30px;">
+
+        <sc-if value="{{hasName}}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; align-items: center; gap: 14px; margin-top: 18px;">
+            <div aria-hidden="true" style="width: 40px; height: 40px; flex: none; border-radius: 50%; border: 1px solid #4A463E; display: flex; align-items: center; justify-content: center; font-family: Fraunces, Georgia, serif; font-size: 18px;">{{initial}}</div>
+            <div style="min-width: 0;">
+              <div style="font-size: 15px;">{{name}}</div>
+              <div style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; color: #A39D91; margin-top: 3px;">Rapid 1184 · Blitz 1052 · sample data</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <div role="group" aria-label="Time control" style="display: flex; gap: 24px; margin-top: 22px; flex-wrap: wrap;">
+          <sc-for list="{{tcs}}" as="t" hint-placeholder-count="3">
+            <button type="button" class="bt-f" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}" style="background: none; border: 0; border-bottom: 1px solid {{t.line}}; padding: 10px 0; min-height: 44px; cursor: pointer; font-family: Geist, system-ui, sans-serif; font-size: 15px; font-weight: 500; color: {{t.color}};">{{t.label}}</button>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 20px; margin-top: 28px; flex-wrap: wrap;">
+          <a href="AAnalysing.dc.html" class="bt-f" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; background: #ECE7DD; color: #12110F; font-weight: 600; font-size: 15px; text-decoration: none; border-radius: 2px;">Analyse my games</a>
+          <span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; color: #A39D91;">Last 20 games · about 3 min · no sign-up</span>
+        </div>
+      </div>
+    </section>
+
+    <figure style="flex: 0 1 460px; min-width: 0; margin: 0;">
+      <div style="width: 100%; max-width: 440px; box-sizing: border-box; padding: 10px; background: #1B1A17; border: 1px solid #34312B;">
+        <div role="img" aria-label="A chess board replaying a short game that ends in a blunder" style="position: relative; width: 100%; aspect-ratio: 1 / 1; container-type: inline-size; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr));">
+          <sc-for list="{{board.squares}}" as="s" hint-placeholder-count="64">
+            <div style="aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; background: {{s.bg}};"><span style="font-family: 'Noto Sans Symbols 2', 'Segoe UI Symbol', serif; font-size: 10.4cqw; line-height: 1; color: {{s.pc}}; -webkit-text-stroke: {{s.st}};">{{s.g}}</span></div>
+          </sc-for>
+          <sc-for list="{{board.arrows}}" as="r" hint-placeholder-count="0">
+            <div aria-hidden="true" style="position: absolute; left: {{r.x}}%; top: {{r.y}}%; width: {{r.len}}%; height: 0; transform: rotate({{r.deg}}deg); transform-origin: 0 50%; pointer-events: none;">
+              <div style="position: absolute; left: 0; right: 3cqw; top: -0.75cqw; height: 1.5cqw; border-radius: 1cqw; background: {{r.c}}; opacity: 0.85;"></div>
+              <div style="position: absolute; right: 0; top: -2.3cqw; width: 0; height: 0; border-left: 3.4cqw solid {{r.c}}; border-top: 2.3cqw solid transparent; border-bottom: 2.3cqw solid transparent; opacity: 0.85;"></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <svg viewBox="0 0 520 120" width="100%" role="img" aria-label="Evaluation trace: steady, then a sharp drop after the blunder" style="display: block; max-width: 440px; margin-top: 18px; overflow: visible;">
+        <line x1="0" y1="60" x2="520" y2="60" stroke="#2E2B25" stroke-width="1" stroke-dasharray="3 5"></line>
+        <path d="{{tr.full}}" fill="none" stroke="#2E2B25" stroke-width="2"></path>
+        <path d="{{tr.part}}" fill="none" stroke="#ECE7DD" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
+        <circle cx="{{tr.mx}}" cy="{{tr.my}}" r="7" fill="none" stroke="#EF6B5E" stroke-width="2" opacity="{{tr.mo}}"></circle>
+        <text x="{{tr.tx}}" y="{{tr.ty}}" fill="#EF6B5E" font-family="Geist Mono, monospace" font-size="13" opacity="{{tr.mo}}">4. Nxe5??</text>
+      </svg>
+
+      <p style="margin: 14px 0 0; max-width: 440px; min-height: 40px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 13px; line-height: 1.55; color: #ECE7DD;">{{notation}}</p>
+      <figcaption style="margin-top: 8px; max-width: 440px; font-family: Fraunces, Georgia, serif; font-style: italic; font-size: 16px; color: #A39D91;">{{caption}}</figcaption>
+    </figure>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#6FC2AE","options":["#6FC2AE","#8FB4E8","#D8B46A"]},"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { ply: 0, name: '', tc: 'rapid' };
+  }
+  componentDidMount() {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { this.setState({ ply: 9 }); return; }
+    this.timer = setInterval(() => {
+      this.setState((s) => ({ ply: s.ply >= 13 ? 0 : s.ply + 1 }));
+    }, 1100);
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+
+  sq(s) { return (8 - Number(s[1])) * 8 + (s.charCodeAt(0) - 97); }
+  start() {
+    var a = [];
+    'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'.split('/').forEach(function (r) {
+      for (var i = 0; i < r.length; i++) {
+        var c = r[i];
+        if (c >= '1' && c <= '8') { for (var k = 0; k < Number(c); k++) a.push(''); } else a.push(c);
+      }
+    });
+    return a;
+  }
+  mv(a, m) { var b = a.slice(); b[this.sq(m[1])] = b[this.sq(m[0])]; b[this.sq(m[0])] = ''; return b; }
+  game() {
+    // [from, to, SAN, eval after (cp, White's view), annotation]
+    return [
+      ['e2', 'e4', 'e4', 30, ''], ['e7', 'e5', 'e5', 30, ''],
+      ['g1', 'f3', 'Nf3', 35, ''], ['b8', 'c6', 'Nc6', 30, ''],
+      ['f1', 'c4', 'Bc4', 35, ''], ['c6', 'd4', 'Nd4', 110, '?!'],
+      ['f3', 'e5', 'Nxe5', -150, '??'], ['d8', 'g5', 'Qg5', -150, '!'],
+      ['e5', 'f7', 'Nxf7', -1000, '??'], ['g5', 'g2', 'Qxg2', -1000, ''],
+      ['h1', 'f1', 'Rf1', -1000, ''], ['g2', 'e4', 'Qxe4+', -1000, ''],
+      ['c4', 'e2', 'Be2', -1000, ''], ['d4', 'f3', 'Nf3#', -1000, '']
+    ];
+  }
+  win(cp) { cp = Math.max(-1000, Math.min(1000, cp)); return 50 + 50 * (2 / (1 + Math.exp(-0.00368208 * cp)) - 1); }
+  board(arr, o) {
+    var self = this, G = { K: '♚', Q: '♛', R: '♜', B: '♝', N: '♞', P: '♟' }, hl = {};
+    if (o.last) { hl[this.sq(o.last[0])] = 1; hl[this.sq(o.last[1])] = 1; }
+    var squares = arr.map(function (p, i) {
+      var r = Math.floor(i / 8), f = i % 8, light = (r + f) % 2 === 0, isW = p && p === p.toUpperCase();
+      return {
+        bg: hl[i] ? (light ? o.hlL : o.hlD) : (light ? o.light : o.dark),
+        g: p ? G[p.toUpperCase()] + '︎' : '',
+        pc: isW ? o.wp : o.bp, st: isW ? o.ws : o.bs
+      };
+    });
+    var arrows = (o.arrows || []).map(function (a) {
+      var A = self.sq(a[0]), B = self.sq(a[1]);
+      var x1 = A % 8 + 0.5, y1 = Math.floor(A / 8) + 0.5, x2 = B % 8 + 0.5, y2 = Math.floor(B / 8) + 0.5;
+      var dx = x2 - x1, dy = y2 - y1, len = Math.sqrt(dx * dx + dy * dy);
+      return { x: (x1 + dx / len * 0.28) / 8 * 100, y: (y1 + dy / len * 0.28) / 8 * 100, len: (len - 0.5) / 8 * 100, deg: Math.atan2(dy, dx) * 180 / Math.PI, c: a[2] };
+    });
+    return { squares: squares, arrows: arrows };
+  }
+  trace(evs, W, H, upto) {
+    var self = this, n = evs.length - 1;
+    var pts = evs.map(function (cp, i) { return [i / n * W, 6 + (100 - self.win(cp)) / 100 * (H - 12)]; });
+    var d = function (ps) { return 'M' + ps.map(function (q) { return q[0].toFixed(1) + ' ' + q[1].toFixed(1); }).join(' L'); };
+    return { pts: pts, full: d(pts), part: d(pts.slice(0, upto + 1)) };
+  }
+  notation(M, p) {
+    var out = [];
+    for (var i = 0; i < p; i++) {
+      var t = M[i][2] + M[i][4];
+      out.push(i % 2 === 0 ? (i / 2 + 1) + '. ' + t : t);
+    }
+    return out.length ? out.join(' ') : '1. …';
+  }
+
+  renderVals() {
+    var accent = this.props.accent ?? '#6FC2AE', RED = '#EF6B5E';
+    var M = this.game(), p = Math.min(this.state.ply, 9), a = this.start();
+    for (var i = 0; i < p; i++) a = this.mv(a, M[i]);
+    var board = this.board(a, {
+      light: '#D9CEB6', dark: '#7D8B95', hlL: '#CFD9B9', hlD: '#7FA39A',
+      wp: '#F7F2E8', ws: '0.34cqw #22201C', bp: '#1D1C19', bs: '0px transparent',
+      last: p > 0 ? M[p - 1] : null,
+      arrows: p === 8 ? [['g5', 'e5', RED], ['g5', 'g2', RED]] : []
+    });
+    var evs = [20].concat(M.slice(0, 9).map(function (m) { return m[3]; }));
+    var t = this.trace(evs, 520, 120, p), mk = t.pts[7];
+    var caption = p < 6 ? 'Fig. 1 — An ordinary Italian Game.'
+      : p === 6 ? 'Fig. 1 — Black plays the dubious 3… Nd4?!'
+      : p === 7 ? 'Fig. 1 — 4. Nxe5?? grabs a pawn. This is the moment.'
+      : p === 8 ? 'Fig. 1 — 4… Qg5! attacks the knight and g2 at once.'
+      : 'Fig. 1 — 5. Nxf7?? and mate follows in three.';
+    var name = this.state.name, hasName = name.trim().length >= 3;
+    var tcs = [['rapid', 'Rapid', 142], ['blitz', 'Blitz', 380], ['both', 'Both', 522]].map((d) => {
+      var sel = this.state.tc === d[0];
+      return {
+        label: hasName ? d[1] + ' · ' + d[2] : d[1],
+        color: sel ? '#ECE7DD' : '#A39D91', line: sel ? accent : 'transparent',
+        pressed: sel ? 'true' : 'false', pick: () => this.setState({ tc: d[0] })
+      };
+    });
+    return {
+      accent: accent, board: board, caption: caption, notation: this.notation(M, p),
+      tr: { full: t.full, part: t.part, mx: mk[0], my: mk[1], tx: mk[0] - 36, ty: mk[1] + 30, mo: p >= 7 ? 1 : 0 },
+      name: name, hasName: hasName, initial: hasName ? name.trim()[0].toUpperCase() : '',
+      onName: (e) => this.setState({ name: e.target.value }), tcs: tcs
+    };
+  }
+}
+</script>
+</body>
+</html>
