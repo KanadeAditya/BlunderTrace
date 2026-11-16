@@ -100,7 +100,7 @@ Polled every ~2 s while `status` is `queued` or `running`; the same response is 
           "game_id": "g_1", "ply": 35, "move_number": 18, "color": "white",
           "opponent": "player123",
           "fen_before": "r1bq1rk1/pp2bppp/2n1pn2/3p4/3P4/2NB1N2/PP3PPP/R1BQ1RK1 w - - 0 18",
-          "played": "Bc4", "better": "Be2",
+          "played": "Bc4", "grade": "blunder", "better": "Be2",
           "punishing_line": ["Nxc4", "dxc4", "Qd4"],
           "note": "4… Qg5! attacks your knight on e5 and your pawn on g2.",
           "arrows": [["g5", "e5"], ["g5", "g2"]]
@@ -139,8 +139,12 @@ Polled every ~2 s while `status` is `queued` or `running`; the same response is 
 - `examples[].note` is one **deterministic** sentence about the opponent's reply, built with
   python-chess from the user's pieces the reply attacks (template, no AI) — see "Line notes" below;
   `examples[].arrows` are the threats to draw on the example diagram (the position after the reply).
-- `games[].trace` (finished games only): White's evaluation in centipawns after each half-move,
-  start included, mate capped at ±1000 — draws the small trace on the Analysing screen.
+- `games[].trace`: White's evaluation in centipawns after each half-move, start included, mate
+  capped at ±1000 — draws the small trace on the Analysing screen. Complete for finished games;
+  for the game being analysed, the evaluations so far (the trace grows as the worker goes).
+- `games[].plies`: total half-moves in the game, from the PGN (known before analysis), so a
+  growing trace can be drawn at its final scale.
+- `examples[].grade`: grade of the played move (shown as its glyph, e.g. `Nxe5??`).
 - `missed_tactics`: winning tactics the user had but didn't play, most frequent first.
 - `score` = (wins + ½ draws) / games.
 - `punishing_line` starts with the opponent's reply to `played`.

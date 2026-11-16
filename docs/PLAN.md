@@ -305,7 +305,7 @@ BlunderTrace/
 1. Restructure the repo into `backend/` + `frontend/`; scaffold Vue 3 + Vite + TypeScript;
    docker-compose with Postgres + pgvector; add the AGPL-3.0 `LICENSE`.
 
-**Phase 1 — Frontend on sample data** (also the visual review of stage 2)
+**Phase 1 — Frontend on sample data** (also the visual review of stage 2) ✅ built — awaiting sign-off
 - **First: design session** — theme, colours, typography and every UX detail are decided before any screen is built.
 2. Typed API client + sample JSON for every state in `docs/API.md` (running, done, failed;
    game pending / complete).
@@ -391,4 +391,6 @@ order and sizing of each screen on a phone (e.g. board vs form first on Home).
 | Player lookup has no avatar | The design shows the player's initial |
 | Report chapters II–III: text + "Show example" button revealing one example like chapter I | Detail on request; keeps the report calm |
 | Error messages on Home: 15px, `blunder`, shake on failed submit | User's choice; no separate error design needed |
+| Miss glyph: `?` in the mistake colour, named "Missed tactic" in the side panel | Chess has no classical glyph for it; easy to change later |
+| Board shows the user's colour at the bottom | Half the games are played as Black |
 | Pieces: **exactly the canvas set** — Noto Sans Symbols 2 chess glyphs (SIL OFL 1.1), solid shapes with A's fill/outline colours; font self-hosted (or glyphs exported to SVG) so they render identically everywhere | User's choice; license compatible with AGPL-3.0 |

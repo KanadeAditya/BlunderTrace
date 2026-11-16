@@ -3,6 +3,7 @@
 import { replay, START_FEN } from '@/lib/chess'
 
 import type {
+  Color,
   Game,
   GameResult,
   Move,
@@ -54,7 +55,7 @@ const LINES: Record<number, Pick<Move, 'better_line' | 'refutation_line' | 'bett
 }
 const NO_LINES = { better_line: null, refutation_line: null, better_note: null, refutation_note: null, refutation_arrows: null }
 
-function sampleGame(id: string, opponent: string, complete: boolean): Game {
+function sampleGame(id: string, opponent: string, userColor: Color, complete: boolean): Game {
   const played = replay(SAMPLE_SANS)
   const moves: Move[] = played.map((m, i) => {
     const ply = i + 1
@@ -75,9 +76,10 @@ function sampleGame(id: string, opponent: string, complete: boolean): Game {
   })
   return {
     id,
-    white: 'knightowl_42',
-    black: opponent,
-    user_color: 'white',
+    // As Black, the user is the one setting the trap (and wins); as White, the one falling for it.
+    white: userColor === 'white' ? 'knightowl_42' : opponent,
+    black: userColor === 'white' ? opponent : 'knightowl_42',
+    user_color: userColor,
     result: '0-1',
     opening: 'Italian Game · Blackburne Shilling trap',
     url: 'https://www.chess.com/game/live/123456789',
@@ -124,10 +126,18 @@ function sampleTrace(k: number, blunders: number, result: GameResult): number[] 
   return out.map((v) => Math.round(v))
 }
 
-function reportGame(index: number, state: 'done' | 'running' | 'queued'): ReportGame {
+function reportGame(index: number, state: 'done' | 'running' | 'queued', fraction = 0): ReportGame {
   const k = index % OPPONENTS.length // more than 20 games: the sample data repeats
-  const base: ReportGame = { id: `g_${index + 1}`, status: state === 'done' ? 'done' : state, opponent: OPPONENTS[k] }
-  if (state !== 'done') return base
+  const trace = sampleTrace(k, BLUNDERS[k], RESULTS[k])
+  const base: ReportGame = {
+    id: `g_${index + 1}`,
+    status: state === 'done' ? 'done' : state,
+    opponent: OPPONENTS[k],
+    plies: trace.length - 1,
+  }
+  if (state === 'queued') return base
+  // The game being analysed: the evaluations so far.
+  if (state === 'running') return { ...base, trace: trace.slice(0, Math.max(1, Math.floor(fraction * trace.length))) }
   return {
     ...base,
     result: RESULTS[k],
@@ -136,13 +146,26 @@ function reportGame(index: number, state: 'done' | 'running' | 'queued'): Report
     opening: OPENINGS[k % 5],
     url: `https://www.chess.com/game/live/${123456789 + index}`,
     errors: { blunder: BLUNDERS[k], mistake: MISTAKES[k], inaccuracy: INACCURACIES[k], miss: 0 },
-    trace: sampleTrace(k, BLUNDERS[k], RESULTS[k]),
+    trace,
   }
 }
 
 // ---------------------------------------------------------------- the finished report's content
+/** Summary line numbers, counted from the games (20 games give the reference's 11/2/7 and 2.4). */
+function summarise(games: ReportGame[]) {
+  const n = games.length
+  const count = (r: GameResult) => games.filter((g) => g.result === r).length
+  const perGame = (key: 'blunder' | 'mistake' | 'miss') =>
+    Math.round((games.reduce((sum, g) => sum + (g.errors?.[key] ?? 0), 0) / n) * 10) / 10
+  return {
+    games: n, wins: count('win'), draws: count('draw'), losses: count('loss'),
+    blunders_per_game: perGame('blunder'), mistakes_per_game: perGame('mistake'), misses_per_game: perGame('miss'),
+  }
+}
+
 function weaknesses(): Weakness[] {
-  const before = replay(SAMPLE_SANS.slice(0, 6))
+  const before = replay(SAMPLE_SANS.slice(0, 6)) // position before 4. Nxe5
+  const beforeNxf7 = replay(SAMPLE_SANS.slice(0, 8)) // position before 5. Nxf7
   return [
     {
       theme: 'hangingPiece',
@@ -154,9 +177,15 @@ function weaknesses(): Weakness[] {
       examples: [
         {
           game_id: 'g_1', ply: 7, move_number: 4, color: 'white', opponent: 'player123',
-          fen_before: before[before.length - 1].fen, played: 'Nxe5', better: 'Nxd4', punishing_line: ['Qg5'],
+          fen_before: before[before.length - 1].fen, played: 'Nxe5', grade: 'blunder', better: 'Nxd4', punishing_line: ['Qg5'],
           note: '4… Qg5! attacks your knight on e5 and your pawn on g2.', arrows: [['g5', 'e5'], ['g5', 'g2']],
         },
+        // Every sample game replays the same trap, so the extra examples repeat the position.
+        ...[['g_3', 'e4_enjoyer'], ['g_10', 'gambit_gary']].map(([game_id, opponent]) => ({
+          game_id, ply: 7, move_number: 4, color: 'white' as const, opponent,
+          fen_before: before[before.length - 1].fen, played: 'Nxe5', grade: 'blunder' as const, better: 'Nxd4', punishing_line: ['Qg5'],
+          note: '4… Qg5! attacks your knight on e5 and your pawn on g2.', arrows: [['g5', 'e5'], ['g5', 'g2']] as [string, string][],
+        })),
       ],
       sources: [
         { title: 'Glossary of chess — Wikipedia', url: 'https://en.wikipedia.org/wiki/Glossary_of_chess',
@@ -171,16 +200,29 @@ function weaknesses(): Weakness[] {
       count: 6,
       why: 'A knight or queen attacked two of your pieces at once, and you could only save one. Five of the six were knight forks on your king and queen.',
       how_to_avoid: 'Keep your king and queen off squares one knight jump apart, and look at every square an enemy knight can reach next move before you commit.',
-      examples: [],
+      examples: [
+        {
+          game_id: 'g_1', ply: 7, move_number: 4, color: 'white', opponent: 'player123',
+          fen_before: before[before.length - 1].fen, played: 'Nxe5', grade: 'blunder', better: 'Nxd4', punishing_line: ['Qg5'],
+          note: '4… Qg5! attacks your knight on e5 and your pawn on g2.', arrows: [['g5', 'e5'], ['g5', 'g2']],
+        },
+      ],
       sources: [],
     },
     {
-      theme: 'backRankMate',
-      name: 'Back-rank mate',
+      theme: 'exposedKing',
+      name: 'Exposed king',
       count: 4,
-      why: 'Your king stayed on its home row behind its own pawns, and a rook or queen gave mate along it.',
-      how_to_avoid: 'Once the middlegame starts, give your king an escape square (“luft”) by moving one pawn in front of it, usually h3 or h6.',
-      examples: [],
+      why: 'Your king was left with too few defenders, and an attack on it decided the game.',
+      how_to_avoid: 'Before grabbing material, count the defenders around your king. If enemy pieces are aimed at it, defend first.',
+      examples: [
+        {
+          game_id: 'g_1', ply: 9, move_number: 5, color: 'white', opponent: 'player123',
+          fen_before: beforeNxf7[beforeNxf7.length - 1].fen, played: 'Nxf7', grade: 'blunder', better: 'Ng4',
+          punishing_line: ['Qxg2', 'Rf1', 'Qxe4+', 'Be2', 'Nf3#'],
+          note: '5… Qxg2 attacks your rook on h1 and your pawn on e4.', arrows: [['g2', 'h1'], ['g2', 'e4']],
+        },
+      ],
       sources: [],
     },
   ]
@@ -217,7 +259,10 @@ export const mockApi = {
     const total = reportsGameCount.get(id) ?? 20
     const done = started === 0 ? total : Math.min(total, Math.floor((Date.now() - started) / MS_PER_GAME))
     const finished = done >= total
-    const games = Array.from({ length: total }, (_, k) => reportGame(k, k < done ? 'done' : k === done ? 'running' : 'queued'))
+    const fraction = started === 0 ? 1 : ((Date.now() - started) % MS_PER_GAME) / MS_PER_GAME
+    const games = Array.from({ length: total }, (_, k) =>
+      reportGame(k, k < done ? 'done' : k === done ? 'running' : 'queued', fraction),
+    )
     const report: Report = {
       id, status: finished ? 'done' : 'running', username: 'knightowl_42', time_control: 'rapid',
       progress: { done, total }, games,
@@ -226,8 +271,9 @@ export const mockApi = {
     return {
       ...report,
       notes: [],
-      summary: { games: 20, wins: 11, draws: 2, losses: 7, blunders_per_game: 2.4, mistakes_per_game: 0.7, misses_per_game: 0.3 },
-      weaknesses: weaknesses(),
+      summary: summarise(games),
+      // Counts are for 20 games; scale them to the number of games requested.
+      weaknesses: weaknesses().map((w) => ({ ...w, count: Math.min(total, Math.max(1, Math.round((w.count * total) / 20))) })),
       missed_tactics: [
         { theme: 'fork', name: 'Fork', count: 5 },
         { theme: 'hangingPiece', name: 'Hanging piece', count: 4 },
@@ -252,7 +298,7 @@ export const mockApi = {
     if (!gamesOpenedAt.has(key)) gamesOpenedAt.set(key, Date.now())
     const complete = Date.now() - gamesOpenedAt.get(key)! >= GRADING_DELAY_MS
     // Every sample game replays the same famous trap; only the opponent's name changes.
-    return sampleGame(gameId, OPPONENTS[k], complete)
+    return sampleGame(gameId, OPPONENTS[k], COLORS[k % COLORS.length], complete)
   },
 }
 

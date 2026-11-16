@@ -62,7 +62,10 @@ export interface ReportGame {
   opening?: string
   url?: string
   errors?: ErrorCounts
-  /** White's evaluation (cp) after each half-move, start included — draws the Analysing trace. */
+  /** Total half-moves in the game (from the PGN), known before analysis starts. */
+  plies?: number
+  /** White's evaluation (cp) after each half-move, start included — draws the Analysing trace.
+   *  Complete for finished games; the evaluations so far for the game being analysed. */
   trace?: number[]
 }
 
@@ -81,6 +84,8 @@ export interface Example {
   opponent: string
   fen_before: string
   played: string
+  /** Grade of the played move (an error grade). */
+  grade: Grade
   better: string
   punishing_line: string[]
   /** Deterministic sentence about the reply, e.g. "4… Qg5! attacks your knight on e5 and your pawn on g2." */

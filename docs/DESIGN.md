@@ -125,7 +125,7 @@ Rendered with **chessground** (view-only), themed to match exactly.
 | Last-move highlight | light `#CFD9B9`, dark `#7FA39A` (squares recoloured, not overlaid) |
 | Coordinates (game view only) | Geist Mono, 1.9% of board width; rank top-left of a-file squares, file bottom-right of rank-1 squares; on light squares `#5E6B74`, on dark `#E4DBC6` |
 | Plate | `surface` background, 1px `rule` border, padding 10px (home) / 8px (report, game) |
-| Orientation | White at the bottom (the user's colour later if needed) |
+| Orientation | The user's colour at the bottom (game view and report examples). The top-left square is light from either side, so only the pieces and coordinate labels flip (files h→a, ranks 1→8); the eval bar's White share fills from White's side |
 
 **Pieces — exactly as designed:**
 - Glyphs: ♚ ♛ ♜ ♝ ♞ ♟ (U+265A–U+265F) followed by U+FE0E (text presentation), the *solid* shapes
@@ -174,9 +174,10 @@ Grades follow `docs/PLAN.md` §4.2. Shown as **chess annotation glyphs**, append
 | Inaccuracy | `?!` | inaccuracy | yes |
 | Mistake | `?` | mistake | yes |
 | Blunder | `??` | blunder | yes |
-| Miss | (to be designed in phase 1, same glyph family) | — | yes |
+| Miss | `?` (no classical glyph for a missed tactic) | mistake | yes |
 
-Grade names in prose: "Blunder", "Mistake", "Inaccuracy", "Great move", "Brilliant".
+Grade names in prose: "Blunder", "Mistake", "Inaccuracy", "Missed tactic", "Great move", "Brilliant".
+On the trace, dots mark errors only (blunder, mistake, inaccuracy, miss).
 
 ---
 
@@ -286,3 +287,16 @@ Exact layouts are in the reference files; this is the content order.
 - **Verification:** each screen is built against sample JSON (`docs/API.md`) and compared
   side by side with its reference file at 1440px width before it is considered done.
 - Known unavoidable differences: chessground's arrow-head shape (colour, width and opacity match).
+- **Beyond the reference** (cases the reference files don't show; decided while building phase 1):
+  - Move list scrolls inside its panel past 440px (real games run to 80+ half-moves); the current
+    move is kept in view.
+  - Report heading follows the number of chapters ("The habit…", "Two habits…", "Three habits…");
+    with none: an italic `muted` line saying no mistake recurred often enough.
+  - Report sources line links the article title only; the site name follows as plain text
+    ("Glossary of chess — Wikipedia").
+  - Chapter titles are fixed copy per theme (`frontend/src/content/themes.ts`); the API sends the
+    theme key and name.
+  - Full-page messages (unknown report, failed analysis, failed load, unknown game) use the
+    Analysing layout: eyebrow, title, one muted line, one primary button.
+  - Side panel for a great/brilliant move: "The only move that keeps your advantage." (≥60% win
+    chance for the mover), "…that holds the balance." (40–60%), "…that keeps you in the game." (<40%).

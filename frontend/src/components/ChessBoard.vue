@@ -6,7 +6,7 @@ import { Chessground } from 'chessground'
 import type { Api } from 'chessground/api'
 import type { DrawBrushes, DrawShape } from 'chessground/draw'
 import type { Key } from 'chessground/types'
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 import { MOTION, prefersReducedMotion, token } from '@/design'
 import { type BoardArrow, isLightSquare } from '@/lib/chess'
@@ -19,15 +19,15 @@ const props = withDefaults(
     arrows?: BoardArrow[]
     coordinates?: boolean
     instant?: boolean // jump to the position without animating (e.g. when a replay restarts)
+    orientation?: 'white' | 'black' // whose side is at the bottom
   }>(),
-  { lastMove: null, arrows: () => [], coordinates: false, instant: false },
+  { lastMove: null, arrows: () => [], coordinates: false, instant: false, orientation: 'white' },
 )
 
 // ref() creates a reactive value (like useState). Here it will hold the <div> chessground draws into,
 // because of ref="host" in the template (like useRef in React).
 const host = ref<HTMLDivElement>()
 let cg: Api | undefined
-let resizeObserver: ResizeObserver | undefined
 
 /** Last-move squares get a class for their colour, so light and dark squares get different shades. */
 function lastMoveClasses(): Map<Key, string> {
@@ -44,6 +44,7 @@ function arrowShapes(): DrawShape[] {
 onMounted(() => {
   cg = Chessground(host.value!, {
     fen: props.fen,
+    orientation: props.orientation,
     viewOnly: true, // users never move pieces
     coordinates: false, // we draw our own (DESIGN.md §5)
     disableContextMenu: true,
@@ -62,16 +63,15 @@ onMounted(() => {
       } as unknown as DrawBrushes,
     },
   })
-  // Redraw when the board's size changes (window resize, layout changes).
-  resizeObserver = new ResizeObserver(() => cg?.redrawAll())
-  resizeObserver.observe(host.value!)
+  // No resize handling needed: chessground watches its own size and repositions pieces and arrows.
 })
 
 // watch() runs a function whenever the watched values change (like useEffect with dependencies).
 watch(
-  () => [props.fen, props.lastMove, props.arrows],
+  () => [props.fen, props.lastMove, props.arrows, props.orientation],
   () => {
     if (!cg) return
+    if (cg.state.orientation !== props.orientation) cg.set({ orientation: props.orientation })
     // Turn animation on/off first: chessground decides whether to animate before applying a change.
     cg.set({ animation: { enabled: !props.instant && !prefersReducedMotion() } })
     cg.set({ fen: props.fen, highlight: { custom: lastMoveClasses() }, drawable: { autoShapes: arrowShapes() } })
@@ -81,20 +81,23 @@ watch(
 
 // onBeforeUnmount = cleanup when the component leaves the page (the return function of useEffect).
 onBeforeUnmount(() => {
-  resizeObserver?.disconnect()
   cg?.destroy()
 })
 
-// The 64 squares of the coordinate overlay, a8 first (index 0) to h1 (index 63).
-const coordinateSquares = Array.from({ length: 64 }, (_, i) => {
-  const row = Math.floor(i / 8)
-  const file = i % 8
-  return {
-    light: (row + file) % 2 === 0,
-    rank: file === 0 ? String(8 - row) : '',
-    file: row === 7 ? 'abcdefgh'[file] : '',
-  }
-})
+// The 64 squares of the coordinate overlay, top-left first. The top-left square is light from
+// either side (a8 for White, h1 for Black); only the labels change when the board is flipped.
+const coordinateSquares = computed(() =>
+  Array.from({ length: 64 }, (_, i) => {
+    const row = Math.floor(i / 8)
+    const col = i % 8
+    const white = props.orientation === 'white'
+    return {
+      light: (row + col) % 2 === 0,
+      rank: col === 0 ? String(white ? 8 - row : row + 1) : '',
+      file: row === 7 ? (white ? 'abcdefgh' : 'hgfedcba')[col] : '',
+    }
+  }),
+)
 </script>
 
 <template>
