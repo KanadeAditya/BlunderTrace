@@ -29,11 +29,12 @@ The brand motif is **the trace** — a game's evaluation line, flat until the bl
 ---
 
 ## 2. Colour tokens
-One dark theme only (no theme switching).
+One dark theme only (no theme switching). Token names are the Tailwind names used in code
+(`frontend/src/styles/tokens.css`): `bg-page`, `text-bone`, `muted`, `border-rule`, …
 
 | Token | Hex | Used for |
 |---|---|---|
-| `bg` | `#12110F` | Page background (warm ink) |
+| `page` | `#12110F` | Page background (warm ink) |
 | `surface` | `#1B1A17` | Board plates, move-list panel, footnote preview, table-row hover |
 | `surface-hover` | `#23211D` | Hover on move buttons and controls |
 | `selected` | `#2E2B25` | Current move in the move list; faint trace and midline in the home hero |
@@ -42,9 +43,9 @@ One dark theme only (no theme switching).
 | `rule-subtle` | `#2A2823` | Footnote rule, table row borders, eval-bar track, opening-bar track |
 | `rule-faint` | `#1F1E1A` | Contents rows (Analysing) |
 | `leader` | `#3A372F` | Dotted leaders (Analysing) |
-| `text` | `#ECE7DD` | Primary text ("bone"); primary-button background |
-| `text-muted` | `#A39D91` | Secondary text, labels, captions |
-| `text-faint` | `#8A8478` | Roman numerals, move numbers, placeholders, row numbers |
+| `bone` | `#ECE7DD` | Primary text ("bone"); primary-button background |
+| `muted` | `#A39D91` | Secondary text, labels, captions |
+| `faint` | `#8A8478` | Roman numerals, move numbers, placeholders, row numbers |
 | `on-bone` | `#12110F` | Text on bone (primary button) |
 | `accent` | `#6FC2AE` | Brand accent ("verdigris"): wordmark *Trace*, links, focus ring, selected underline, better-line arrows, footnote markers, `!`/`!!` glyphs, current-trace stroke |
 | `accent-hover` | `#9AD9CA` | Link hover |
@@ -52,9 +53,9 @@ One dark theme only (no theme switching).
 | `mistake` | `#E8954A` | `?` |
 | `inaccuracy` | `#D9BE5C` | `?!` |
 
-**Contrast (WCAG 2.1, on `bg` unless stated):** text 15.3:1 · text-muted 7.0:1 · text-faint 5.1:1 ·
+**Contrast (WCAG 2.1, on `page` unless stated):** bone 15.3:1 · muted 7.0:1 · faint 5.1:1 ·
 accent 9.0:1 · blunder 6.2:1 · mistake 7.9:1 · inaccuracy 10.3:1 · on-bone on bone 15.3:1 ·
-text on `selected` 11.5:1. All text passes AA (4.5:1).
+bone on `selected` 11.5:1. All text passes AA (4.5:1).
 
 ---
 
@@ -78,19 +79,19 @@ Three voices, like a chess book. Self-hosted via Fontsource (all SIL OFL 1.1).
 | Section | Fraunces 400 | 34px / −0.01em | Report "Three habits that cost you games" |
 | Chapter title (open) | Fraunces 400 | 36px / 1.15 | Weakness card I |
 | Chapter title (collapsed) | Fraunces | 30px / 1.15 | Weakness cards II, III |
-| Roman numeral | Fraunces | 28px, `text-faint` | "I." "II." "III." |
+| Roman numeral | Fraunces | 28px, `faint` | "I." "II." "III." |
 | Subsection | Fraunces 400 | 26px | Tactics you missed, Openings, Your games |
 | Panel grade | Fraunces | 30px | Side panel "Blunder" / "Great move" |
 | Contents heading | Fraunces italic | 24px | Analysing "Contents" |
 | Wordmark | Fraunces | 22px (20px in game header) / −0.01em | "Blunder" + italic "Trace" in accent |
 | Key question | Fraunces italic | 19px | "after this, what can my opponent capture — and is it defended?" |
-| Caption / note | Fraunces italic | 16–17px, `text-muted` | Figure captions, line notes, hints |
+| Caption / note | Fraunces italic | 16–17px, `muted` | Figure captions, line notes, hints |
 | Username input | Fraunces | 30px | Home input |
-| Lead | Geist 400 | 18px / 1.6, `text-muted` | Home intro; Analysing 17px / 1.6 |
+| Lead | Geist 400 | 18px / 1.6, `muted` | Home intro; Analysing 17px / 1.6 |
 | Body | Geist 400 | 17px / 1.7 | Chapter text |
 | UI | Geist 500–600 | 15px | Buttons, toggles, table, preview name |
 | Small | Geist | 14px (links), 13px (footnotes, line-height 1.8) | |
-| Label | Geist Mono | 12px, uppercase, +0.08em, `text-muted` | "WHY IT HAPPENS", "CHESS.COM USERNAME", eyebrows |
+| Label | Geist Mono | 12px, uppercase, +0.08em, `muted` | "WHY IT HAPPENS", "CHESS.COM USERNAME", eyebrows |
 | Notation | Geist Mono | 13px / 1.55 (hero), 15px (move list), 17px / 1.6 (line text) | Moves |
 | Data | Geist Mono | 15px; big count 30px; eval 14px; dates 13px | Counts, evals |
 
@@ -144,7 +145,7 @@ Rendered with **chessground** (view-only), themed to match exactly.
   its arrow shape allows.
 
 **Evaluation bar (game view):** 14px wide, track `rule-subtle` with a 1px `rule` border; the
-`text`-coloured fill grows from the bottom to **White's win %**; height transition 0.4s ease. The
+`bone`-coloured fill grows from the bottom to **White's win %**; height transition 0.4s ease. The
 numeric eval appears below the board in Geist Mono 14px: `+0.3`, `−1.5`, `−M` (true minus sign).
 
 ---
@@ -155,9 +156,9 @@ White's win % over the game (win % formula: `docs/PLAN.md` §4.2), plotted as a 
 
 | Instance | Size (viewBox) | Style |
 |---|---|---|
-| Home hero | 520 × 120, pad 6 | Dashed midline (`3 5`, `selected`, 1px); full path `selected` 2px; drawn part `text` 2px, round joins/caps; blunder marker: ring r=7, `blunder` 2px + label "4. Nxe5??" in Geist Mono 13px `blunder` |
-| Game view | 640 × 90, pad 6, stretched to the column | Dashed midline (`selected`); path `text-muted` 1.6px (non-scaling stroke); 8px dots in the grade colour at `??` `?` `?!` moves; current position = 14px ring, 2px `accent`, moves with 0.3s transition |
-| Analysing rows | 120 × 24, pad 2 | Midline `rule-subtle`; path 1.5px `text-muted`, or `accent` while that game is being read |
+| Home hero | 520 × 120, pad 6 | Dashed midline (`3 5`, `selected`, 1px); full path `selected` 2px; drawn part `bone` 2px, round joins/caps; blunder marker: ring r=7, `blunder` 2px + label "4. Nxe5??" in Geist Mono 13px `blunder` |
+| Game view | 640 × 90, pad 6, stretched to the column | Dashed midline (`selected`); path `muted` 1.6px (non-scaling stroke); 8px dots in the grade colour at `??` `?` `?!` moves; current position = 14px ring, 2px `accent`, moves with 0.3s transition |
+| Analysing rows | 120 × 24, pad 2 | Midline `rule-subtle`; path 1.5px `muted`, or `accent` while that game is being read |
 
 ---
 
@@ -185,11 +186,11 @@ tokens above.
 
 | Component | Spec |
 |---|---|
-| **Primary button** | `text` background, `on-bone` text, Geist 600 15px, min-height 48px, padding 0 28px, radius 2px. Smaller variant in panels: 14px, min-height 44px, padding 0 18px |
-| **Secondary button** | transparent, 1px `rule-strong`, `text`, Geist 500 14px, min-height 44px, padding 0 18px, radius 2px |
+| **Primary button** | `bone` background, `on-bone` text, Geist 600 15px, min-height 48px, padding 0 28px, radius 2px. Smaller variant in panels: 14px, min-height 44px, padding 0 18px |
+| **Secondary button** | transparent, 1px `rule-strong`, `bone`, Geist 500 14px, min-height 44px, padding 0 18px, radius 2px |
 | **Icon control** (◀◀ ◀ ▶ ▶▶) | 48 × 44px, transparent, 1px `rule`, stroke icons 18px (1.8 stroke), hover `surface-hover`, disabled opacity 0.35, 4px gaps |
-| **Username input** | underline only: 1px `rule-strong` bottom border, `accent` on focus; Fraunces 30px; padding 10px 0; placeholder `text-faint`; label above (Label style) |
-| **Time-control toggle** (Reka ToggleGroup) | text buttons Geist 500 15px, min-height 44px, gap 24px; selected = `text` + 1px `accent` underline; others `text-muted`; label shows counts once the player is known ("Rapid · 142") |
+| **Username input** | underline only: 1px `rule-strong` bottom border, `accent` on focus; Fraunces 30px; padding 10px 0; placeholder `faint`; label above (Label style) |
+| **Time-control toggle** (Reka ToggleGroup) | text buttons Geist 500 15px, min-height 44px, gap 24px; selected = `bone` + 1px `accent` underline; others `muted`; label shows counts once the player is known ("Rapid · 142") |
 | **Player preview** | 40px circle, 1px `rule-strong`, initial in Fraunces 18px; name Geist 15px; Geist Mono 12px muted ratings line |
 | **Chapter** (weakness card) | Numeral + Fraunces title + count ("9 of 20 games", number Geist Mono 30px); body = text column (Label + body paragraphs, key question in Fraunces italic) + figure (plate board, mono meta line, mono move line with glyph, Fraunces italic caption, links "Open in game view →" and "2 more examples") |
 | **Collapsed chapter** (Reka Collapsible) | full-width button: numeral, 30px title, count, `+`/`−` in mono; expanded body indented 56px, max-width 640px |
@@ -197,12 +198,12 @@ tokens above.
 | **Footnote preview** (Reka HoverCard/Popover) | 340px card, `surface`, 1px `rule-strong`, shadow `0 12px 32px rgba(0,0,0,0.45)`, padding 16px 18px; label "Retrieved passage · used for this advice" (Geist Mono 11px uppercase muted); the passage in Fraunces italic 16px; source in 13px muted. Opens on hover, focus or tap; closes on leave or blur |
 | **Footnote list** | 13px / 1.8 muted, 1px `rule-subtle` top border, numbered links to sources |
 | **Missed-tactics list** | rows with a 1px dotted `rule` bottom border; name + mono count |
-| **Opening row** | name 16px + muted "· White · 7 games" 14px; 120 × 4px bar (track `rule-subtle`, fill `text`, or `blunder` when score < 40%); score Geist Mono 15px right-aligned |
-| **Games table** | header Geist Mono 12px uppercase +0.06em muted; rows bordered `rule-subtle`, hover `surface`; date mono 13px muted; opponent link in `text` + muted "as White"; error glyph counts in grade colours, right-aligned, 12px apart; horizontal scroll below 640px |
-| **Move list** | panel `surface` + 1px `rule`, padding 10px 8px, "Moves" label; rows `40px | 1fr | 1fr`; numbers mono 13px `text-faint`; move buttons min-height 36px, mono 15px, current = `selected` + weight 600, hover `surface-hover`; glyph appended in grade colour |
+| **Opening row** | name 16px + muted "· White · 7 games" 14px; 120 × 4px bar (track `rule-subtle`, fill `bone`, or `blunder` when score < 40%); score Geist Mono 15px right-aligned |
+| **Games table** | header Geist Mono 12px uppercase +0.06em muted; rows bordered `rule-subtle`, hover `surface`; date mono 13px muted; opponent link in `bone` + muted "as White"; error glyph counts in grade colours, right-aligned, 12px apart; horizontal scroll below 640px |
+| **Move list** | panel `surface` + 1px `rule`, padding 10px 8px, "Moves" label; rows `40px | 1fr | 1fr`; numbers mono 13px `faint`; move buttons min-height 36px, mono 15px, current = `selected` + weight 600, hover `surface-hover`; glyph appended in grade colour |
 | **Side panel** | 1px `rule` top border, padding-top 22px, min-height 180px, `aria-live="polite"`. States: **error** (label "Your move" / "Your opponent's move", grade name Fraunces 30px in grade colour + move in mono 20px, "This lost N points of winning chance." 15px muted, buttons **Show better move** (primary) and **Show why it's bad** (secondary)); **line** (label "Better move" in accent or "Why it's bad" in blunder, the line in mono 17px, note in Fraunces italic 17px, button "↩ Back to game"); **great move** (accent); **hint** ("Step to a marked move — ?? ? ?! — to see what went wrong." Fraunces italic 17px muted) |
-| **Progress rule** (Analysing) | 2px track `rule`, fill `text`, width transition 0.3s; count "12 / 20" Geist Mono 14px |
-| **Contents row** (Analysing) | min-height 46px, bottom border `rule-faint`; number mono 13px `text-faint` (34px column); "vs opponent" 15px + result in Fraunces italic (won `text`, lost `blunder`, draw `text-muted`); dotted leader `leader`; 120 × 24 trace; right column 104px: "reading…" (muted) or error counts in grade colours or "clean"; queued rows at opacity 0.4 |
+| **Progress rule** (Analysing) | 2px track `rule`, fill `bone`, width transition 0.3s; count "12 / 20" Geist Mono 14px |
+| **Contents row** (Analysing) | min-height 46px, bottom border `rule-faint`; number mono 13px `faint` (34px column); "vs opponent" 15px + result in Fraunces italic (won `bone`, lost `blunder`, draw `muted`); dotted leader `leader`; 120 × 24 trace; right column 104px: "reading…" (muted) or error counts in grade colours or "clean"; queued rows at opacity 0.4 |
 | **Focus ring** | 2px solid `accent`, offset 3px (2px in the game view) |
 
 ---

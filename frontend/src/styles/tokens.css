@@ -1,0 +1,125 @@
+/*
+ * Design tokens — the single source of every colour, font and type size in the app.
+ * Values come from docs/DESIGN.md ("The Annotated Book"); change them there first.
+ *
+ * Tailwind turns each token into utility classes, e.g.
+ *   --color-bone   → text-bone, bg-bone, border-bone
+ *   --font-display → font-display
+ *   --text-body    → text-body (font-size + line-height + letter-spacing together)
+ * `static` makes Tailwind always emit these as CSS variables, so code can also read them.
+ */
+@theme static {
+  /* Remove Tailwind's default palette and fonts: only design values may be used. */
+  --color-*: initial;
+  --font-*: initial;
+
+  /* ---- Colours (DESIGN.md §2) ---- */
+  --color-page: #12110f;
+  --color-surface: #1b1a17;
+  --color-surface-hover: #23211d;
+  --color-selected: #2e2b25;
+  --color-rule: #34312b;
+  --color-rule-strong: #4a463e;
+  --color-rule-subtle: #2a2823;
+  --color-rule-faint: #1f1e1a;
+  --color-leader: #3a372f;
+  --color-bone: #ece7dd;
+  --color-muted: #a39d91;
+  --color-faint: #8a8478;
+  --color-on-bone: #12110f;
+  --color-accent: #6fc2ae;
+  --color-accent-hover: #9ad9ca;
+  --color-blunder: #ef6b5e;
+  --color-mistake: #e8954a;
+  --color-inaccuracy: #d9be5c;
+
+  /* Board (DESIGN.md §5) */
+  --color-sq-light: #d9ceb6;
+  --color-sq-dark: #7d8b95;
+  --color-sq-last-light: #cfd9b9;
+  --color-sq-last-dark: #7fa39a;
+  --color-coord-on-light: #5e6b74;
+  --color-coord-on-dark: #e4dbc6;
+  --color-piece-white: #f7f2e8;
+  --color-piece-outline: #22201c;
+  --color-piece-black: #1d1c19;
+
+  /* ---- Fonts (DESIGN.md §3) ---- */
+  --font-display: 'Fraunces Variable', Georgia, serif;
+  --font-sans: 'Geist Variable', 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+  --font-pieces: 'Noto Sans Symbols 2', 'Segoe UI Symbol', serif;
+
+  /* ---- Type scale (DESIGN.md §3) ---- */
+  --text-hero: clamp(44px, 6.4vw, 76px);
+  --text-hero--line-height: 1.02;
+  --text-hero--letter-spacing: -0.025em;
+
+  --text-title: clamp(40px, 5vw, 60px);
+  --text-title--line-height: 1.05;
+  --text-title--letter-spacing: -0.02em;
+
+  --text-title-contents: clamp(40px, 5vw, 58px);
+  --text-title-contents--line-height: 1.05;
+  --text-title-contents--letter-spacing: -0.02em;
+
+  --text-game-title: 38px;
+  --text-game-title--line-height: normal;
+  --text-game-title--letter-spacing: -0.01em;
+
+  --text-section: 34px;
+  --text-section--line-height: normal;
+  --text-section--letter-spacing: -0.01em;
+
+  --text-chapter: 36px;
+  --text-chapter--line-height: 1.15;
+  --text-chapter-sm: 30px;
+  --text-chapter-sm--line-height: 1.15;
+  --text-numeral: 28px;
+  --text-numeral--line-height: normal;
+  --text-subsection: 26px;
+  --text-subsection--line-height: normal;
+  --text-panel: 30px;
+  --text-panel--line-height: normal;
+  --text-contents: 24px;
+  --text-contents--line-height: normal;
+
+  --text-wordmark: 22px;
+  --text-wordmark--line-height: normal;
+  --text-wordmark--letter-spacing: -0.01em;
+  --text-wordmark-sm: 20px;
+  --text-wordmark-sm--line-height: normal;
+
+  --text-input: 30px;
+  --text-input--line-height: normal;
+  --text-key: 19px;
+  --text-key--line-height: inherit;
+
+  --text-lead: 18px;
+  --text-lead--line-height: 1.6;
+  --text-lead-sm: 17px;
+  --text-lead-sm--line-height: 1.6;
+  --text-body: 17px;
+  --text-body--line-height: 1.7;
+  --text-ui: 15px;
+  --text-ui--line-height: normal;
+  --text-small: 14px;
+  --text-small--line-height: normal;
+  --text-fine: 13px;
+  --text-fine--line-height: normal;
+
+  /* Labels: Geist Mono 12px uppercase +0.08em (add `uppercase font-mono`) */
+  --text-label: 12px;
+  --text-label--line-height: normal;
+  --text-label--letter-spacing: 0.08em;
+  --text-micro: 11px;
+  --text-micro--line-height: normal;
+  --text-micro--letter-spacing: 0.08em;
+}
+
+/* Motion (DESIGN.md §10) — read by both CSS and TypeScript (src/design.ts mirrors these). */
+:root {
+  --motion-move: 300ms;
+  --motion-eval-bar: 400ms;
+  --motion-marker: 300ms;
+}

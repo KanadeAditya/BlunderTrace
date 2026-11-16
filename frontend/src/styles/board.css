@@ -1,0 +1,96 @@
+/*
+ * chessground themed to DESIGN.md §5 ("The Annotated Book").
+ * chessground draws the board as <cg-board> with <piece class="white king"> elements inside;
+ * these rules give them our colours and the Noto Sans Symbols 2 glyph pieces.
+ * All sizes use `cqw` (1% of the board's width) so everything scales with the board.
+ */
+@import 'chessground/assets/chessground.base.css';
+
+.bt-board {
+  position: relative;
+  container-type: inline-size; /* makes 1cqw = 1% of the board width */
+}
+
+.bt-board .cg-wrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+/* Squares: a8 is light. One 2×2 tile = 25% of the board; conic-gradient paints its 4 quadrants. */
+.bt-board cg-board {
+  background-color: var(--color-sq-light);
+  background-image: conic-gradient(
+    var(--color-sq-dark) 0 25%,
+    var(--color-sq-light) 0 50%,
+    var(--color-sq-dark) 0 75%,
+    var(--color-sq-light) 0
+  );
+  background-size: 25% 25%;
+}
+
+/* Last move: the two squares are recoloured (not tinted), separately for light and dark squares. */
+.bt-board cg-board square.bt-last-light {
+  background-color: var(--color-sq-last-light);
+}
+.bt-board cg-board square.bt-last-dark {
+  background-color: var(--color-sq-last-dark);
+}
+
+/* Pieces: solid chess glyphs (U+265A–265F + text-presentation selector), centred in the square. */
+.bt-board piece {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  font-family: var(--font-pieces);
+  font-size: 10.4cqw;
+  line-height: 1;
+}
+.bt-board piece::before {
+  content: var(--bt-glyph);
+}
+.bt-board piece.king { --bt-glyph: '\265A\FE0E'; }
+.bt-board piece.queen { --bt-glyph: '\265B\FE0E'; }
+.bt-board piece.rook { --bt-glyph: '\265C\FE0E'; }
+.bt-board piece.bishop { --bt-glyph: '\265D\FE0E'; }
+.bt-board piece.knight { --bt-glyph: '\265E\FE0E'; }
+.bt-board piece.pawn { --bt-glyph: '\265F\FE0E'; }
+
+.bt-board piece.white {
+  color: var(--color-piece-white);
+  -webkit-text-stroke: 0.34cqw var(--color-piece-outline);
+}
+.bt-board piece.black {
+  color: var(--color-piece-black);
+}
+
+/* Arrows: opacity comes from our brushes (0.85), not chessground's default 0.6 layer. */
+.bt-board .cg-shapes {
+  opacity: 1;
+}
+
+/* Coordinates (game view): our own overlay, positioned like the design. */
+.bt-coords {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  pointer-events: none;
+  z-index: 3;
+}
+.bt-coords > span {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  font-family: var(--font-mono);
+  font-size: 1.9cqw;
+}
+.bt-coords .bt-rank {
+  position: absolute;
+  left: 0.5cqw;
+  top: 0.3cqw;
+}
+.bt-coords .bt-file {
+  position: absolute;
+  right: 0.6cqw;
+  bottom: 0.2cqw;
+}

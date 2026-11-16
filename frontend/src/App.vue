@@ -1,11 +1,8 @@
 <script setup lang="ts">
-// Phase 0 placeholder. Screens, styling and the design system are decided in the design session
-// before phase 1 (see docs/PLAN.md).
+// The app shell. <RouterView> renders whichever page matches the URL
+// (like <Outlet /> in React Router or the page in a Next.js layout).
 </script>
 
 <template>
-  <main>
-    <h1>BlunderTrace</h1>
-    <p>Frontend scaffold. Design to be decided.</p>
-  </main>
+  <RouterView />
 </template>

@@ -1,0 +1,40 @@
+/*
+ * Global styles.
+ *
+ * Tailwind is loaded WITHOUT its "preflight" reset on purpose: the approved reference designs
+ * (docs/design/reference) rely on the browser's default styles, so starting from the same
+ * baseline is what makes pixel-perfect matching possible.
+ */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@import './tokens.css';
+@import './board.css';
+
+@layer base {
+  body {
+    margin: 0;
+    background: var(--color-page);
+  }
+  a {
+    color: var(--color-accent);
+  }
+  a:hover {
+    color: var(--color-accent-hover);
+  }
+}
+
+/* Focus ring (DESIGN.md §8): add `focus-ring` (offset 3px) or `focus-ring-tight` (offset 2px). */
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+}
+@utility focus-ring-tight {
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
