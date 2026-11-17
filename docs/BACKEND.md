@@ -71,7 +71,7 @@ lines, notes, counts) comes from Stockfish and plain code, so it is always corre
 | Weakness cards | **Ranked by games affected** ("9 of 20 games"); always 3 cards when the games allow it | Measures habits, not one bad game |
 | Line notes | **Fixed templates, worded when the game is read** from facts stored with each move: "your" for the reader's moves, "White's" / "Black's" for the opponent's | Correct for both players of a shared game; wording can change without re-analysis. AI notes on click are post-launch item 5 |
 | The AI writing flow | **Retrieve → check relevance → rewrite (max 2) → write → check moves → retry once → fallback** | Checks retrieval instead of trusting it; cheap because most of it is cached |
-| AI models | **Claude Haiku 5.5 main, gpt-6-luna fallback** ($0.10 / $0.50 per million tokens each); `text-embedding-3-small` for vectors. A blind side-by-side on real cards at build step 8 sets the final order | gpt-4o-mini, the earlier choice, shuts down on 14 Jan 2027. Haiku 5.5 is the main model because the little comparison data there is leans toward it for writing; the two are otherwise equal |
+| AI models | **Claude Haiku 5.5 main, gpt-6-luna fallback** ($0.10 / $0.50 per million tokens each); `text-embedding-3-small` for vectors | gpt-4o-mini, the earlier choice, shuts down on 14 Jan 2027. Haiku 5.5 is the main model because the little comparison data there is leans toward it for writing; the two are otherwise equal |
 | Cost | **Log every AI call honestly** (tokens, cost, time, outcome); no comparison against a made-up alternative | A comparison needs a real competitor |
 | LangChain | **For model calls; LangGraph for the flow**; retrieval is our own SQL | Uses LangChain where it saves work, not where it gets in the way |
 | Library sources | **Wikipedia, Wikibooks, Lichess theme glossary** (1,338 passages) | Our research found every relevant passage in these three |
@@ -158,11 +158,14 @@ backend/
                  wording, arrows, counting patterns, openings. No database, no network.
     rag/         Library loading, retrieval SQL, the LangGraph writing flow, prompts, the move
                  checker, the fallback text, AI call logging.
-    jobs/        Procrastinate setup, the three tasks and the repeating tasks (thin: they call
-                 into reports/).
-    db/          Connection pool, schema.sql, startup (create tables, load the library).
+    jobs/        The three tasks and the repeating tasks (thin: they call into reports/).
+    db/          Connection pool, schema.sql, startup (create tables, load the library), and the
+                 Procrastinate app object, so reports/ can queue jobs by name without importing
+                 jobs/.
+    logs/        JSON log lines and the fields bound to them (request id, report id, game id).
     vendor/lichess_puzzler/   The vendored tagger, with its AGPL licence.
-    config.py    Settings from .env (pydantic-settings), validated at startup.
+    config.py    Settings from .env (pydantic-settings), validated at startup. Errors name the
+                 bad setting but never print values, so a key can't leak into a log.
     main.py      Starts the api.
     worker.py    Starts a worker.
   scripts/build_library.py    Builds the shipped library files (section 8).
@@ -174,9 +177,15 @@ Each folder's `__init__.py` lists what the rest of the app may use from it, like
 that re-exports a folder's public functions. Everything else in the folder is private to it.
 
 **Dependency rules**, checked by **import-linter** as part of `uv run pytest`:
-- Dependencies point one way: `api` → `reports` → the other folders.
+- **Dependencies point one way,** in layers. A folder may import only from layers below it:
+  1. `main`;
+  2. `api` and `jobs` (the two ways work comes in);
+  3. `reports`;
+  4. `chesscom`, `engine`, `analysis`, `rag` (which don't import each other);
+  5. `db`;
+  6. `config` and `logs`.
 - `engine` and `analysis` import nothing else of ours.
-- Nothing imports `api`.
+- Nothing imports `api` or `jobs`.
 
 If a file breaks a rule, the tests fail with a message such as `app.engine is not allowed to import
 app.db`.
@@ -201,7 +210,7 @@ async version.
 - psycopg 3 (async pool) with the pgvector adapter, and Procrastinate, with its **exact version
   pinned**;
 - python-chess, using its async engine API;
-- httpx (async client) for chess.com calls;
+- httpx2 (httpx's successor, async client) for chess.com calls;
 - LangChain (`langchain-openai`, `langchain-anthropic`) and LangGraph, with tiktoken for the token
   budget;
 - for development: pytest with pytest-asyncio, ruff and import-linter.
@@ -658,9 +667,6 @@ report.
   - Prices (checked 18 Nov 2026): both $0.10 per million input tokens and $0.50 per million output
     tokens. Haiku's price is for prompts under 100,000 tokens; ours are about 3,000.
   - The earlier choice, gpt-4o-mini, is deprecated and shuts down on 14 January 2027.
-- **Choosing the final order:** at build step 8, the same cards are written by both models and
-  judged blind. We also count how often each one fails the move and citation check. The winner
-  becomes the main model, which is only a settings change.
 - **Retries:** each call is retried with growing waits and has a timeout.
 - **Circuit breaker:** after 3 failures in a row a provider is skipped for 2 minutes, so we don't
   keep waiting on a dead provider.
@@ -744,7 +750,7 @@ app with a clear message.
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `DATABASE_URL` | (required) | Postgres connection |
+| `DATABASE_URL` | the local `db` container | Postgres connection. Compose sets it to the `db` service inside Docker |
 | `OPENAI_API_KEY`, `ANTHROPIC_API_KEY` | (optional) | Without them, the app still runs and uses fallback text for the cards |
 | `MAIN_MODEL`, `FALLBACK_MODEL` | `claude-haiku-5-5`, `gpt-6-luna` | Writing models. Either can be an Anthropic or an OpenAI model, so swapping them after the step-8 comparison is only a settings change |
 | `EMBEDDING_MODEL` | `text-embedding-3-small` | Library vectors and rewritten questions |
@@ -951,8 +957,7 @@ dry run and your approval.
 6. **Library:** `build_library.py` (merge, prefix, AI tags, vectors, the concept queries and their
    keyword lists), the shipped files, loading on startup.
 7. **Retrieval:** the hybrid query, its tests, the blind retrieval check.
-8. **AI writing:** models with fallbacks, the LangGraph flow, the move checker, caching, `llm_calls`;
-   then the blind side-by-side of Haiku 5.5 and gpt-6-luna on real cards, to set the final order.
+8. **AI writing:** models with fallbacks, the LangGraph flow, the move checker, caching, `llm_calls`.
 9. **Monitoring:** `/metrics`, capacity warnings.
 10. **Docker:** backend Dockerfile (pinned Stockfish), Caddy + frontend build, compose with worker
     limits; the load test; tune the defaults.
@@ -1050,13 +1055,23 @@ into the sections above.
 - **Docker limits:** only the workers have them; the API, Postgres and Caddy run without memory
   limits (section 10).
 - **AI models:** gpt-4o-mini shuts down on 14 Jan 2027. Claude Haiku 5.5 is the main model, with
-  gpt-6-luna as fallback. A blind side-by-side at build step 8 sets the final order (section 8).
+  gpt-6-luna as fallback (section 8). There is no paid comparison of the two; the order can still be
+  swapped in settings.
+
+**How the build runs:**
+- Claude does the reviews and checks during the build and reports them in a findings summary when
+  the app is complete. These include grades and cards on real games (`adityakanade`, `GothamChess`),
+  the fallback text, the concept queries and keyword lists, the AI tags, card quality, the load
+  test, and the design check.
+- The user approves every paid AI call, after a dry run with a cost estimate.
+- The user marks the blind retrieval check.
 
 ## 19. To settle while building
 
-- The "how to avoid" half of a fallback card: one fixed tip per theme (you review the 11) or the
-  best retrieved passage, quoted.
-- The 11 fixed concept queries and their keyword lists (drafted, then reviewed by you).
+- The "how to avoid" half of a fallback card: one fixed tip per theme or the best retrieved
+  passage, quoted (Claude chooses and reports it in the findings).
+- The 11 fixed concept queries and their keyword lists (drafted and checked by Claude, then
+  reported).
 - RRF weights and the minimum tagged passages for the tag filter, chosen from the retrieval check.
 - Whether the shipped library files live in git or as a release download.
 - Whether the "quiet move" and "defensive move" labels match their card titles on real games.

@@ -88,8 +88,7 @@ LICENSE               AGPL-3.0 (required by the vendored lichess-puzzler tagger)
   chess math stays plain functions. Never call a sync library that waits inside async code.
 - PostgreSQL + **pgvector** (one DB for everything; `tsvector` for full-text search)
 - Hosted models only: **Claude Haiku 5.5** (`claude-haiku-5-5`) main, **gpt-6-luna** fallback
-  (reasoning effort none/low); `text-embedding-3-small`. gpt-4o-mini shuts down 14 Jan 2027. A blind
-  side-by-side at build step 8 sets the final order.
+  (reasoning effort none/low); `text-embedding-3-small`. gpt-4o-mini shuts down 14 Jan 2027.
   for the library build. **No Ollama / local models.**
 - `python-chess` + **Stockfish 19**:
   - Docker: the pinned official release (x86-64 / arm64, checksum-verified);
@@ -188,7 +187,13 @@ long-context cost comparisons.
 
 ## Next steps
 Build the backend in the order of `docs/BACKEND.md` section 16, settling section 19's items along
-the way. Docker Desktop must be running for the database.
+the way. Docker (OrbStack on the user's Mac) must be running for the database; the user starts it.
+- **Who does what during the build:**
+  - Claude does all reviews and tests (test users: `adityakanade`, `GothamChess`) and reports
+    findings when the app is complete.
+  - The user approves every paid AI call (after a dry run with a cost estimate) and marks the blind
+    retrieval check.
+  - Commits and pushes only when asked.
 
 ## Conventions
 - Commits: plain messages, **no `Co-Authored-By` trailer** (AI help is credited in the README).

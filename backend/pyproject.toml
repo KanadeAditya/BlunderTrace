@@ -15,10 +15,45 @@ package = false   # plain app, not an installable package
 [dependency-groups]
 dev = [
     "httpx2>=2.16.0",
+    "import-linter>=2.16",
     "pytest>=9.2.0",
+    "pytest-asyncio>=1.5.0",
     "ruff>=0.17.5",
 ]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+asyncio_mode = "auto"                      # `async def test_...` just works
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["app/vendor"]            # third-party code, kept exactly as published
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]        # errors, unused names, import order, modern syntax, bug traps
+
+# The folder rules from docs/BACKEND.md section 4, checked by `lint-imports`
+# (tests/test_architecture.py runs it as part of `uv run pytest`).
+[tool.importlinter]
+root_package = "app"
+
+[[tool.importlinter.contracts]]
+name = "Dependencies point one way: entry point, then HTTP and jobs, then reports, then features"
+type = "layers"
+layers = [
+    "app.main",
+    "app.api | app.jobs",
+    "app.reports",
+    "app.chesscom | app.engine | app.analysis | app.rag",
+    "app.db",
+    "app.config | app.logs",
+]
+
+[[tool.importlinter.contracts]]
+name = "engine and analysis import nothing else from the app"
+type = "forbidden"
+source_modules = ["app.engine", "app.analysis"]
+forbidden_modules = ["app.db", "app.config", "app.logs"]

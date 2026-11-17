@@ -351,7 +351,13 @@ Dependencies point one way (`api` → `reports` → the rest), checked by import
 
 **Phase 5 — Publish**
 10. README (setup, architecture, research, decisions, results), screenshots.
-11. Hosting decision + deploy; file the post-launch GitHub issues.
+11. Publish the images to GitHub Container Registry, built by hand with no CI.
+    - The images: the backend (shared by the API and the workers) and Caddy with the built frontend.
+    - Both Intel and ARM, with version tags.
+    - The library is baked into the backend image.
+    - Add a release compose file that pulls the images, and a "Run it yourself" README section,
+      which includes the link to Stockfish's source.
+12. Hosting decision + deploy; file the post-launch GitHub issues.
 
 ---
 
@@ -460,6 +466,6 @@ the two buttons.
 | Board shows the user's colour at the bottom | Half the games are played as Black |
 | Pieces: **exactly the canvas set** — Noto Sans Symbols 2 chess glyphs (SIL OFL 1.1), solid shapes with A's fill/outline colours; font self-hosted (or glyphs exported to SVG) so they render identically everywhere | User's choice; license compatible with AGPL-3.0 |
 | Backend design: modular monolith, Caddy, Procrastinate, psycopg, Postgres for everything, one engine pass, AI tags, hybrid retrieval, and more | Decided one at a time in conversation; the full list with reasons is in [`docs/BACKEND.md`](BACKEND.md), section 2 |
-| AI models: Claude Haiku 5.5 main, gpt-6-luna fallback (both $0.10 / $0.50 per 1M tokens); blind side-by-side at build step 8 sets the final order | gpt-4o-mini is deprecated (shutdown 14 Jan 2027); the little comparison data there is leans toward Haiku for writing |
+| AI models: Claude Haiku 5.5 main, gpt-6-luna fallback (both $0.10 / $0.50 per 1M tokens) | gpt-4o-mini is deprecated (shutdown 14 Jan 2027); the little comparison data there is leans toward Haiku for writing |
 | Async code everywhere; Docker limits only on the workers | The usual style for a FastAPI service that mostly waits, and the style the user knows from Node. Stockfish is the only hungry part |
 | Final backend check: notes worded for the reader, card count = games affected (always 3 cards when possible), "miss" only when nothing was allowed, job priorities, stuck-report check, games shared across users, keyword lists for the word search | Found by comparing the design with the first draft, the frontend and the discussions; [`docs/BACKEND.md`](BACKEND.md), section 18 |
