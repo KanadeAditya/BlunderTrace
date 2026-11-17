@@ -20,7 +20,12 @@ wheels/
 pre_build_research/raw/
 pre_build_research/cache/
 pre_build_research/results*.csv
+pre_build_research/engine_timing/games_*.json
+pre_build_research/engine_timing/results_*.json
 
 # OS
 .DS_Store
 
+
+# Personal learning docs (kept local for now)
+explainers/
