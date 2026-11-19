@@ -1,0 +1,119 @@
+[
+ {
+  "theme": "fork",
+  "query": "How do I avoid allowing a fork, where one enemy piece attacks two of my pieces at once?",
+  "keywords": [
+   "fork",
+   "double attack",
+   "attacks two",
+   "knight fork",
+   "family fork"
+  ]
+ },
+ {
+  "theme": "pin",
+  "query": "How do I avoid getting my pieces pinned, and how do I deal with a pin?",
+  "keywords": [
+   "pin",
+   "pinned",
+   "absolute pin",
+   "relative pin",
+   "unpin"
+  ]
+ },
+ {
+  "theme": "skewer",
+  "query": "How do I avoid a skewer, where my valuable piece is attacked and the piece behind it is lost?",
+  "keywords": [
+   "skewer",
+   "skewered",
+   "x-ray"
+  ]
+ },
+ {
+  "theme": "discoveredAttack",
+  "query": "How do I spot and avoid discovered attacks and discovered checks?",
+  "keywords": [
+   "discovered attack",
+   "discovered check",
+   "unmask",
+   "uncover"
+  ]
+ },
+ {
+  "theme": "hangingPiece",
+  "query": "How do I stop leaving pieces undefended so my opponent can capture them for free?",
+  "keywords": [
+   "hanging",
+   "undefended",
+   "unprotected",
+   "en prise",
+   "loose piece"
+  ]
+ },
+ {
+  "theme": "backRankMate",
+  "query": "How do I avoid a back-rank checkmate and give my king an escape square?",
+  "keywords": [
+   "back rank",
+   "back-rank",
+   "luft",
+   "escape square",
+   "corridor mate"
+  ]
+ },
+ {
+  "theme": "trappedPiece",
+  "query": "How do I avoid getting a piece trapped with no safe squares to escape to?",
+  "keywords": [
+   "trapped",
+   "trapping",
+   "no escape",
+   "no retreat",
+   "domination"
+  ]
+ },
+ {
+  "theme": "exposedKing",
+  "query": "How do I keep my king safe and avoid attacks against an exposed king?",
+  "keywords": [
+   "king safety",
+   "exposed king",
+   "pawn shield",
+   "pawn cover",
+   "castling"
+  ]
+ },
+ {
+  "theme": "advancedPawn",
+  "query": "How do I stop an advanced passed pawn before it promotes?",
+  "keywords": [
+   "passed pawn",
+   "promotion",
+   "promote",
+   "blockade",
+   "queening"
+  ]
+ },
+ {
+  "theme": "quietMove",
+  "query": "What is a quiet move, and how do I notice quiet threats that are not checks or captures?",
+  "keywords": [
+   "quiet move",
+   "prophylaxis",
+   "threat",
+   "zwischenzug"
+  ]
+ },
+ {
+  "theme": "defensiveMove",
+  "query": "How do I find the one defensive move that holds my position when I am under attack?",
+  "keywords": [
+   "defence",
+   "defense",
+   "defensive",
+   "only move",
+   "counterattack"
+  ]
+ }
+]

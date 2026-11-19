@@ -1,0 +1,20 @@
+{
+ "version": "1",
+ "built_at": "2026-11-18T01:39:43+00:00",
+ "passages": 993,
+ "concept_queries": 11,
+ "dimensions": 1536,
+ "tag_model": "claude-haiku-5-5",
+ "embedding_model": "text-embedding-3-small",
+ "tag_tokens": {
+  "in": 362973,
+  "out": 49061
+ },
+ "tag_cost_usd": 0.06083,
+ "sha256": {
+  "passages.jsonl": "437f626004bdae4e838b3d307926727904da980b31c6b139da85360421ff683c",
+  "vectors.npy": "fab8633a11036ebf68f5d1df00289f2c49d1f7f1b13a7fbbf47c1f5fe1823147",
+  "concept_queries.json": "c5854ee229bbb086a9906525f17db00577b1e222b3b032eb1a0f98954761d53f",
+  "concept_vectors.npy": "777037c7e8db09e3bdfd1c8cf58617603057dcf6fb5f1e8e779c449c961d1ccd"
+ }
+}
