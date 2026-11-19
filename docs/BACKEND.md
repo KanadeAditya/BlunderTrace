@@ -77,7 +77,7 @@ lines, notes, counts) comes from Stockfish and plain code, so it is always corre
 | Library sources | **Wikipedia, Wikibooks, Lichess theme glossary** (1,338 passages) | Our research found every relevant passage in these three |
 | Splitting | **Merge paragraphs within a section, up to ~250 words**, with "Article › Section:" in front | Enough context per passage; short passages stay findable |
 | Tagging | **AI tags each passage once, at build time**, from our 11 themes | Best accuracy; tags are shipped, so the running app never calls an AI for them |
-| Retrieval | **Tag filter → meaning + words → merged with RRF → top 5**; the word search uses a keyword list per theme | Each search covers the other's blind spot |
+| Retrieval | **Tag filter → ranked by meaning → top 5** (changed from hybrid after the blind check) | Hybrid (meaning + words, merged with RRF) was tested blind and added nothing: the tag filter already does the words' job |
 | Reusing reports | **An identical request joins a running report or gets one from the last 10 minutes** | No duplicates; new games appear when asked again later |
 | Rate limits | **None per visitor in the first cut**; one generous "busy" limit; warnings when it starts choking | Only people the link is shared with will use it |
 | Errors | **One shape everywhere**, strict input rules, request ids, no stack traces | Predictable for the frontend; easy to trace in logs |
@@ -238,6 +238,7 @@ links between tables.
 | `notes` | jsonb | List of messages shown on the report, e.g. "1 game couldn't be analysed and was skipped" |
 | `result` | jsonb, nullable | The finished summary, weaknesses, missed tactics and openings, in API.md's shapes |
 | `created_at`, `started_at`, `finished_at` | timestamptz | |
+| `updated_at` | timestamptz | Set by a trigger on every change (unless the update sets it itself); the stuck-report check skips reports changed in the last 2 minutes |
 
 Indexes:
 - a **partial unique index** on `(username, time_control, games_requested)` for reports that are
@@ -266,6 +267,7 @@ Indexes:
 | `engine_version`, `engine_nodes`, `grading_version` | text / int / int | What produced the analysis, so a future upgrade never quietly mixes results |
 | `analysis_seconds` | real | Engine time, for `/metrics` |
 | `error` | text, nullable | Why it failed, if it did |
+| `created_at`, `updated_at` | timestamptz | `updated_at` is set by a trigger on every change |
 
 **`report_games`**: which games belong to which report.
 
@@ -385,7 +387,7 @@ Procrastinate runs repeating tasks inside the workers; there is no separate cron
 | Task | Every | Does |
 |---|---|---|
 | Crashed workers | 1 minute | Workers send a heartbeat every 10 seconds. Jobs whose worker stopped sending it go back in the queue, so a crash or restart loses at most the game in progress, which is redone |
-| Stuck reports | 5 minutes, skipping reports changed in the last 2 | For each queued or running report: is any job for it still waiting, scheduled or running (its prepare step, an unfinished game, its build)? If not, it can never finish. First re-run the last-game check, which repairs it if all its games are done; otherwise mark it `failed` with `analysis_failed`. Either way, log a WARNING, because it means a bug. There is no time limit, so a report waiting in a long line is never failed |
+| Stuck reports | 5 minutes, skipping reports changed in the last 2 | For each queued or running report: is any job for it still waiting, scheduled or running (its prepare step, an unfinished game, its build)? If not, nothing can finish it, so the missing work is queued again: the prepare step, the unfinished games, or the build. A WARNING is logged, because it means a bug. If that work then fails for good, the normal last-try handling marks the game or report failed. There is no time limit, so a report waiting in a long line is never touched |
 | Housekeeping | Daily | Deletes finished jobs older than 30 days and expired cache rows |
 
 ### The last-game check
@@ -422,7 +424,10 @@ eval trace of the game being analysed is saved every 10 positions.
 - Walk back through the player's monthly archives, newest first, one request at a time, until there
   are enough games.
 - Keep only standard chess (`rules = chess`) in the chosen time control. "Both" means rapid and
-  blitz mixed, newest first.
+  blitz mixed, newest first, so a player who lately only plays blitz gets only blitz.
+- Skip games shorter than 10 half-moves (a resignation or abandonment before both sides made 5
+  moves): there is nothing to learn from them.
+- A game whose data doesn't fit the expected shape is skipped and logged.
 - The user's colour comes from comparing usernames, ignoring capitals.
 - Look back at most **24 months**. If there are fewer games than asked for, the report runs with
   what exists and says so in a note. If there are none at all, the report fails with `no_games`.
@@ -479,12 +484,12 @@ loss = win% before the move − win% after it, from the mover's point of view
 | Mistake | loss ≥ 10 | Lichess |
 | Inaccuracy | loss ≥ 5 | Lichess |
 | (mate cases) | Allowing a forced mate is a blunder; so is throwing away your own forced mate | Lichess |
-| Miss | An error **and** the better line contains a winning tactic (≥ 2 pawns or mate) **and** the move itself allowed no tactic | Ours |
+| Miss | An error **and** the better line contains a winning tactic (≥ 2 pawns or mate) **and** the move itself gave nothing away (no named tactic, and its punishing line wins no material) | Ours |
 | Best | The engine's top move | Ours |
 | Excellent | loss < 2 | Ours |
 | Good | loss 2–5 | Ours |
-| Great | Best move **and** the second-best is ≥ 10 points worse (not when it was the only legal move) | Ours |
-| Brilliant | Great or best **and** a sacrifice (from the tagger) **and** the mover was below 90% | Ours |
+| Great | Best move **and** the second-best is ≥ 10 points worse, with more than one legal move, the mover below 90%, and not an obvious move (getting out of check, a recapture, taking an undefended piece) | Ours |
+| Brilliant | Best move that **offers material** (the opponent's best reply takes ≥ 2 pawns), confirmed as a sacrifice by the tagger on a short line, with the mover below 90% before and still ≥ 50% after | Ours |
 
 **Blunder or miss:** a move that allowed a tactic keeps its error grade, even if it also missed one.
 Whatever the label, both facts are kept on the move:
@@ -493,8 +498,11 @@ Whatever the label, both facts are kept on the move:
 
 The label only decides the glyph and which per-game number the move adds to (blunders or misses).
 
+**The engine's own top move is never an error.** Stockfish's view can shift slightly between two
+positions; a move it ranked best is graded best, great or brilliant, never blunder.
+
 Both players' moves are graded. The weakness cards count only the user's. Our thresholds live in one
-module and get tuned after looking at real games.
+module (`analysis/grading.py`, with a `GRADING_VERSION`) and get tuned after looking at real games.
 
 ### Naming mistakes (the tagger)
 
@@ -508,6 +516,13 @@ Lichess's own puzzle tagger (`lichess-puzzler`'s `cook.py`, AGPL) is vendored in
   the `sacrifice` tag is used.
 - A theme counts only if the line **wins ≥ 2 pawns or mates**, the same bar Lichess uses for
   puzzles.
+  - The material gain must survive the opponent's next move in the line, so a piece won straight
+    back doesn't count.
+  - The line is checked for at most 10 half-moves.
+  - The line given to the tagger is cut where the gain is made, so it doesn't read meaning into
+    moves far down Stockfish's line.
+- The copy is pinned to one lichess-puzzler commit (see `app/vendor/lichess_puzzler/README.md`).
+  Lichess's own tagger tests run against it.
 
 The 11 themes are: fork, pin, skewer, discovered attack, hanging piece, back-rank mate, trapped
 piece, exposed king, advanced pawn, quiet move and defensive move.
@@ -557,6 +572,9 @@ piece, exposed king, advanced pawn, quiet move and defensive move.
   - **No minimum:** the top 3 always become cards, so a theme seen in one game says "1 of 20 games".
     There are fewer than 3 cards only when the user's errors contain fewer than 3 themes in total.
   - **Two tactics in one move:** a move that allowed two tactics counts for both.
+  - **Never cards:** "quiet move" and "defensive move". As a tactic the user *allowed*, they only
+    describe the opponent's key move, not a habit (checked on real games). They still appear in
+    "tactics you missed", where they mean something.
   - **Examples:** each card gets 2–3 (or as many as exist), the biggest losses from different games
     where possible.
 - **Missed tactics:** the winning tactics the user didn't play, counted in times. They come from
@@ -590,7 +608,7 @@ piece, exposed king, advanced pawn, quiet move and defensive move.
    and for the 11 fixed concept queries ("how to avoid allowing a fork", …).
 6. **Output:** `data/library/` holds:
    - the passages with their tags (JSON lines);
-   - the vectors (a binary array, about 8 MB);
+   - the vectors (a binary array, about 6 MB; the whole library is about 7 MB and lives in git);
    - the concept queries, each with its keyword list for the word search;
    - a manifest with counts, vector size, model names, a version and checksums.
 
@@ -606,15 +624,14 @@ AI and no API key are involved.
 
 1. **Filter by tag:** passages tagged with the theme. If fewer than a minimum number are tagged
    (the thin themes), use the whole library instead (the safety net).
-2. **Rank two ways** within those passages:
-   - by meaning (pgvector cosine distance to the theme's query vector);
-   - by words: Postgres full-text search on `tsv` with the theme's **keyword list**, matching any of
-     its words (e.g. fork: *fork*, *double attack*, *attacks two*). The question itself can't be
-     used here, because Postgres would require every one of its words.
-3. **Merge** with Reciprocal Rank Fusion. Each passage scores `weight / (60 + its rank)` in each
-   list; the scores are added, and meaning is weighted a little higher than words. Passages near
-   the top of both lists win.
-4. **Take the top 5.**
+2. **Rank by meaning** within those passages (pgvector cosine distance to the theme's query
+   vector).
+3. **Take the top 5.**
+
+**Hybrid search was tested and dropped.** The first design also ranked by words (Postgres
+full-text search on `tsv` with a keyword list per theme) and merged the two rankings with
+Reciprocal Rank Fusion. The blind check (section 15) found no gain, so the app uses meaning only.
+The hybrid query stays in `retrieval.py` for the check script, so the result can be reproduced.
 
 The queries and the library are fixed, so a theme's retrieval result is the same every time. It is
 **cached per theme** (key includes the library version).
@@ -635,7 +652,7 @@ retrieve ──▶ relevant? ──no──▶ rewrite the query (max 2) ──�
 |---|---|---|
 | Retrieve | No | The SQL above |
 | Relevant? | Small AI call | "Which of these passages explain this theme or how to avoid it?" At least 2 must pass |
-| Rewrite | Small AI call | A different wording of the query; embedding the new wording is a small paid call. The keyword list stays the same |
+| Rewrite | Small AI call | A different wording of the query; embedding the new wording is a small paid call |
 | Write | Main AI call | Structured output: `why` and `how_to_avoid`, plain text with `*emphasis*` and `[n]` citations (API.md) |
 | Check | No | Every move mentioned must be legal and appear in that example's engine lines. Every `[n]` must point to a given passage. Length limits apply |
 
@@ -927,8 +944,18 @@ checker for now.
 - **The test database:** a separate `blundertrace_test` inside the dev Postgres container, wiped at
   the start of each run. Your real data is never touched.
 - **Run by hand, not on every change:**
-  - **The retrieval check:** for each of the 11 theme queries, the top 5 under vector-only and
-    hybrid, judged blind by you.
+  - **The retrieval check:** for each theme that can become a card (9), the top 5 under
+    meaning-only and hybrid, pooled and shuffled, judged blind by you
+    (`scripts/retrieval_check.py sheet|score`).
+    - **Result (18 November):** meaning-only **23/45** relevant vs hybrid **22/45** (your marks);
+      a second, independent LLM judge gave 32 vs 29. The two methods share 4–5 of their top 5
+      for most themes; where they differ, the word ranking mostly pulled in fragments that
+      contain the words, like one sentence from a game or the basic promotion rules. So the
+      app uses meaning only.
+    - **The bigger finding:** the passages explain *what* a tactic is far more often than *how
+      to avoid it*. Real avoidance advice exists for pin, skewer, hanging piece, back rank mate,
+      discovered attack and exposed king, and is almost missing for fork, trapped piece and
+      advanced pawn. Trapped piece is the weakest theme (1–2 of 5).
   - **The load test:** 1, 2 and 4 workers, measuring CPU, cores used, memory per container
     (`docker stats`) and report time. Then the worker limits and the machine profiles are tuned.
 
@@ -956,7 +983,7 @@ dry run and your approval.
    **The whole product now works end to end with real analysis.**
 6. **Library:** `build_library.py` (merge, prefix, AI tags, vectors, the concept queries and their
    keyword lists), the shipped files, loading on startup.
-7. **Retrieval:** the hybrid query, its tests, the blind retrieval check.
+7. **Retrieval:** the retrieval query, its tests, the blind retrieval check (done: meaning only).
 8. **AI writing:** models with fallbacks, the LangGraph flow, the move checker, caching, `llm_calls`.
 9. **Monitoring:** `/metrics`, capacity warnings.
 10. **Docker:** backend Dockerfile (pinned Stockfish), Caddy + frontend build, compose with worker
@@ -1025,7 +1052,7 @@ into the sections above.
 5. **Reports that never finish** (section 6):
    - the last failed try marks the game or report failed;
    - only temporary errors are retried;
-   - a check every 5 minutes repairs or fails reports that can no longer finish.
+   - a check every 5 minutes re-queues the missing work of reports nothing can finish.
 6. **The same game analysed twice** (section 6): games are shared across reports and users by
    chess.com link. A game job checks "already done?" first, and only one job per game runs at a
    time.
@@ -1039,6 +1066,20 @@ into the sections above.
 - A 30-second stop period for workers (section 11).
 - Cited sources are renumbered to match the text (section 8).
 - The queue position and wait estimate on the Analysing screen became post-launch item 7 in PLAN.md.
+
+**While building** (18 November):
+- The library: 1,338 corpus rows merged into **993 passages**, **370 tagged** with our themes.
+  Kept in git (~7 MB). Total cost about $0.07 (tags $0.064 over two runs, vectors ~$0.002).
+- The first tagging wording ("most passages get zero or one theme") was too strict: it left even
+  Lichess's own definitions of fork, hanging piece and back rank mate untagged (192 tagged). The
+  passages left empty were asked again with a looser wording ("a short definition counts").
+  Passages are now numbered in the request, every passage must get an answer, and any theme name
+  outside the 11 is printed, never silently dropped.
+- Quiet move and defensive move are tagged loosely, but they never become cards, so their search
+  results are unused and they are left out of the blind check (9 themes, not 11).
+- Retrieval takes about 10 ms per theme with no vector index, as expected.
+- The blind retrieval check: hybrid search added nothing, so retrieval is **meaning only**
+  (section 15 has the scores).
 
 **A second pass** (also 18 November) settled the rest:
 - **Code style:** async everywhere (section 4).
@@ -1072,11 +1113,8 @@ into the sections above.
   passage, quoted (Claude chooses and reports it in the findings).
 - The 11 fixed concept queries and their keyword lists (drafted and checked by Claude, then
   reported).
-- RRF weights and the minimum tagged passages for the tag filter, chosen from the retrieval check.
-- Whether the shipped library files live in git or as a release download.
-- Whether the "quiet move" and "defensive move" labels match their card titles on real games.
-- Whether the 3-card rule works on real games (checked at build step 4).
+- ~~RRF weights~~ (hybrid dropped after the check). The minimum tagged passages for the tag
+  filter: 8; every card theme has at least 13, so the safety net isn't used today.
 - Thresholds for the capacity warnings.
-- Whether to skip very short or abandoned games, and below how many moves.
 - Final worker limits and machine profiles, after the load test.
 - Whether skipping known opening moves is worth it (measured).

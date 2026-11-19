@@ -193,8 +193,9 @@ Refined in stage 4; the full version is in [`docs/BACKEND.md`](BACKEND.md), sect
 **2. Retrieval**
 - **Metadata filter** by theme tag first, falling back to the whole library if too few passages are
   tagged [Ch 7].
-- **Hybrid search:** Postgres full-text search + pgvector cosine (`<=>`), merged with **weighted
-  Reciprocal Rank Fusion** [Ch 11]. (Postgres FTS avoids the BM25 rebuild problem.)
+- **Ranked by meaning:** pgvector cosine (`<=>`). Hybrid search (Postgres full-text + pgvector,
+  merged with weighted Reciprocal Rank Fusion [Ch 11]) was built and tested blind against it, and
+  added nothing once the tag filter is applied, so it was dropped [Ch 13].
 - Retrieval results cached per theme [Ch 17].
 
 **3. Card explanations (LangGraph graph, per top theme)** [Ch 22, 25]
@@ -222,8 +223,8 @@ retrieve → grade relevance → (irrelevant? rewrite query, retry ≤ 2 → els
 **6. Quality and delivery**
 - Test pyramid: fast deterministic unit tests (no LLM), integration tests with fake LLMs and a real
   test database [Ch 23].
-- Retrieval check: for each of the 11 fixed theme queries, the top 5 under vector-only vs hybrid,
-  judged blind [Ch 13].
+- Retrieval check: for the 9 card themes, the top 5 under meaning-only vs hybrid, judged blind
+  [Ch 13]. Done: no gain from hybrid, so meaning only.
 - Docker: non-root user, layer caching, HEALTHCHECK, pinned Stockfish 19; compose with Caddy, the
   API, workers and Postgres + pgvector [Ch 23].
 
@@ -262,12 +263,12 @@ loss = win% before the move − win% after it, from the mover's point of view
 | Mistake | loss ≥ 10 points | Lichess |
 | Inaccuracy | loss ≥ 5 points | Lichess |
 | (mate) | Allowing a forced mate = blunder (mistake/inaccuracy only if already losing by > 7 / > 10 pawns); losing a forced mate = blunder (unless still > 7 / > 10 pawns up) | Lichess mate rules |
-| Miss | An error **and** the tagger finds a winning tactic (≥ 2 pawns or mate) in the better line that wasn't played **and** the move itself allowed no tactic (a move that allowed one keeps its error grade) | Ours |
+| Miss | An error **and** the tagger finds a winning tactic (≥ 2 pawns or mate) in the better line that wasn't played **and** the move itself gave nothing away (a move that lost material keeps its error grade) | Ours |
 | Best | Played the engine's top move | Ours |
 | Excellent | loss < 2 points | Ours |
 | Good | loss 2–5 points | Ours |
-| Great | Best move **and** the second-best move is ≥ 10 points worse (the "only good move"; not when it was the only legal move; MultiPV 2 in the single analysis pass) | Ours |
-| Brilliant | Great or best **and** tagger flags `sacrifice` **and** mover was below 90% before the move | Ours |
+| Great | Best move **and** the second-best move is ≥ 10 points worse (the "only good move"), with more than one legal move, the mover below 90%, and not an obvious move (check escape, recapture, taking an undefended piece) | Ours |
+| Brilliant | Best move that offers material (the reply takes ≥ 2 pawns), confirmed as a sacrifice by the tagger, mover below 90% before and ≥ 50% after | Ours |
 
 Our own thresholds (miss, excellent, good, great, brilliant) are constants in one module and get
 tuned on real games.
@@ -285,7 +286,7 @@ tuned on real games.
 ### 4.4 RAG's role in the first cut
 Only the **3 weakness cards' text** ("why it happens", "how to avoid it", sources) comes from RAG
 (stage 3 pipeline): count themes → retrieve passages for "how to avoid <theme>" (tag filter +
-hybrid search + RRF) → grade / rewrite → generate from engine facts + passages → validate moves →
+search by meaning) → grade / rewrite → generate from engine facts + passages → validate moves →
 cache. Everything else (engine, grading, tagging, counting) is deterministic.
 
 ### 4.5 Database schema — **decided** (full columns in [`docs/BACKEND.md`](BACKEND.md), section 5)
@@ -369,7 +370,7 @@ off-topic questions politely redirected; no new engine analysis. Pipeline (LangG
 ```
 input limits [Ch 20] → prompt-injection sanitizer [Ch 21] → scope guard (only this report / chess learning)
   → rate limit [Ch 22] → response cache [Ch 17, 22] → rewrite follow-ups using chat history [Ch 8]
-  → multi-query retrieval [Ch 15] → hybrid retrieval → grade / rewrite (≤ 2) [Ch 25]
+  → multi-query retrieval [Ch 15] → retrieval → grade / rewrite (≤ 2) [Ch 25]
   → generate (grounded, citations) → output validator (moves checked against saved lines) → answer
 ```
 
@@ -468,4 +469,5 @@ the two buttons.
 | Backend design: modular monolith, Caddy, Procrastinate, psycopg, Postgres for everything, one engine pass, AI tags, hybrid retrieval, and more | Decided one at a time in conversation; the full list with reasons is in [`docs/BACKEND.md`](BACKEND.md), section 2 |
 | AI models: Claude Haiku 5.5 main, gpt-6-luna fallback (both $0.10 / $0.50 per 1M tokens) | gpt-4o-mini is deprecated (shutdown 14 Jan 2027); the little comparison data there is leans toward Haiku for writing |
 | Async code everywhere; Docker limits only on the workers | The usual style for a FastAPI service that mostly waits, and the style the user knows from Node. Stockfish is the only hungry part |
+| Retrieval: meaning only, not hybrid | Blind check, 9 themes × top 5: meaning-only 23/45 vs hybrid 22/45 (second judge 32 vs 29); the tag filter already does the word search's job |
 | Final backend check: notes worded for the reader, card count = games affected (always 3 cards when possible), "miss" only when nothing was allowed, job priorities, stuck-report check, games shared across users, keyword lists for the word search | Found by comparing the design with the first draft, the frontend and the discussions; [`docs/BACKEND.md`](BACKEND.md), section 18 |

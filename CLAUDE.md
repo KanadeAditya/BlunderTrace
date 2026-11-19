@@ -75,7 +75,8 @@ LICENSE               AGPL-3.0 (required by the vendored lichess-puzzler tagger)
   - The library is built once and shipped: Wikipedia + Wikibooks + glossary, 1,338 passages,
     merged within sections, prefixed "Article › Section:", **AI-tagged once at build time**, with
     vectors.
-  - Retrieval: tag filter → vector + full-text → RRF → top 5.
+  - Retrieval: tag filter → ranked by meaning (vector) → top 5. Hybrid (+ full-text, RRF) was
+    tested blind and added nothing, so it was dropped.
   - Writing (LangGraph): relevance check → rewrite (max 2) → write → move/citation check → retry
     once → **glossary fallback**. A report never fails because of the AI.
 - **Prompts:** chess facts and library text only. **Never usernames or other chess.com text**
@@ -86,7 +87,7 @@ LICENSE               AGPL-3.0 (required by the vendored lichess-puzzler tagger)
   **Procrastinate** (version pinned), LangChain (model calls) + **LangGraph** (flow)
 - **Async everywhere** (routes, tasks, DB, httpx, python-chess's engine, LangChain `ainvoke`); pure
   chess math stays plain functions. Never call a sync library that waits inside async code.
-- PostgreSQL + **pgvector** (one DB for everything; `tsvector` for full-text search)
+- PostgreSQL + **pgvector** (one DB for everything)
 - Hosted models only: **Claude Haiku 5.5** (`claude-haiku-5-5`) main, **gpt-6-luna** fallback
   (reasoning effort none/low); `text-embedding-3-small`. gpt-4o-mini shuts down 14 Jan 2027.
   for the library build. **No Ollama / local models.**
@@ -130,8 +131,10 @@ LICENSE               AGPL-3.0 (required by the vendored lichess-puzzler tagger)
   - test sets fixed (frozen in git) before changes;
   - self-check before trusting scores;
   - a **blind human check** as the main judge; an automatic score only as a rough signal.
-- **The app's retrieval check:** for each of the 11 fixed theme queries, the top 5 under vector-only
-  vs hybrid, judged blind (BACKEND.md section 15).
+- **The app's retrieval check:** for the 9 card themes, the top 5 under meaning-only vs hybrid,
+  judged blind (BACKEND.md section 15). Result: 23 vs 22 of 45 relevant (second judge: 32 vs 29),
+  so meaning only. Main finding: the library explains *what* a tactic is more than *how to avoid
+  it*.
 - **Engine measurements:** `pre_build_research/engine_timing/` (script + README with results).
 - **Embedding spend so far:** 225,880 tokens, $0.0045 (cached in `pre_build_research/cache/`,
   gitignored).
