@@ -9,8 +9,12 @@ from fastapi import APIRouter
 from app.api.errors import AppError, install_error_handlers
 from app.api.health import router as health_router
 from app.api.middleware import RequestContextMiddleware
+from app.api.players import router as players_router
+from app.api.reports import router as reports_router
 
 router = APIRouter()
 router.include_router(health_router)
+router.include_router(players_router)
+router.include_router(reports_router)
 
 __all__ = ["AppError", "RequestContextMiddleware", "install_error_handlers", "router"]
