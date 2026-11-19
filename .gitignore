@@ -29,3 +29,6 @@ pre_build_research/engine_timing/results_*.json
 
 # Personal learning docs (kept local for now)
 explainers/
+pre_build_research/engine_timing/check_cache_*.json
+backend/.library_cache/
+pre_build_research/retrieval_check/
