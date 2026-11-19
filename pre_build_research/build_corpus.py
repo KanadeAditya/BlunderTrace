@@ -50,6 +50,53 @@ WIKIBOOKS_TITLES = [
     "Chess/Tempo", "Chess/The Endgame", "Chess/The Endgame/Pawn Endings",
     "Chess/The Endgame/Rook and Pawn Endings", "Chess/The Endgame/Minor Piece endings",
 ]
+# Targeted additions (18 Nov, after the blind retrieval check): sections with practical advice on
+# *avoiding* a tactic, which the library above lacked for fork, trapped piece, advanced pawn and
+# others. Hand-picked section by section; each paragraph was read before adding.
+ADDITIONS = {
+    ("wikipedia", "Blunder (chess)"): ["Introduction"],
+    ("wikipedia", "King and pawn versus king endgame"): ["Introduction", "Rule of the square",
+                                                          "Guidelines"],
+    ("wikipedia", "Knight (chess)"): ["Value"],
+    ("wikipedia", "Queen (chess)"): ["Strategy"],
+    ("wikipedia", "Noah's Ark Trap"): ["Introduction", "The trap"],
+    ("wikibooks", "Chess Strategy/The positions of the kings"): [
+        "King positions", "The castled king position", "The king in the center",
+        "Open lines in the attack against the king"],
+    ("wikibooks", "Chess Strategy/Minor pieces"): ["Rules of knights"],
+    ("wikibooks", "Chess Guide for the Intermediate Player/Tactics for beginners"): ["Defending",
+                                                                                     "Exchanging"],
+}
+# Hand-picked sections are prose that names squares ("pawns on f7, g7 and h7"), which the general
+# notation filter drops; here only paragraphs that are mostly a game score are dropped.
+ADDITIONS_NOTATION_MAX = 0.35
+ADDITIONS_MIN_PARAGRAPH = 60
+# IM Dan Heisman's "Novice Nook" columns (ChessCafe, 1999-2013, written for 1000-1400 players),
+# from the Internet Archive's copies of the original PDFs. Only the columns about safety and our
+# card themes; picked by title and content. Text comes from raw/heisman/text/ (pypdf).
+HEISMAN_COLUMNS = {
+    5: "The Seeds of Tactical Destruction", 7: "The Most Common Opening Tactics",
+    8: "The Underrated Removal of the Guard", 10: "Real Chess, Time Management and Care",
+    14: "A Generic Thought Process", 15: "A Counting Primer", 22: "K&P&? vs. K",
+    24: "Revisiting the Seeds of Tactical Destruction", 26: "King + Pawn vs. King",
+    35: "The Most Important Tactic", 44: "A Defense Primer", 47: "The Big Five",
+    48: "A Guide to P-R3", 55: "Quiescence Errors", 56: "When is a King Safe?",
+    59: "Initial and Final Candidate Moves", 61: "The Two Move Triggers", 65: "Is it Safe?",
+    70: "The Most Common OTB Mistakes", 73: "Slowing Down",
+    75: "The Two Types of Counting Problems", 80: "Don't Allow the Floobly!",
+    84: "The Inadequately Guarded Piece", 86: "The Three Types of Reasonable Threats",
+    87: "The Fundamental Theorem of Safety and Activity", 92: "The Safety Table",
+    96: "The Five Ways to Make a Piece Safe", 104: "The Three Show Stoppers",
+    106: "The Most Common and Important Use of Tactics", 111: "Hand-Waving is Worse than Hope Chess",
+    119: "Counting Material", 125: 'The Three "Times" for Checks, Captures, and Threats',
+    132: "Attack it with Something Worth Less", 136: "Sneaky Pins and Invisible Moves",
+}
+HEISMAN_CHUNK_WORDS = 100          # rows of ~100 words; the library build merges them up to 250
+HEISMAN_CLUTTER = re.compile(
+    r"^(novice nook|dan heisman|file:///|copyright|\[the chess cafe|\[endgame|\[links|\[online|"
+    r"play through and download|the games from|chesscafe\.com in the|dgt game viewer|the complete$|"
+    r"dgt product line|\[find us on facebook|translate this page|click here|top of page|about the|"
+    r"\"the chess cafe|.*all rights reserved)", re.I)
 GUTENBERG_BOOKS = {33870: "Chess Fundamentals (Capablanca)", 5614: "Chess Strategy (Edward Lasker)"}
 THEMES_URL = "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml"
 # Puzzle-meta labels that say nothing about chess ideas
@@ -161,6 +208,55 @@ def mediawiki_source(client, source: str, host: str, titles: list[str], url_base
     return rows
 
 
+def additions(client) -> list[dict]:
+    hosts = {"wikipedia": "en.wikipedia.org", "wikibooks": "en.wikibooks.org"}
+    rows = []
+    for (source, title), wanted in ADDITIONS.items():
+        found = dict(split_sections(mediawiki_extract(client, hosts[source], title, RAW / source)))
+        n = 0
+        for section in wanted:
+            for p in paragraphs(found[section]):
+                if len(p) < ADDITIONS_MIN_PARAGRAPH or notation_ratio(p) > ADDITIONS_NOTATION_MAX:
+                    continue
+                rows.append({"id": f"{source}:{title}:{n}", "source": source, "title": title,
+                             "section": section,
+                             "url": f"https://{hosts[source]}/wiki/" + title.replace(" ", "_"),
+                             "text": p, "fen": None, "meta": {"addition": True}})
+                n += 1
+    return rows
+
+
+def heisman() -> list[dict]:
+    rows = []
+    for n, title in HEISMAN_COLUMNS.items():
+        lines = [l.strip() for l in (RAW / "heisman" / "text" / f"heisman{n:02d}.txt").open(encoding="utf-8")]
+        lines = [l for l in lines if l and not HEISMAN_CLUTTER.match(l)]
+        quote = next((i for i, l in enumerate(lines[:40]) if re.search(r"(quote|saying) of the month", l, re.I)), None)
+        body = re.sub(r"(\w)-\s+(\w)", r"\1\2", " ".join(lines[(quote or 0):]))   # join hyphenated breaks
+        sentences = re.split(r"(?<=[.!?”\"])\s+(?=[A-Z“\"])", body)
+        chunk: list[str] = []
+        def flush() -> None:
+            text = " ".join(chunk)
+            if len(text) >= MIN_PARAGRAPH and notation_ratio(text) <= NOTATION_MAX:
+                rows.append({"id": f"heisman:{n}:{len(rows)}", "source": "web",
+                             "title": f"Novice Nook: {title} (Dan Heisman)", "section": title,
+                             "url": f"https://web.archive.org/web/2010/http://www.chesscafe.com/text/heisman{n:02d}.pdf",
+                             "text": text, "fen": None, "meta": {"addition": True, "column": n}})
+        for sentence in sentences:
+            chunk.append(sentence)
+            if sum(len(c.split()) for c in chunk) >= HEISMAN_CHUNK_WORDS:
+                flush(); chunk = []
+        if chunk:
+            flush()
+    return rows
+
+
+def write_rows(name: str, rows: list[dict]) -> None:
+    with (OUT / f"{name}.jsonl").open("w", encoding="utf-8") as f:
+        for r in rows:
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+
+
 def wikipedia_glossary(client) -> list[dict]:
     text = mediawiki_extract(client, "en.wikipedia.org", GLOSSARY_TITLE, RAW / "wikipedia")
     rows = []
@@ -250,4 +346,14 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    if sys.argv[1:] == ["heisman"]:  # the chosen Novice Nook columns -> corpus/heisman.jsonl
+        found = heisman()
+        write_rows("heisman", found)
+        print(f"heisman: {len(found)} rows from {len(HEISMAN_COLUMNS)} columns")
+    elif sys.argv[1:] == ["additions"]:  # only the targeted additions -> corpus/additions.jsonl
+        with httpx.Client(headers=HEADERS, timeout=60, follow_redirects=True) as c:
+            added = additions(c)
+        write_rows("additions", added)
+        print(f"additions: {len(added)} rows")
+    else:
+        main()
